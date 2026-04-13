@@ -1,3 +1,5 @@
+import { auth } from '@clerk/nextjs/server'
+
 import type { Video } from '@/app/types/video'
 
 const FALLBACK_VIDEOS: Video[] = [
@@ -36,8 +38,18 @@ export async function fetchVideos(): Promise<Video[]> {
   if (subscriptionManagementBaseUrl) {
     const apiUrl = new URL('/subscriptions/flutters/videos', subscriptionManagementBaseUrl).toString()
     try {
+      const { getToken } = await auth()
+      const token = await getToken()
+      if (!token) {
+        throw new Error('User is not authenticated')
+      }
+      const headers: HeadersInit = { Accept: 'application/json' }
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+
       const res = await fetch(apiUrl, {
-        headers: { Accept: 'application/json' },
+        headers,
         next: { revalidate: 60 },
       })
 

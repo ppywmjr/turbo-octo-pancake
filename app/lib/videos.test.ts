@@ -1,6 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { fetchVideos } from '@/app/lib/videos'
 import type { Video } from '@/app/types/video'
+
+// Mock @clerk/nextjs/server before importing the module under test
+vi.mock('@clerk/nextjs/server', () => ({
+  auth: vi.fn(),
+}))
+
+import { auth } from '@clerk/nextjs/server'
+import { fetchVideos } from '@/app/lib/videos'
 
 const MOCK_VIDEOS: Video[] = [
   {
@@ -20,6 +27,8 @@ describe('fetchVideos', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
     vi.spyOn(console, 'error').mockImplementation(() => {})
+    // Default: authenticated with a token
+    vi.mocked(auth).mockResolvedValue({ getToken: vi.fn().mockResolvedValue('test-jwt') } as never)
   })
 
   afterEach(() => {
@@ -52,9 +61,21 @@ describe('fetchVideos', () => {
     const result = await fetchVideos()
 
     expect(fetch).toHaveBeenCalledOnce()
-    const calledUrl = vi.mocked(fetch).mock.calls[0][0] as string
+    const [calledUrl, calledInit] = vi.mocked(fetch).mock.calls[0] as [string, RequestInit]
     expect(calledUrl).toBe('http://localhost:3011/subscriptions/flutters/videos')
+    expect((calledInit.headers as Record<string, string>)['Authorization']).toBe('Bearer test-jwt')
     expect(result).toEqual(MOCK_VIDEOS)
+  })
+
+  it('falls back when there is no active session (null token)', async () => {
+    process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
+    vi.mocked(auth).mockResolvedValue({ getToken: vi.fn().mockResolvedValue(null) } as never)
+
+    const result = await fetchVideos()
+
+    expect(fetch).not.toHaveBeenCalled()
+    expect(console.error).toHaveBeenCalled()
+    expect(result[0].title).toMatch(/NextJS stub/)
   })
 
   it('falls back when the external API returns a non-ok status', async () => {
