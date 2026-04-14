@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
-import VideoGrid from './VideoGrid'
 import VideoCardSkeleton from '@/app/components/VideoCardSkeleton'
+import CourseVideoGrid from './CourseVideoGrid'
 
 function VideoGridSkeleton() {
   return (
@@ -12,14 +12,20 @@ function VideoGridSkeleton() {
   )
 }
 
-export default function VideosPage() {
+export default async function CourseVideosPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id: courseId } = await params
+
   return (
     <main className="flex flex-1 flex-col items-center py-16 px-8 bg-zinc-50 dark:bg-black min-h-screen">
       <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 mb-10">
         Videos
       </h1>
       <Suspense fallback={<VideoGridSkeleton />}>
-        <VideoGrid />
+        <CourseVideoGrid courseId={courseId} />
       </Suspense>
     </main>
   )
