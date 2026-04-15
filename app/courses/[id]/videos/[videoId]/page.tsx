@@ -18,8 +18,8 @@ export default async function CourseVideoPage({
 }) {
   const { id: courseId, videoId } = await params
 
-  const videos = await fetchCourseVideos(courseId)
-  const video = videos.find((v) => v.id === videoId)
+  const video = await fetchCourseVideos(courseId, videoId)
+  console.log('Fetched video:', video)
 
   if (!video) {
     return (
@@ -36,6 +36,7 @@ export default async function CourseVideoPage({
   }
 
   const embedId = getYouTubeEmbedId(video.url)
+  console.log('YouTube embed ID:', embedId)
 
   return (
     <main className="flex flex-1 flex-col items-center py-16 px-8 bg-zinc-50 dark:bg-black min-h-screen">
@@ -67,7 +68,6 @@ export default async function CourseVideoPage({
           </div>
         )}
 
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">{video.channelName}</p>
       </div>
     </main>
   )

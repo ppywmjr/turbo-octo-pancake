@@ -62,9 +62,6 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref?
         <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2">
           {video.title}
         </p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          {video.channelName}
-        </p>
         {video.progress > 0 && !video.watched && (
           <p className="text-xs text-zinc-400 dark:text-zinc-500">
             {formatProgress(video.progress)} watched
