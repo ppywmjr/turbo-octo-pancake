@@ -1,6 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 
 import type { Course, CoursesResponse } from '@/app/types/course'
+import { serverFetch } from '@/app/lib/serverFetch'
 
 const LIMIT = 20
 
@@ -21,7 +22,7 @@ export async function fetchCourses(offset = 0): Promise<CoursesResponse> {
     throw new Error('User is not authenticated')
   }
 
-  const res = await fetch(url.toString(), {
+  const res = await serverFetch(url.toString(), {
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,

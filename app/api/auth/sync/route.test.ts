@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
+vi.mock('server-only', () => ({}))
 vi.mock('@clerk/nextjs/server', () => ({
   auth: vi.fn(),
   currentUser: vi.fn(),
@@ -15,6 +16,7 @@ const MOCK_USER = {
 
 describe('POST /api/auth/sync', () => {
   const originalEnv = process.env.SUBSCRIPTION_MANAGEMENT_URL
+  const originalSecret = process.env.INTERNAL_API_SECRET
 
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
@@ -23,6 +25,7 @@ describe('POST /api/auth/sync', () => {
     vi.mocked(auth).mockResolvedValue({ getToken: vi.fn().mockResolvedValue('test-jwt') } as never)
     vi.mocked(currentUser).mockResolvedValue(MOCK_USER as never)
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
+    process.env.INTERNAL_API_SECRET = 'test-internal-secret'
   })
 
   afterEach(() => {
@@ -32,6 +35,11 @@ describe('POST /api/auth/sync', () => {
       delete process.env.SUBSCRIPTION_MANAGEMENT_URL
     } else {
       process.env.SUBSCRIPTION_MANAGEMENT_URL = originalEnv
+    }
+    if (originalSecret === undefined) {
+      delete process.env.INTERNAL_API_SECRET
+    } else {
+      process.env.INTERNAL_API_SECRET = originalSecret
     }
   })
 
@@ -73,6 +81,7 @@ describe('POST /api/auth/sync', () => {
     expect(calledInit.method).toBe('POST')
     expect((calledInit.headers as Record<string, string>)['Authorization']).toBe('Bearer test-jwt')
     expect((calledInit.headers as Record<string, string>)['Content-Type']).toBe('application/json')
+    expect((calledInit.headers as Record<string, string>)['x-internal-api-key']).toBe('test-internal-secret')
     expect(JSON.parse(calledInit.body as string)).toEqual({
       clerkUserId: 'user_abc123',
       email: 'test@example.com',

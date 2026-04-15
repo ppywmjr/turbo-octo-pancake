@@ -1,4 +1,5 @@
 import { auth, currentUser } from '@clerk/nextjs/server'
+import { serverFetch } from '@/app/lib/serverFetch'
 
 export async function POST() {
   const baseUrl = process.env.SUBSCRIPTION_MANAGEMENT_URL
@@ -20,7 +21,7 @@ export async function POST() {
   const email = user.emailAddresses[0]?.emailAddress ?? ''
   const signupUrl = new URL('/signup', baseUrl).toString()
 
-  const res = await fetch(signupUrl, {
+  const res = await serverFetch(signupUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
