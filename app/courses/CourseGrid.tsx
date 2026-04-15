@@ -1,9 +1,19 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { fetchCourses } from '@/app/lib/courses'
 import CourseCard from '@/app/components/CourseCard'
 
 export default async function CourseGrid({ offset }: { offset: number }) {
-  const { courses, hasMore, total, limit } = await fetchCourses(offset)
+  let courses, hasMore, total, limit
+  try {
+    ;({ courses, hasMore, total, limit } = await fetchCourses(offset))
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : ''
+    if (msg === 'User is not authenticated' || msg.includes('responded with 401')) {
+      redirect('/?error=unauthorized')
+    }
+    throw err
+  }
 
   const prevOffset = offset - limit
   const nextOffset = offset + limit

@@ -1,8 +1,18 @@
+import { redirect } from 'next/navigation'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
 import VideoCard from '@/app/components/VideoCard'
 
 export default async function CourseVideoGrid({ courseId }: { courseId: string }) {
-  const videos = await fetchCourseVideos(courseId)
+  let videos
+  try {
+    videos = await fetchCourseVideos(courseId)
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : ''
+    if (msg === 'User is not authenticated' || msg.includes('responded with 401')) {
+      redirect('/?error=unauthorized')
+    }
+    throw err
+  }
 
   if (videos.length === 0) {
     return (

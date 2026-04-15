@@ -1,6 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 
 import type { Video } from '@/app/types/video'
+import { serverFetch } from '@/app/lib/serverFetch'
 
 export async function fetchCourseVideos(courseId: string): Promise<Video[]> {
   const baseUrl = process.env.SUBSCRIPTION_MANAGEMENT_URL
@@ -15,7 +16,7 @@ export async function fetchCourseVideos(courseId: string): Promise<Video[]> {
     throw new Error('User is not authenticated')
   }
 
-  const res = await fetch(url, {
+  const res = await serverFetch(url, {
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type { Course } from '@/app/types/course'
 
+vi.mock('server-only', () => ({}))
 vi.mock('@clerk/nextjs/server', () => ({
   auth: vi.fn(),
 }))
@@ -21,10 +22,12 @@ const MOCK_RESPONSE = {
 
 describe('fetchCourses', () => {
   const originalEnv = process.env.SUBSCRIPTION_MANAGEMENT_URL
+  const originalSecret = process.env.INTERNAL_API_SECRET
 
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
     vi.mocked(auth).mockResolvedValue({ getToken: vi.fn().mockResolvedValue('test-jwt') } as never)
+    process.env.INTERNAL_API_SECRET = 'test-internal-secret'
   })
 
   afterEach(() => {
@@ -34,6 +37,11 @@ describe('fetchCourses', () => {
       delete process.env.SUBSCRIPTION_MANAGEMENT_URL
     } else {
       process.env.SUBSCRIPTION_MANAGEMENT_URL = originalEnv
+    }
+    if (originalSecret === undefined) {
+      delete process.env.INTERNAL_API_SECRET
+    } else {
+      process.env.INTERNAL_API_SECRET = originalSecret
     }
   })
 
@@ -59,6 +67,7 @@ describe('fetchCourses', () => {
     const [calledUrl, calledInit] = vi.mocked(fetch).mock.calls[0] as [string, RequestInit]
     expect(calledUrl).toBe('http://localhost:3011/me/courses?limit=20&offset=0')
     expect((calledInit.headers as Record<string, string>)['Authorization']).toBe('Bearer test-jwt')
+    expect((calledInit.headers as Record<string, string>)['x-internal-api-key']).toBe('test-internal-secret')
     expect(result.courses).toEqual(MOCK_COURSES)
     expect(result.hasMore).toBe(false)
     expect(result.total).toBe(2)
