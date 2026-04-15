@@ -1,11 +1,15 @@
 import Link from 'next/link'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
+import YoutubePlayer from '@/app/components/YoutubePlayer'
 
-function getYouTubeEmbedId(url: string): string | null {
+function getYouTubeVideoId(url: string): string | null {
   try {
     const u = new URL(url)
     if (u.hostname === 'youtu.be') return u.pathname.slice(1)
-    return u.searchParams.get('v')
+    if (u.hostname === 'www.youtube.com' || u.hostname === 'youtube.com') {
+      return u.searchParams.get('v')
+    }
+    return null
   } catch {
     return null
   }
@@ -35,8 +39,7 @@ export default async function CourseVideoPage({
     )
   }
 
-  const embedId = getYouTubeEmbedId(video.url)
-  console.log('YouTube embed ID:', embedId)
+  const ytVideoId = getYouTubeVideoId(video.url)
 
   return (
     <main className="flex flex-1 flex-col items-center py-16 px-8 bg-zinc-50 dark:bg-black min-h-screen">
@@ -52,16 +55,8 @@ export default async function CourseVideoPage({
           {video.title}
         </h1>
 
-        {embedId ? (
-          <div className="w-full aspect-video rounded-2xl overflow-hidden shadow-lg">
-            <iframe
-              src={`https://www.youtube.com/embed/${embedId}`}
-              title={video.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
+        {ytVideoId ? (
+          <YoutubePlayer videoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} />
         ) : (
           <div className="w-full aspect-video rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
             <p className="text-zinc-500 dark:text-zinc-400">Unable to embed this video.</p>
