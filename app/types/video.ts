@@ -3,7 +3,6 @@ export interface Video {
   title: string
   url: string
   thumbnail: string
-  channelName: string
   watched: boolean
   progress: number // seconds
 }

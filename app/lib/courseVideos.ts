@@ -3,15 +3,25 @@ import { auth } from '@clerk/nextjs/server'
 import type { Video } from '@/app/types/video'
 import { serverFetch } from '@/app/lib/serverFetch'
 
-export async function fetchCourseVideos(courseId: string): Promise<Video[]> {
+export async function fetchCourseVideos(courseId: string): Promise<Video[]>
+export async function fetchCourseVideos(courseId: string, videoId: string): Promise<Video | null>
+export async function fetchCourseVideos(
+  courseId: string,
+  videoId?: string,
+): Promise<Video[] | Video | null> {
   const baseUrl = process.env.SUBSCRIPTION_MANAGEMENT_URL
 
-  if (!baseUrl) return []
+  if (!baseUrl) return videoId ? null : []
 
-  const url = new URL(`/me/courses/${courseId}/videos`, baseUrl).toString()
+  const path = videoId
+    ? `/me/courses/${courseId}/videos/${videoId}`
+    : `/me/courses/${courseId}/videos`
+  const url = new URL(path, baseUrl).toString()
+  console.log('Fetching course videos from URL:', url)
 
   const { getToken } = await auth()
   const token = await getToken()
+  console.log('Fetching course videos with token:', !!token)
   if (!token) {
     throw new Error('User is not authenticated')
   }
@@ -23,10 +33,24 @@ export async function fetchCourseVideos(courseId: string): Promise<Video[]> {
     },
     cache: 'no-store',
   })
-
+  console.log('Course videos API responded with status:', res.status)
   if (!res.ok) {
     throw new Error(`Course videos API responded with ${res.status}`)
   }
 
-  return (await res.json()).data as Video[]
+  const json = await res.json()
+  console.log('Course videos API responded with data:', json)
+  if (videoId) {
+    console.log('Looking for video with ID:', videoId)
+    return {
+      id: json.data.id,
+      title: json.data.title,
+      url: json.data.url,
+      thumbnail: json.data.thumbnail,
+      watched: json.data.watched,
+      progress: json.data.progressSecs ?? 0,
+    } satisfies Video
+  }
+
+  return json.data as Video[]
 }
