@@ -1,18 +1,7 @@
 import Link from 'next/link'
 import type { Video } from '@/app/types/video'
 
-function formatProgress(seconds: number): string {
-  const m = Math.floor(seconds / 60)
-  const s = seconds % 60
-  return `${m}:${s.toString().padStart(2, '0')}`
-}
-
 export default function VideoCard({ video, cardHref }: { video: Video; cardHref?: string }) {
-  const progressPercent =
-    video.progressSecs > 0
-      ? Math.min(100, Math.round((video.progressSecs / 3600) * 100))
-      : 0
-
   const className = "group flex flex-col rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md transition-shadow"
 
   const inner = (
@@ -39,34 +28,24 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref?
           </div>
         </div>
 
-        {/* Watched badge */}
+        {/* Status badge */}
         {video.watched && (
           <span className="absolute top-2 right-2 bg-green-600 text-white text-xs font-medium px-2 py-0.5 rounded-full">
             Watched
           </span>
         )}
-
-        {/* Progress bar */}
-        {video.progressSecs > 0 && !video.watched && (
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/30">
-            <div
-              className="h-full bg-red-500"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
+        {!video.watched && video.progressSecs > 0 && (
+          <span className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+            In Progress
+          </span>
         )}
       </div>
 
       {/* Card body */}
-      <div className="p-4 flex flex-col gap-1">
+      <div className="p-4">
         <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2">
           {video.title}
         </p>
-        {video.progressSecs > 0 && !video.watched && (
-          <p className="text-xs text-zinc-400 dark:text-zinc-500">
-            {formatProgress(video.progressSecs)} watched
-          </p>
-        )}
       </div>
     </>
   )
