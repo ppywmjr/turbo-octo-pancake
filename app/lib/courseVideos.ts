@@ -48,7 +48,7 @@ export async function fetchCourseVideos(
       url: json.data.url,
       thumbnail: json.data.thumbnail,
       watched: json.data.watched,
-      progress: json.data.progressSecs ?? 0,
+      progressSecs: json.data.progressSecs ?? 0,
     } satisfies Video
   }
 

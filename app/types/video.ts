@@ -4,5 +4,5 @@ export interface Video {
   url: string
   thumbnail: string
   watched: boolean
-  progress: number // seconds
+  progressSecs: number // seconds
 }

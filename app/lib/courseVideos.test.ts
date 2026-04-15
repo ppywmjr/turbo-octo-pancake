@@ -16,7 +16,7 @@ const MOCK_VIDEOS: Video[] = [
     url: 'https://www.youtube.com/watch?v=vid-1',
     thumbnail: 'https://i.ytimg.com/vi/vid-1/hqdefault.jpg',
     watched: false,
-    progress: 0,
+    progressSecs: 0,
   },
   {
     id: 'vid-2',
@@ -24,7 +24,7 @@ const MOCK_VIDEOS: Video[] = [
     url: 'https://www.youtube.com/watch?v=vid-2',
     thumbnail: 'https://i.ytimg.com/vi/vid-2/hqdefault.jpg',
     watched: true,
-    progress: 0,
+    progressSecs: 0,
   },
 ]
 
