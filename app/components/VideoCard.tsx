@@ -9,8 +9,8 @@ function formatProgress(seconds: number): string {
 
 export default function VideoCard({ video, cardHref }: { video: Video; cardHref?: string }) {
   const progressPercent =
-    video.progress > 0
-      ? Math.min(100, Math.round((video.progress / 3600) * 100))
+    video.progressSecs > 0
+      ? Math.min(100, Math.round((video.progressSecs / 3600) * 100))
       : 0
 
   const className = "group flex flex-col rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md transition-shadow"
@@ -47,7 +47,7 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref?
         )}
 
         {/* Progress bar */}
-        {video.progress > 0 && !video.watched && (
+        {video.progressSecs > 0 && !video.watched && (
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/30">
             <div
               className="h-full bg-red-500"
@@ -62,9 +62,9 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref?
         <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2">
           {video.title}
         </p>
-        {video.progress > 0 && !video.watched && (
+        {video.progressSecs > 0 && !video.watched && (
           <p className="text-xs text-zinc-400 dark:text-zinc-500">
-            {formatProgress(video.progress)} watched
+            {formatProgress(video.progressSecs)} watched
           </p>
         )}
       </div>
