@@ -59,12 +59,27 @@ function formatTime(secs: number): string {
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`
 }
 
-export default function YoutubePlayer({ videoId, title, initialProgressSecs = 0 }: { videoId: string; title: string; initialProgressSecs?: number }) {
+export default function YoutubePlayer({
+  videoId,
+  title,
+  initialProgressSecs = 0,
+  courseId,
+  ytVideoId,
+}: {
+  videoId: string
+  title: string
+  initialProgressSecs?: number
+  courseId: string
+  ytVideoId: string
+}) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const playerContainerRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayerInstance | null>(null)
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const progressTickRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const scrubbingRef = useRef(false)
+  const currentTimeRef = useRef(initialProgressSecs)
+  const durationRef = useRef(0)
 
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -75,7 +90,9 @@ export default function YoutubePlayer({ videoId, title, initialProgressSecs = 0 
     if (playing) {
       tickRef.current = setInterval(() => {
         if (!scrubbingRef.current && playerRef.current) {
-          setCurrentTime(playerRef.current.getCurrentTime())
+          const t = playerRef.current.getCurrentTime()
+          currentTimeRef.current = t
+          setCurrentTime(t)
         }
       }, 500)
     } else {
@@ -86,13 +103,34 @@ export default function YoutubePlayer({ videoId, title, initialProgressSecs = 0 
     }
   }, [playing])
 
+  // Report progress to server every 5 seconds while playing
+  useEffect(() => {
+    if (playing) {
+      progressTickRef.current = setInterval(() => {
+        const secs = Math.floor(currentTimeRef.current)
+        const dur = durationRef.current
+        const watched = dur > 0 && currentTimeRef.current / dur >= 0.95
+        fetch(`/api/courses/${courseId}/videos/${videoId}/progress`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ progressSecs: secs, ...(watched && { watched: true }) }),
+        }).catch(() => { /* best-effort, ignore failures */ })
+      }, 5000)
+    } else {
+      if (progressTickRef.current) clearInterval(progressTickRef.current)
+    }
+    return () => {
+      if (progressTickRef.current) clearInterval(progressTickRef.current)
+    }
+  }, [playing, courseId, videoId])
+
   useEffect(() => {
     let destroyed = false
 
     loadYouTubeApi().then(() => {
       if (destroyed || !playerContainerRef.current) return
       playerRef.current = new window.YT.Player(playerContainerRef.current, {
-        videoId,
+        videoId: ytVideoId,
         playerVars: {
           playsinline: 1,
           controls: 0,
@@ -102,9 +140,12 @@ export default function YoutubePlayer({ videoId, title, initialProgressSecs = 0 
         },
         events: {
           onReady: (e) => {
-            setDuration(e.target.getDuration())
+            const dur = e.target.getDuration()
+            durationRef.current = dur
+            setDuration(dur)
             if (initialProgressSecs > 0) {
               e.target.seekTo(initialProgressSecs, true)
+              currentTimeRef.current = initialProgressSecs
               setCurrentTime(initialProgressSecs)
             }
           },
@@ -112,8 +153,12 @@ export default function YoutubePlayer({ videoId, title, initialProgressSecs = 0 
             const isPlaying = e.data === window.YT.PlayerState.PLAYING
             setPlaying(isPlaying)
             if (playerRef.current) {
-              setDuration(playerRef.current.getDuration())
-              setCurrentTime(playerRef.current.getCurrentTime())
+              const dur = playerRef.current.getDuration()
+              const t = playerRef.current.getCurrentTime()
+              durationRef.current = dur
+              currentTimeRef.current = t
+              setDuration(dur)
+              setCurrentTime(t)
             }
           },
         },
@@ -125,7 +170,7 @@ export default function YoutubePlayer({ videoId, title, initialProgressSecs = 0 
       playerRef.current?.destroy()
       playerRef.current = null
     }
-  }, [videoId])
+  }, [ytVideoId])
 
   const togglePlay = () => {
     if (!playerRef.current) return
