@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { Video } from '@/app/types/video'
 
@@ -8,10 +9,12 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref?
     <>
       {/* Thumbnail */}
       <div className="relative w-full aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-        <img
+        <Image
           src={video.thumbnail}
           alt={video.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          unoptimized
         />
 
         {/* Play button overlay */}
