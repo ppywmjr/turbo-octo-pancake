@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { Course } from '@/app/types/course'
 
@@ -10,10 +11,12 @@ export default function CourseCard({ course }: { course: Course }) {
       {/* Thumbnail */}
       <div className="relative w-full aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
         {course.thumbnail ? (
-          <img
+          <Image
             src={course.thumbnail}
             alt={course.title}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            unoptimized
           />
         ) : (
           <span className="text-zinc-400 dark:text-zinc-600 text-4xl select-none">🎓</span>

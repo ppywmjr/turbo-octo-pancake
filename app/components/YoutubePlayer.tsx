@@ -170,11 +170,15 @@ export default function YoutubePlayer({
       playerRef.current?.destroy()
       playerRef.current = null
     }
-  }, [ytVideoId])
+  }, [ytVideoId, initialProgressSecs])
 
   const togglePlay = () => {
     if (!playerRef.current) return
-    playing ? playerRef.current.pauseVideo() : playerRef.current.playVideo()
+    if (playing) {
+      playerRef.current.pauseVideo()
+    } else {
+      playerRef.current.playVideo()
+    }
   }
 
   const toggleFullscreen = () => {
