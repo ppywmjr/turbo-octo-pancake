@@ -1,7 +1,7 @@
 packages:
   - '.'
 
-ignore-scripts: true
+ignoreScripts: true
 allowBuilds:
   sharp: true
   unrs-resolver: true
