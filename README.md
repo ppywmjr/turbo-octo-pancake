@@ -1,36 +1,78 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Turbo Octo Pancake
 
-First, run the development server:
+A specialized video subscription service built with Next.js. It manages course access, user authentication via Clerk, and subscription management through an external service.
+
+## Quick Start
+
+### Prerequisites
+
+- **Node.js** 24.x
+- **pnpm** 11.7+
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.example` (or create `.env.local`) with the required variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+| --- | --- |
+| `SUBSCRIPTION_MANAGEMENT_URL` | Base URL of the external subscription management service |
+| `INTERNAL_API_SECRET` | Secure secret for server-to-server authentication |
+| Clerk variables | See [@clerk/nextjs](https://clerk.com/docs) for required `NEXT_PUBLIC_CLERK_*` and `CLERK_SECRET_KEY` |
 
-## Learn More
+### Run the Development Server
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The app runs on [http://localhost:3010](http://localhost:3010).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
+
+| Script | Description |
+| --- | --- |
+| `pnpm dev` | Start dev server (port 3010) |
+| `pnpm build` | Production build |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm test` | Run Vitest test suite |
+| `pnpm test:watch` | Run Vitest in watch mode |
+
+## Project Structure
+
+```
+app/
+  layout.tsx          # Root layout
+  page.tsx            # Landing page
+  api/                # BFF API routes (auth, plans, progress)
+  components/         # Reusable UI components
+  courses/            # Courses page & video detail pages
+  subscribe/          # Subscription pages
+lib/                  # Business logic & data helpers
+types/                # Shared TypeScript type definitions
+docs/                 # Project documentation (start here)
+```
+
+## Documentation
+
+| Doc | What it covers |
+| --- | --- |
+| [docs/overview.md](./docs/overview.md) | Architecture, tech stack, data flow |
+| [docs/data-model.md](./docs/data-model.md) | Core types: Plan, Course, Video |
+| [docs/component-architecture.md](./docs/component-architecture.md) | Component hierarchy & patterns |
+| [docs/logic-flows.md](./docs/logic-flows.md) | Auth sync & checkout flows |
+| [docs/api-reference.md](./docs/api-reference.md) | Internal API route reference |
+| [docs/development.md](./docs/development.md) | Setup, testing, CI/CD |
+| [docs/BROWSER_STORAGE.md](./docs/BROWSER_STORAGE.md) | Cookies & sessionStorage usage |
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The easiest way to deploy is the [Vercel Platform](https://vercel.com/new). Ensure all environment variables are configured in the Vercel project settings before deploying.
