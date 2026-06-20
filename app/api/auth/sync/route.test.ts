@@ -20,12 +20,13 @@ describe('POST /api/auth/sync', () => {
 
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
-    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => { })
 
     vi.mocked(auth).mockResolvedValue({ getToken: vi.fn().mockResolvedValue('test-jwt') } as never)
     vi.mocked(currentUser).mockResolvedValue(MOCK_USER as never)
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
     process.env.INTERNAL_API_SECRET = 'test-internal-secret'
+    process.env.API_REQUEST_TIMEOUT = '300000' // 5 minutes — prevent timeout in tests
   })
 
   afterEach(() => {
@@ -97,13 +98,24 @@ describe('POST /api/auth/sync', () => {
     expect(console.error).not.toHaveBeenCalled()
   })
 
-  it('still returns 204 but logs an error when subscription service returns a non-202 status', async () => {
+  it('returns the upstream status and logs an error when subscription service returns a non-202 status', async () => {
     vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 500 }))
 
     const res = await POST()
 
-    expect(res.status).toBe(204)
+    expect(res.status).toBe(500)
     expect(console.error).toHaveBeenCalled()
+  })
+
+  it('returns 502 when the subscription service throws an error', async () => {
+    vi.mocked(fetch).mockRejectedValueOnce(new Error('Network error'))
+
+    const res = await POST()
+
+    expect(res.status).toBe(502)
+    const body = await res.json()
+    expect(body.error).toBe('Failed to sync with subscription service')
+    expect(body.detail).toContain('Network error')
   })
 
   it('uses empty string for email when user has no email addresses', async () => {

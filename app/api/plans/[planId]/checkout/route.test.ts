@@ -27,6 +27,7 @@ describe('POST /api/plans/[planId]/checkout', () => {
     vi.mocked(auth).mockResolvedValue({ getToken: vi.fn().mockResolvedValue('test-jwt') } as never)
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
     process.env.INTERNAL_API_SECRET = 'test-internal-secret'
+    process.env.API_REQUEST_TIMEOUT = '300000' // 5 minutes — prevent timeout in tests
   })
 
   afterEach(() => {
