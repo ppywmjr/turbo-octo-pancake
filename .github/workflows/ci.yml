@@ -65,4 +65,4 @@ jobs:
           name: node-modules
           path: node_modules/
       - name: Run tests
-        run: pnpm test
+        run: pnpm test>
