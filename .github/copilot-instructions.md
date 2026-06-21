@@ -9,6 +9,7 @@ This is a Next.js (App Router) video subscription service. Before writing any co
 5. **docs/api-reference.md** — Internal API route reference
 6. **docs/development.md** — Setup, testing, CI/CD
 7. **docs/BROWSER_STORAGE.md** — Cookies & sessionStorage
+8. **docs/mutation-testing.md** — Mutation testing workflow
 
 ## Key Conventions
 

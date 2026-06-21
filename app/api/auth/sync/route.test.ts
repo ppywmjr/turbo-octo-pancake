@@ -20,7 +20,7 @@ describe('POST /api/auth/sync', () => {
 
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
-    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => { })
 
     vi.mocked(auth).mockResolvedValue({ getToken: vi.fn().mockResolvedValue('test-jwt') } as never)
     vi.mocked(currentUser).mockResolvedValue(MOCK_USER as never)
@@ -49,6 +49,8 @@ describe('POST /api/auth/sync', () => {
     const res = await POST()
 
     expect(res.status).toBe(503)
+    const body = await res.json()
+    expect(body.error).toBe('SUBSCRIPTION_MANAGEMENT_URL not configured')
     expect(fetch).not.toHaveBeenCalled()
   })
 
@@ -58,6 +60,8 @@ describe('POST /api/auth/sync', () => {
     const res = await POST()
 
     expect(res.status).toBe(401)
+    const body = await res.json()
+    expect(body.error).toBe('Unauthorized')
     expect(fetch).not.toHaveBeenCalled()
   })
 
@@ -67,6 +71,8 @@ describe('POST /api/auth/sync', () => {
     const res = await POST()
 
     expect(res.status).toBe(401)
+    const body = await res.json()
+    expect(body.error).toBe('Unauthorized')
     expect(fetch).not.toHaveBeenCalled()
   })
 

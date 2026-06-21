@@ -73,6 +73,8 @@ describe('fetchAllPlans', () => {
     expect((calledInit.headers as Record<string, string>)['x-internal-api-key']).toBe(
       'test-internal-secret',
     )
+    expect((calledInit.headers as Record<string, string>)['Accept']).toBe('application/json')
+    expect(calledInit.cache).toBe('no-store')
   })
 
   it('accepts a top-level array response', async () => {

@@ -4,18 +4,27 @@ import { serverFetch } from '@/app/lib/serverFetch'
 export async function POST() {
   const baseUrl = process.env.SUBSCRIPTION_MANAGEMENT_URL
   if (!baseUrl) {
-    return new Response('SUBSCRIPTION_MANAGEMENT_URL not configured', { status: 503 })
+    return new Response(JSON.stringify({ error: 'SUBSCRIPTION_MANAGEMENT_URL not configured' }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
 
   const { getToken } = await auth()
   const token = await getToken()
   if (!token) {
-    return new Response('Unauthorized', { status: 401 })
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
 
   const user = await currentUser()
   if (!user) {
-    return new Response('Unauthorized', { status: 401 })
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
 
   const email = user.emailAddresses[0]?.emailAddress ?? ''

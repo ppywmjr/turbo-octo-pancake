@@ -76,6 +76,8 @@ describe('fetchCourseVideos', () => {
     expect(calledUrl).toBe(`http://localhost:3011/me/courses/${COURSE_ID}/videos`)
     expect((calledInit.headers as Record<string, string>)['Authorization']).toBe('Bearer test-jwt')
     expect((calledInit.headers as Record<string, string>)['x-internal-api-key']).toBe('test-internal-secret')
+    expect((calledInit.headers as Record<string, string>)['Accept']).toBe('application/json')
+    expect(calledInit.cache).toBe('no-store')
     expect(result).toEqual(MOCK_VIDEOS)
   })
 

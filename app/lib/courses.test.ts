@@ -68,6 +68,8 @@ describe('fetchCourses', () => {
     expect(calledUrl).toBe('http://localhost:3011/me/courses?limit=20&offset=0')
     expect((calledInit.headers as Record<string, string>)['Authorization']).toBe('Bearer test-jwt')
     expect((calledInit.headers as Record<string, string>)['x-internal-api-key']).toBe('test-internal-secret')
+    expect((calledInit.headers as Record<string, string>)['Accept']).toBe('application/json')
+    expect(calledInit.cache).toBe('no-store')
     expect(result.courses).toEqual(MOCK_COURSES)
     expect(result.hasMore).toBe(false)
     expect(result.total).toBe(2)

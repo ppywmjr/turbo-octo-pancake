@@ -17,11 +17,9 @@ export async function fetchCourseVideos(
     ? `/me/courses/${courseId}/videos/${videoId}`
     : `/me/courses/${courseId}/videos`
   const url = new URL(path, baseUrl).toString()
-  console.log('Fetching course videos from URL:', url)
 
   const { getToken } = await auth()
   const token = await getToken()
-  console.log('Fetching course videos with token:', !!token)
   if (!token) {
     throw new Error('User is not authenticated')
   }
@@ -33,15 +31,12 @@ export async function fetchCourseVideos(
     },
     cache: 'no-store',
   })
-  console.log('Course videos API responded with status:', res.status)
   if (!res.ok) {
     throw new Error(`Course videos API responded with ${res.status}`)
   }
 
   const json = await res.json()
-  console.log('Course videos API responded with data:', json)
   if (videoId) {
-    console.log('Looking for video with ID:', videoId)
     return {
       id: json.data.id,
       title: json.data.title,
