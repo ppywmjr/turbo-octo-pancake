@@ -113,4 +113,16 @@ describe('POST /api/plans/[planId]/checkout', () => {
     const body = await res.json() as { error: string }
     expect(body.error).toContain('404')
   })
+
+  it('returns an empty detail string when res.text() rejects', async () => {
+    const failingResponse = new Response(null, { status: 500 })
+    vi.spyOn(failingResponse, 'text').mockRejectedValueOnce(new Error('read failed'))
+    vi.mocked(fetch).mockResolvedValueOnce(failingResponse)
+
+    const res = await POST(makeRequest(), makeParams(PLAN_ID))
+
+    expect(res.status).toBe(500)
+    const body = await res.json() as { error: string; detail: string }
+    expect(body.detail).toBe('')
+  })
 })

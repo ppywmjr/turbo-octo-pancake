@@ -31,7 +31,7 @@ describe('fetchAllPlans', () => {
 
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
-    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => { })
     process.env.INTERNAL_API_SECRET = 'test-internal-secret'
   })
 
@@ -100,6 +100,17 @@ describe('fetchAllPlans', () => {
     expect(result[0].id).toBe('plan-1')
   })
 
+  it('returns empty array when the response has neither a data key nor is an array', async () => {
+    process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify({}), { status: 200 }),
+    )
+
+    const result = await fetchAllPlans()
+
+    expect(result).toEqual([])
+  })
+
   it('filters out inactive plans', async () => {
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
     vi.mocked(fetch).mockResolvedValueOnce(
@@ -132,7 +143,7 @@ describe('fetchPlanById', () => {
 
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
-    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => { })
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
     process.env.INTERNAL_API_SECRET = 'test-internal-secret'
   })

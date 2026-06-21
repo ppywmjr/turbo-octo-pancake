@@ -14,7 +14,7 @@ const MOCK_USER = { id: 'user_abc123' }
 describe('AuthSync', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(null, { status: 204 })))
-    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => { })
     sessionStorage.clear()
   })
 
@@ -57,7 +57,7 @@ describe('AuthSync', () => {
     await vi.waitFor(() => expect(fetch).toHaveBeenCalledOnce())
 
     rerender(<AuthSync />)
-    await vi.waitFor(() => {}) // flush effects
+    await vi.waitFor(() => { }) // flush effects
 
     expect(fetch).toHaveBeenCalledOnce()
   })
@@ -80,5 +80,15 @@ describe('AuthSync', () => {
     render(<AuthSync />)
 
     await vi.waitFor(() => expect(console.error).toHaveBeenCalled())
+  })
+
+  it('does not call fetch when the session storage key is already set', async () => {
+    vi.mocked(useUser).mockReturnValue({ isSignedIn: true, user: MOCK_USER } as never)
+    sessionStorage.setItem(`auth-synced-${MOCK_USER.id}`, '1')
+
+    render(<AuthSync />)
+
+    await vi.waitFor(() => { }) // flush effects
+    expect(fetch).not.toHaveBeenCalled()
   })
 })

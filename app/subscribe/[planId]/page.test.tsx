@@ -127,6 +127,19 @@ describe('SubscribePage', () => {
     expect(screen.getByText(/billed per year/i)).toBeTruthy()
   })
 
+  it('renders price without interval when billingInterval is null', async () => {
+    vi.mocked(fetchPlanById).mockResolvedValue({
+      ...MOCK_PLAN,
+      billingInterval: null,
+      pricePence: 500,
+    })
+
+    render(await SubscribePage(makeParams('plan-1')))
+
+    // Should show formatted price (£5.00) but no interval text
+    expect(screen.getByText('£5.00')).toBeTruthy()
+  })
+
   it('renders the SubscribeButton with the planId', async () => {
     render(await SubscribePage(makeParams('plan-1')))
 

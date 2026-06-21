@@ -53,7 +53,7 @@ describe('YoutubePlayer', () => {
     capturedEvents = {}
     vi.stubGlobal('YT', { Player: MockYTPlayer, PlayerState: { PLAYING: YT_PLAYING } })
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(null, { status: 204 })))
-    vi.spyOn(console, 'log').mockImplementation(() => {})
+    vi.spyOn(console, 'log').mockImplementation(() => { })
     MockYTPlayer.mockClear()
     mockSeekTo.mockClear()
     mockPlayVideo.mockClear()
@@ -166,5 +166,98 @@ describe('YoutubePlayer', () => {
     await vi.advanceTimersByTimeAsync(5000)
 
     expect(vi.mocked(fetch)).not.toHaveBeenCalled()
+  })
+
+  it('updates displayed time when seek bar value changes', async () => {
+    mockGetDuration.mockReturnValue(200)
+
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+    await act(async () => { capturedEvents.onReady?.({ target: mockPlayerInstance }) })
+
+    const seekBar = screen.getByLabelText('Seek')
+    act(() => { fireEvent.change(seekBar, { target: { value: '60' } }) })
+
+    expect(screen.getByText('01:00')).toBeTruthy()
+  })
+
+  it('sets scrubbing flag on mousedown and seeks on mouseup', async () => {
+    mockGetDuration.mockReturnValue(200)
+
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+    await act(async () => { capturedEvents.onReady?.({ target: mockPlayerInstance }) })
+
+    const seekBar = screen.getByLabelText('Seek')
+    act(() => { fireEvent.mouseDown(seekBar) })
+    // Simulate dragging by changing the value, then committing on mouseUp
+    act(() => { fireEvent.change(seekBar, { target: { value: '90' } }) })
+    act(() => { fireEvent.mouseUp(seekBar) })
+
+    expect(mockSeekTo).toHaveBeenCalledWith(90, true)
+  })
+
+  it('requests fullscreen on the wrapper when not already in fullscreen', async () => {
+    const requestFullscreen = vi.fn().mockResolvedValue(undefined)
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const wrapper = document.querySelector('.aspect-video') as HTMLElement
+    wrapper.requestFullscreen = requestFullscreen
+
+    Object.defineProperty(document, 'fullscreenElement', { value: null, configurable: true })
+
+    const fullscreenBtn = screen.getByLabelText('Toggle fullscreen')
+    act(() => { fireEvent.click(fullscreenBtn) })
+
+    expect(requestFullscreen).toHaveBeenCalledOnce()
+  })
+
+  it('exits fullscreen when already in fullscreen', async () => {
+    const exitFullscreen = vi.fn().mockResolvedValue(undefined)
+    document.exitFullscreen = exitFullscreen
+
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+    const wrapper = document.querySelector('.aspect-video') as HTMLElement
+    Object.defineProperty(document, 'fullscreenElement', { value: wrapper, configurable: true })
+
+    const fullscreenBtn = screen.getByLabelText('Toggle fullscreen')
+    act(() => { fireEvent.click(fullscreenBtn) })
+
+    expect(exitFullscreen).toHaveBeenCalledOnce()
+  })
+
+  it('toggles play via the overlay keyboard Enter key', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.keyDown(overlay, { key: 'Enter' }) })
+
+    expect(mockPlayVideo).toHaveBeenCalledOnce()
+  })
+
+  it('toggles play via the overlay keyboard Space key', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.keyDown(overlay, { key: ' ' }) })
+
+    expect(mockPlayVideo).toHaveBeenCalledOnce()
+  })
+
+  it('does nothing when a non-activation key is pressed on the overlay', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.keyDown(overlay, { key: 'ArrowRight' }) })
+
+    expect(mockPlayVideo).not.toHaveBeenCalled()
+  })
+
+  it('prevents the context menu from appearing on the overlay', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    const event = new MouseEvent('contextmenu', { bubbles: true, cancelable: true })
+    act(() => { overlay.dispatchEvent(event) })
+
+    expect(event.defaultPrevented).toBe(true)
   })
 })
