@@ -79,4 +79,4 @@ jobs:
         run: pnpm run mutate
         
       - name: Check mutation score delta
-        run: pnpm exec tsx scripts/compare-mutation-score.ts
+        run: pnpm run mutate:compare
