@@ -43,7 +43,7 @@ const MOCK_VIDEOS = [
 describe('CourseVideoGrid', () => {
   beforeEach(() => {
     mockFetchVideos.mockReset()
-    vi.spyOn(console, 'log').mockImplementation(() => {})
+    vi.spyOn(console, 'log').mockImplementation(() => { })
   })
 
   afterEach(() => {
@@ -124,5 +124,11 @@ describe('CourseVideoGrid', () => {
 
     const link = screen.getByText('Flutter Basics').closest('a')
     expect(link?.getAttribute('href')).toBe('/courses/course-1/videos/vid-1')
+  })
+
+  it('re-throws non-Error thrown values from fetchCourseVideos', async () => {
+    mockFetchVideos.mockRejectedValue('unexpected string error')
+
+    await expect(CourseVideoGrid({ courseId: 'course-1' })).rejects.toBe('unexpected string error')
   })
 })

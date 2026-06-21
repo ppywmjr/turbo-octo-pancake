@@ -94,6 +94,12 @@ describe('Home page', () => {
       expect(screen.getByTestId('hero-cta')).toBeTruthy()
     })
 
+    it('renders without crashing when an error code is present in searchParams', async () => {
+      render(await Home(makeSearchParams({ error: 'unauthorized' })))
+
+      expect(screen.getByTestId('hero-cta')).toBeTruthy()
+    })
+
     it('passes the featured plan id to HeroCTA', async () => {
       render(await Home(makeSearchParams()))
 
@@ -182,6 +188,36 @@ describe('Home page', () => {
       expect(screen.getByText(/no courses are available right now/i)).toBeTruthy()
     })
 
+    it('renders "Free" for a free plan', async () => {
+      vi.mocked(fetchAllPlans).mockResolvedValue([
+        { ...MOCK_PLAN_FLUTTER, isFree: true, pricePence: null, billingInterval: null },
+      ])
+
+      render(await Home(makeSearchParams()))
+
+      expect(screen.getByText('Free')).toBeTruthy()
+    })
+
+    it('renders "Contact us" for a plan with null pricePence and not free', async () => {
+      vi.mocked(fetchAllPlans).mockResolvedValue([
+        { ...MOCK_PLAN_FLUTTER, isFree: false, pricePence: null, billingInterval: null },
+      ])
+
+      render(await Home(makeSearchParams()))
+
+      expect(screen.getByText('Contact us')).toBeTruthy()
+    })
+
+    it('renders price without an interval when billingInterval is null', async () => {
+      vi.mocked(fetchAllPlans).mockResolvedValue([
+        { ...MOCK_PLAN_FLUTTER, pricePence: 500, billingInterval: null },
+      ])
+
+      render(await Home(makeSearchParams()))
+
+      expect(screen.getByText('£5.00')).toBeTruthy()
+    })
+
     it('does not show a "My Courses" heading', async () => {
       render(await Home(makeSearchParams()))
 
@@ -243,6 +279,22 @@ describe('Home page', () => {
       render(await Home(makeSearchParams()))
 
       expect(screen.queryByText('More Courses')).toBeNull()
+    })
+  })
+
+  // ── fetchCourses error recovery ────────────────────────────────────────────
+
+  describe('when fetchCourses rejects', () => {
+    beforeEach(() => {
+      vi.mocked(auth).mockResolvedValue({ userId: 'user-abc' } as never)
+      vi.mocked(fetchCourses).mockRejectedValue(new Error('Service unavailable'))
+      vi.mocked(fetchAllPlans).mockResolvedValue([MOCK_PLAN_FLUTTER])
+    })
+
+    it('falls back to the "no active courses" state and shows available plans', async () => {
+      render(await Home(makeSearchParams()))
+
+      expect(screen.getByRole('heading', { name: /choose a course to get started/i })).toBeTruthy()
     })
   })
 })

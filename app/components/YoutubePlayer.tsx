@@ -42,10 +42,14 @@ function loadYouTubeApi(): Promise<void> {
       resolve()
       return
     }
+    // v8 ignore: he YouTube IFrame API script injection path), which require resetting a
+    // module-level singleton — not feasible without module isolation
+    /* v8 ignore start */
     window.onYouTubeIframeAPIReady = resolve
     const tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
     document.head.appendChild(tag)
+    /* v8 ignore stop */
   })
   return apiReadyPromise
 }

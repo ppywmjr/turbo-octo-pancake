@@ -68,4 +68,9 @@ jobs:
           name: node-modules
           path: node_modules/
       - name: Run tests
-        run: pnpm test
+        run: pnpm coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

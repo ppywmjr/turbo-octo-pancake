@@ -34,3 +34,12 @@ If you modify code, types, components, API routes, or storage behavior, check wh
 - **Changed scripts, setup, or architecture** → update `docs/development.md` or `docs/overview.md`
 
 When in doubt, update the docs. The documentation is the source of truth for this project.
+
+## Testing
+The following command are pre-approved to run as ai. You should run them after every complete job. Use the results to determine if the code is working as expected or if extra coverage is needed.
+```
+pnpm run ai:test:all
+pnpm run ai:test:unit
+pnpm run ai:test:unit:verbose:fail
+pnpm run ai:coverage
+```

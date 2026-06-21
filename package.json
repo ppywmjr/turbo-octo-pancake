@@ -12,7 +12,12 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "ai:test:all": "vitest run tests 2>&1 | tail -30",
+    "ai:test:unit": "vitest run tests/unit 2>&1 | tail -30",
+    "ai:test:unit:verbose:fail": "pnpm vitest run tests/unit --reporter=verbose 2>&1 | grep -A 30 \"FAIL\"",
+    "ai:coverage": "vitest run --coverage 2>&1 | tail -30"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.0.8",
@@ -27,6 +32,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "4.1.9",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "jsdom": "^29.0.2",

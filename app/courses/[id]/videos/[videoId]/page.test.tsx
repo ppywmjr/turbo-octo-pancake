@@ -41,7 +41,7 @@ const MOCK_VIDEO = {
 describe('CourseVideoPage', () => {
   beforeEach(() => {
     vi.mocked(fetchCourseVideos).mockReset()
-    vi.spyOn(console, 'log').mockImplementation(() => {})
+    vi.spyOn(console, 'log').mockImplementation(() => { })
   })
 
   afterEach(() => {
@@ -120,5 +120,28 @@ describe('CourseVideoPage', () => {
 
     const link = screen.getByText(/back to videos/i).closest('a')
     expect(link?.getAttribute('href')).toBe('/courses/course-1/videos')
+  })
+
+  it('shows the embed fallback when the video URL is malformed', async () => {
+    vi.mocked(fetchCourseVideos).mockResolvedValue({
+      ...MOCK_VIDEO,
+      url: 'not a valid url :::',
+    } as never)
+
+    render(await CourseVideoPage({ params: Promise.resolve({ id: 'course-1', videoId: 'vid-1' }) }))
+
+    expect(screen.getByText(/unable to embed/i)).toBeTruthy()
+  })
+
+  it('extracts the YouTube video ID from a youtu.be short URL', async () => {
+    vi.mocked(fetchCourseVideos).mockResolvedValue({
+      ...MOCK_VIDEO,
+      url: 'https://youtu.be/short-id',
+    } as never)
+
+    render(await CourseVideoPage({ params: Promise.resolve({ id: 'course-1', videoId: 'vid-1' }) }))
+
+    const player = screen.getByTestId('youtube-player')
+    expect(player.getAttribute('data-yt-video-id')).toBe('short-id')
   })
 })
