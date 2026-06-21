@@ -13,6 +13,8 @@ const config = {
   // Only mutate application source files, not tests or generated code
   mutate: [
     'app/**/*.ts',
+    '!app/**/*.test.ts',
+    '!app/**/*.spec.ts',
   ],
   coverageAnalysis: 'perTest',
   reporters: ['html', 'clear-text', 'progress', 'json'],

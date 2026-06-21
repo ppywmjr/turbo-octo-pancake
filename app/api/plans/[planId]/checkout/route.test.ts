@@ -51,6 +51,8 @@ describe('POST /api/plans/[planId]/checkout', () => {
 
     expect(res.status).toBe(503)
     expect(fetch).not.toHaveBeenCalled()
+    const body = await res.json() as { error: string }
+    expect(body.error).toBe('Service not configured')
   })
 
   it('returns 401 when there is no auth token', async () => {
@@ -60,6 +62,8 @@ describe('POST /api/plans/[planId]/checkout', () => {
 
     expect(res.status).toBe(401)
     expect(fetch).not.toHaveBeenCalled()
+    const body = await res.json() as { error: string }
+    expect(body.error).toBe('Unauthorized')
   })
 
   it('calls POST /plans/:planId/subscribe with the correct URL, Bearer token, and internal key', async () => {
@@ -77,6 +81,8 @@ describe('POST /api/plans/[planId]/checkout', () => {
     expect((calledInit.headers as Record<string, string>)['x-internal-api-key']).toBe(
       'test-internal-secret',
     )
+    expect((calledInit.headers as Record<string, string>)['Content-Type']).toBe('application/json')
+    expect((calledInit.headers as Record<string, string>)['Accept']).toBe('application/json')
   })
 
   it('interpolates different planIds into the URL correctly', async () => {
@@ -111,7 +117,7 @@ describe('POST /api/plans/[planId]/checkout', () => {
 
     expect(res.status).toBe(404)
     const body = await res.json() as { error: string }
-    expect(body.error).toContain('404')
+    expect(body.error).toBe('Subscription service error: 404')
   })
 
   it('returns an empty detail string when res.text() rejects', async () => {
