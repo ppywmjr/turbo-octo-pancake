@@ -46,7 +46,7 @@ describe('VideoCard', () => {
         render(<VideoCard video={BASE_VIDEO} cardHref={BASE_VIDEO.url} />)
 
         const link = screen.getByRole('link', { name: /flutter basics/i })
-        expect(link.getAttribute('href')).toBe('/courses/1/videos/vid-1')
+        expect(link.getAttribute('href')).toBe('https://www.youtube.com/watch?v=abc123')
     })
 
     it('shows the Watched badge when video.watched is true', () => {

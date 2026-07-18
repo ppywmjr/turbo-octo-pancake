@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import Card from '@/app/components/atoms/Card'
 
 export default function MediaCard({
     imageSection,
@@ -30,20 +31,9 @@ export default function MediaCard({
         </>
     )
 
-    if (href) {
-        return (
-            <Link
-                href={href}
-                className="group flex flex-col h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm hover:shadow-lg transition-shadow aspect-[4/3]"
-            >
-                {cardContent}
-            </Link>
-        )
-    }
-
     return (
-        <div className="group flex flex-col h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm hover:shadow-lg transition-shadow aspect-[4/3]">
+        <Card href={href} aspectRatio="aspect-[4/3]">
             {cardContent}
-        </div>
+        </Card>
     )
 }
