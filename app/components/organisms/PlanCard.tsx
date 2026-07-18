@@ -26,7 +26,7 @@ function formatPlanPrice(plan: Plan): string {
 export default function PlanCard({ plan }: { plan: Plan }) {
     return (
         <Card>
-            <div className="flex flex-col flex-1 gap-3 p-6">
+            <div className="flex flex-col flex-1 gap-3 p-4">
                 <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50 leading-snug">
                     {plan.name}
                 </h3>
@@ -37,10 +37,10 @@ export default function PlanCard({ plan }: { plan: Plan }) {
                 )}
                 <p className="text-lg font-bold text-zinc-900 dark:text-zinc-50">{formatPlanPrice(plan)}</p>
             </div>
-            <div className="px-6 pb-6">
+            <div className="px-4 pb-4">
                 <Link
                     href={`/subscribe/${plan.id}`}
-                    className="flex h-10 w-full items-center justify-center rounded-full bg-violet-600 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-600"
+                    className="flex h-12 w-full items-center justify-center rounded-full bg-violet-600 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-600"
                 >
                     Subscribe
                 </Link>

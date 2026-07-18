@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { fetchPlanById } from '@/app/lib/plans'
 import SubscribeButton from '@/app/components/molecules/SubscribeButton'
+import CenterLayout from '@/app/components/templates/CenterLayout'
 import type { Plan, BillingInterval } from '@/app/types/plan'
 
 function formatPrice(plan: Plan): string {
@@ -43,7 +44,7 @@ export default async function SubscribePage({
   }
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center py-24 px-8 bg-zinc-50 dark:bg-black min-h-screen">
+    <CenterLayout>
       <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-8 flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400">
@@ -64,6 +65,6 @@ export default async function SubscribePage({
 
         <SubscribeButton planId={planId} />
       </div>
-    </main>
+    </CenterLayout>
   )
 }
