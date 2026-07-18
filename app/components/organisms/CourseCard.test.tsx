@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
 
-import CourseCard from '@/app/components/CourseCard'
+import CourseCard from '@/app/components/organisms/CourseCard'
 import type { Course } from '@/app/types/course'
 
 vi.mock('next/image', () => ({

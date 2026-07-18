@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Plan, BillingInterval } from '@/app/types/plan'
-import Card from '@/app/components/Card'
+import Card from '@/app/components/atoms/Card'
 
 function formatPlanPrice(plan: Plan): string {
     if (plan.isFree) return 'Free'

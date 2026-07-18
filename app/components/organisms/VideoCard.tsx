@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { Video } from '@/app/types/video'
-import MediaCard from '@/app/components/MediaCard'
+import MediaCard from '@/app/components/molecules/MediaCard'
 
 export default function VideoCard({ video, cardHref }: { video: Video; cardHref: string }) {
   const imageSection = (

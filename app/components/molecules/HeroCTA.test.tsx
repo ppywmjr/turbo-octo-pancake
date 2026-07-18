@@ -27,7 +27,7 @@ vi.mock('@clerk/nextjs', () => ({
   ),
 }))
 
-import HeroCTA from '@/app/components/HeroCTA'
+import HeroCTA from '@/app/components/molecules/HeroCTA'
 
 describe('HeroCTA', () => {
   afterEach(() => {

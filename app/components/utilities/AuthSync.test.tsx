@@ -7,7 +7,7 @@ vi.mock('@clerk/nextjs', () => ({
 }))
 
 import { useUser } from '@clerk/nextjs'
-import AuthSync from '@/app/components/AuthSync'
+import AuthSync from '@/app/components/utilities/AuthSync'
 
 const MOCK_USER = { id: 'user_abc123' }
 

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { Course } from '@/app/types/course'
-import MediaCard from '@/app/components/MediaCard'
+import MediaCard from '@/app/components/molecules/MediaCard'
 
 export default function CourseCard({ course }: { course: Course }) {
   const imageSection = course.thumbnail ? (

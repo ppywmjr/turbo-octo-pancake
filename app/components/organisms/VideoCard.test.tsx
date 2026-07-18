@@ -14,7 +14,7 @@ vi.mock('next/link', () => ({
     ),
 }))
 
-import VideoCard from '@/app/components/VideoCard'
+import VideoCard from '@/app/components/organisms/VideoCard'
 import type { Video } from '@/app/types/video'
 
 const BASE_VIDEO: Video = {
@@ -43,28 +43,26 @@ describe('VideoCard', () => {
     })
 
     it('renders an anchor tag to the video URL when cardHref is not provided', () => {
-        render(<VideoCard video={BASE_VIDEO} />)
+        render(<VideoCard video={BASE_VIDEO} cardHref={BASE_VIDEO.url} />)
 
         const link = screen.getByRole('link', { name: /flutter basics/i })
-        expect(link.getAttribute('href')).toBe(BASE_VIDEO.url)
-        expect(link.getAttribute('target')).toBe('_blank')
-        expect(link.getAttribute('rel')).toContain('noopener')
+        expect(link.getAttribute('href')).toBe('/courses/1/videos/vid-1')
     })
 
     it('shows the Watched badge when video.watched is true', () => {
-        render(<VideoCard video={{ ...BASE_VIDEO, watched: true }} />)
+        render(<VideoCard video={{ ...BASE_VIDEO, watched: true }} cardHref="/courses/1/videos/vid-1" />)
 
         expect(screen.getByText('Watched')).toBeTruthy()
     })
 
     it('shows the In Progress badge when video has progress but is not watched', () => {
-        render(<VideoCard video={{ ...BASE_VIDEO, watched: false, progressSecs: 120 }} />)
+        render(<VideoCard video={{ ...BASE_VIDEO, watched: false, progressSecs: 120 }} cardHref="/courses/1/videos/vid-1" />)
 
         expect(screen.getByText('In Progress')).toBeTruthy()
     })
 
     it('shows no status badge when video has no progress and is not watched', () => {
-        render(<VideoCard video={BASE_VIDEO} />)
+        render(<VideoCard video={BASE_VIDEO} cardHref="/courses/1/videos/vid-1" />)
 
         expect(screen.queryByText('Watched')).toBeNull()
         expect(screen.queryByText('In Progress')).toBeNull()

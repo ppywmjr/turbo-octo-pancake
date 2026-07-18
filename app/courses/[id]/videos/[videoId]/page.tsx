@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
-import YoutubePlayer from '@/app/components/YoutubePlayer'
-import CenterLayout from '@/app/components/CenterLayout'
+import YoutubePlayer from '@/app/components/organisms/YoutubePlayer'
+import CenterLayout from '@/app/components/templates/CenterLayout'
 
 function getYouTubeVideoId(url: string): string | null {
   try {

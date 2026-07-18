@@ -12,12 +12,12 @@ vi.mock('@/app/lib/courses', () => ({
 vi.mock('@/app/lib/plans', () => ({
   fetchAllPlans: vi.fn(),
 }))
-vi.mock('@/app/components/HeroCTA', () => ({
+vi.mock('@/app/components/molecules/HeroCTA', () => ({
   default: ({ planId }: { planId: string | null }) => (
     <div data-testid="hero-cta" data-plan-id={planId ?? 'null'} />
   ),
 }))
-vi.mock('@/app/components/ErrorNotification', () => ({
+vi.mock('@/app/components/molecules/ErrorNotification', () => ({
   default: () => null,
 }))
 vi.mock('next/link', () => ({
