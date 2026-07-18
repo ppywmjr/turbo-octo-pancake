@@ -1,0 +1,24 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": "d426093c-9e22-4f8c-9ec1-c6d67b166330",
+            "name": "flutters-demo-plan",
+            "description": null,
+            "isFree": true,
+            "stripeProductId": null,
+            "stripePriceId": null,
+            "billingInterval": null,
+            "pricePence": null,
+            "isActive": true,
+            "createdAt": "2026-07-03T07:43:53.583Z",
+            "deactivatedAt": null
+        }
+    ],
+    "pagination": {
+        "total": 1,
+        "limit": 20,
+        "offset": 0,
+        "hasMore": false
+    }
+}

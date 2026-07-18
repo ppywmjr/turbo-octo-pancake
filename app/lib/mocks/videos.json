@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "b3f4a2e1-0c5d-4f6e-8a7b-9c0d1e2f3a4b",
+      "title": "Propulsion 2025 2-8 — Catherine Taylor",
+      "url": "https://www.youtube.com/watch?v=bjgqwBQ8-7g",
+      "thumbnail": "https://i.ytimg.com/vi/bjgqwBQ8-7g/hqdefault.jpg",
+      "watched": true,
+      "progressSecs": 0
+    },
+    {
+      "id": "c4e5b3f2-1d6e-5a7f-9b8c-0d1e2f3a4b5c",
+      "title": "Propulsion 2025 1-1 — A Singular Magic (Catherine Taylor)",
+      "url": "https://www.youtube.com/watch?v=DN22xptfnes&list=RDDN22xptfnes&start_radio=1",
+      "thumbnail": "https://i.ytimg.com/vi/DN22xptfnes/hqdefault.jpg",
+      "watched": false,
+      "progressSecs": 81
+    },
+    {
+      "id": "acbeb338-03a4-4536-9027-54423e13eea9",
+      "title": "Amy Sigil as The Gwragged Annwn",
+      "url": "https://www.youtube.com/watch?v=BMkwmQmUa_g&list=RDBMkwmQmUa_g&start_radio=1",
+      "thumbnail": "https://i.ytimg.com/vi/BMkwmQmUa_g/hqdefault.jpg",
+      "watched": false,
+      "progressSecs": 0
+    }
+  ],
+  "pagination": {
+    "total": 3,
+    "limit": 20,
+    "offset": 0,
+    "hasMore": false
+  }
+}

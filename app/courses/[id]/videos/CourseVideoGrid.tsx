@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
 import VideoCard from '@/app/components/VideoCard'
+import CardsSection from '@/app/components/CardsSection'
 
 export default async function CourseVideoGrid({ courseId }: { courseId: string }) {
   let videos
@@ -23,14 +24,15 @@ export default async function CourseVideoGrid({ courseId }: { courseId: string }
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-5xl">
-      {videos.map((video) => (
+    <CardsSection
+      title="Videos"
+      cards={videos.map((video) => (
         <VideoCard
           key={video.id}
           video={video}
           cardHref={`/courses/${courseId}/videos/${video.id}`}
         />
       ))}
-    </div>
+    />
   )
 }

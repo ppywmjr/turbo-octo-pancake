@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, waitFor } from '@testing-library/react'
 
 vi.mock('server-only', () => ({}))
 vi.mock('@clerk/nextjs/server', () => ({
@@ -161,20 +161,20 @@ describe('Home page', () => {
     it('shows the "Choose a course to get started" heading', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByRole('heading', { name: /choose a course to get started/i })).toBeTruthy()
+      expect(await screen.findByRole('heading', { name: /choose a course to get started/i })).toBeTruthy()
     })
 
     it('renders a card for each available plan', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByText('Flutters Online Training Programme')).toBeTruthy()
-      expect(screen.getByText('Advanced React Course')).toBeTruthy()
+      expect(await screen.findByText('Flutters Online Training Programme')).toBeTruthy()
+      expect(await screen.findByText('Advanced React Course')).toBeTruthy()
     })
 
     it('renders Subscribe links pointing to /subscribe/:planId', async () => {
       render(await Home(makeSearchParams()))
 
-      const links = screen.getAllByRole('link', { name: /subscribe/i })
+      const links = await screen.findAllByRole('link', { name: /subscribe/i })
       const hrefs = links.map((l) => l.getAttribute('href'))
       expect(hrefs).toContain('/subscribe/plan-flutter')
       expect(hrefs).toContain('/subscribe/plan-extra')
@@ -185,7 +185,7 @@ describe('Home page', () => {
 
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByText(/no courses are available right now/i)).toBeTruthy()
+      expect(await screen.findByText(/no courses are available right now/i)).toBeTruthy()
     })
 
     it('renders "Free" for a free plan', async () => {
@@ -195,7 +195,7 @@ describe('Home page', () => {
 
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByText('Free')).toBeTruthy()
+      expect(await screen.findByText('Free')).toBeTruthy()
     })
 
     it('renders "Contact us" for a plan with null pricePence and not free', async () => {
@@ -205,7 +205,7 @@ describe('Home page', () => {
 
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByText('Contact us')).toBeTruthy()
+      expect(await screen.findByText('Contact us')).toBeTruthy()
     })
 
     it('renders price without an interval when billingInterval is null', async () => {
@@ -215,13 +215,15 @@ describe('Home page', () => {
 
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByText('£5.00')).toBeTruthy()
+      expect(await screen.findByText('£5.00')).toBeTruthy()
     })
 
     it('does not show a "My Courses" heading', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.queryByText('My Courses')).toBeNull()
+      await waitFor(() => {
+        expect(screen.queryByText('My Courses')).toBeNull()
+      })
     })
   })
 
@@ -243,20 +245,20 @@ describe('Home page', () => {
     it('shows the "My Courses" heading', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByRole('heading', { name: /my courses/i })).toBeTruthy()
+      expect(await screen.findByRole('heading', { name: /my courses/i })).toBeTruthy()
     })
 
     it('renders the subscribed course title', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByText(MOCK_COURSE.title)).toBeTruthy()
+      expect(await screen.findByText(MOCK_COURSE.title)).toBeTruthy()
     })
 
     it('shows "More Courses" for plans the user is not subscribed to', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByRole('heading', { name: /more courses/i })).toBeTruthy()
-      expect(screen.getByText('Advanced React Course')).toBeTruthy()
+      expect(await screen.findByRole('heading', { name: /more courses/i })).toBeTruthy()
+      expect(await screen.findByText('Advanced React Course')).toBeTruthy()
     })
 
     it('does not show the already-subscribed plan in "More Courses"', async () => {
@@ -264,7 +266,7 @@ describe('Home page', () => {
 
       // plan-flutter is subscribed (MOCK_COURSE.id === 'plan-flutter')
       // Its name appears once (in My Courses via CourseCard), not again in More Courses
-      const allLinks = screen.getAllByRole('link')
+      const allLinks = await screen.findAllByRole('link')
       const subscribeLinks = allLinks.filter((l) =>
         l.getAttribute('href')?.startsWith('/subscribe/'),
       )
@@ -278,7 +280,9 @@ describe('Home page', () => {
 
       render(await Home(makeSearchParams()))
 
-      expect(screen.queryByText('More Courses')).toBeNull()
+      await waitFor(() => {
+        expect(screen.queryByText('More Courses')).toBeNull()
+      })
     })
   })
 

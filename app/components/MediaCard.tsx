@@ -1,4 +1,4 @@
-import Card from '@/app/components/Card'
+import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 export default function MediaCard({
@@ -12,11 +12,22 @@ export default function MediaCard({
     description?: string | null
     href?: string
 }) {
+    const isLink = !!href
+
     return (
-        <Card href={href}>
-            <div className="relative w-full aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-                {imageSection}
-            </div>
+        <div className="group flex flex-col h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm hover:shadow-lg transition-shadow">
+            {isLink ? (
+                <Link
+                    href={href}
+                    className="relative w-full h-56 overflow-hidden bg-zinc-100 dark:bg-zinc-800"
+                >
+                    {imageSection}
+                </Link>
+            ) : (
+                <div className="relative w-full h-56 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                    {imageSection}
+                </div>
+            )}
             <div className="flex flex-col flex-1 gap-2 p-4">
                 <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50 leading-snug line-clamp-2">
                     {title}
@@ -27,6 +38,6 @@ export default function MediaCard({
                     </p>
                 )}
             </div>
-        </Card>
+        </div>
     )
 }

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
 import YoutubePlayer from '@/app/components/YoutubePlayer'
+import CenterLayout from '@/app/components/CenterLayout'
 
 function getYouTubeVideoId(url: string): string | null {
   try {
@@ -27,7 +28,7 @@ export default async function CourseVideoPage({
 
   if (!video) {
     return (
-      <main className="flex flex-1 flex-col items-center py-16 px-8 bg-zinc-50 dark:bg-black min-h-screen">
+      <CenterLayout>
         <p className="text-zinc-500 dark:text-zinc-400">Video not found.</p>
         <Link
           href={`/courses/${courseId}/videos`}
@@ -35,35 +36,33 @@ export default async function CourseVideoPage({
         >
           ← Back to videos
         </Link>
-      </main>
+      </CenterLayout>
     )
   }
 
   const ytVideoId = getYouTubeVideoId(video.url)
 
   return (
-    <main className="flex flex-1 flex-col items-center py-16 px-8 bg-zinc-50 dark:bg-black min-h-screen">
-      <div className="w-full max-w-4xl flex flex-col gap-6">
-        <Link
-          href={`/courses/${courseId}/videos`}
-          className="text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors self-start"
-        >
-          ← Back to videos
-        </Link>
+    <CenterLayout>
+      <Link
+        href={`/courses/${courseId}/videos`}
+        className="text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors self-start"
+      >
+        ← Back to videos
+      </Link>
 
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          {video.title}
-        </h1>
+      <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        {video.title}
+      </h1>
 
-        {ytVideoId ? (
-          <YoutubePlayer videoId={videoId} ytVideoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} courseId={courseId} />
-        ) : (
-          <div className="w-full aspect-video rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-            <p className="text-zinc-500 dark:text-zinc-400">Unable to embed this video.</p>
-          </div>
-        )}
+      {ytVideoId ? (
+        <YoutubePlayer videoId={videoId} ytVideoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} courseId={courseId} />
+      ) : (
+        <div className="w-full aspect-video rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+          <p className="text-zinc-500 dark:text-zinc-400">Unable to embed this video.</p>
+        </div>
+      )}
 
-      </div>
-    </main>
+    </CenterLayout>
   )
 }
