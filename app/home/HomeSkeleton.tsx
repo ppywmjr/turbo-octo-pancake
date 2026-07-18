@@ -8,7 +8,7 @@ export default function HomeSkeleton() {
             <div className="flex flex-col gap-10">
                 {/* Skeleton for "My Courses" section */}
                 <div className="flex flex-col gap-6">
-                    <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-40 animate-pulse" />
+                    <div className="h-8 bg-[var(--color-zinc-200)] dark:bg-[var(--color-zinc-700)] rounded w-40 animate-pulse" />
                     <CardsGrid>
                         {Array.from({ length: 3 }).map((_, i) => (
                             <MediaCardSkeleton key={i} />
@@ -18,7 +18,7 @@ export default function HomeSkeleton() {
 
                 {/* Skeleton for "More Courses" section */}
                 <div className="flex flex-col gap-6">
-                    <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-40 animate-pulse" />
+                    <div className="h-8 bg-[var(--color-zinc-200)] dark:bg-[var(--color-zinc-700)] rounded w-40 animate-pulse" />
                     <CardsGrid>
                         {Array.from({ length: 3 }).map((_, i) => (
                             <MediaCardSkeleton key={i} />

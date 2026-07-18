@@ -25,23 +25,23 @@ export default function ErrorNotification({ error }: { error: string | undefined
     <div
       role="alert"
       aria-labelledby="error-notification-heading"
-      className="w-full max-w-3xl rounded-xl border border-red-200 bg-red-50 px-4 py-3 dark:border-red-800 dark:bg-red-950 mb-6"
+      className="w-full max-w-3xl rounded-xl border border-[var(--color-error-border-light)] bg-[var(--color-error-bg-light)] px-4 py-3 dark:border-[var(--color-error-dark)] dark:bg-[var(--color-error-bg-dark)] mb-6"
     >
       <div className="flex items-start gap-3">
         <div className="flex-1">
           <p
             id="error-notification-heading"
-            className="text-sm font-semibold text-red-800 dark:text-red-200"
+            className="text-sm font-semibold text-[var(--color-error-text-light)] dark:text-[var(--color-error-text-dark)]"
           >
             Error
           </p>
-          <p className="mt-1 text-sm text-red-700 dark:text-red-300">{message}</p>
+          <p className="mt-1 text-sm text-[var(--color-error-text-light)] dark:text-[var(--color-error-text-dark)]">{message}</p>
         </div>
         <button
           type="button"
           onClick={dismiss}
           aria-label="Dismiss error notification"
-          className="shrink-0 rounded p-0.5 text-red-400 hover:bg-red-100 hover:text-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-600 dark:text-red-500 dark:hover:bg-red-900 dark:hover:text-red-300 transition-colors"
+          className="shrink-0 rounded p-0.5 text-[var(--color-error-focus)] hover:bg-[var(--color-error-bg-light)] hover:text-[var(--color-error-focus)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-error-focus)] dark:text-[var(--color-error-text-dark)] dark:hover:bg-[var(--color-error-bg-dark)] dark:hover:text-[var(--color-error-text-dark)] transition-colors"
         >
           <svg
             aria-hidden="true"
