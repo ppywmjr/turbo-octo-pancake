@@ -9,6 +9,7 @@ const mockPlayVideo = vi.fn()
 const mockPauseVideo = vi.fn()
 const mockGetCurrentTime = vi.fn().mockReturnValue(0)
 const mockGetDuration = vi.fn().mockReturnValue(0)
+const mockSetPlaybackRate = vi.fn()
 const mockDestroy = vi.fn()
 
 const mockPlayerInstance = {
@@ -17,6 +18,7 @@ const mockPlayerInstance = {
   pauseVideo: mockPauseVideo,
   getCurrentTime: mockGetCurrentTime,
   getDuration: mockGetDuration,
+  setPlaybackRate: mockSetPlaybackRate,
   destroy: mockDestroy,
 }
 
@@ -60,6 +62,7 @@ describe('YoutubePlayer', () => {
     mockPauseVideo.mockClear()
     mockGetCurrentTime.mockReturnValue(0)
     mockGetDuration.mockReturnValue(0)
+    mockSetPlaybackRate.mockClear()
     vi.mocked(fetch).mockClear()
   })
 
@@ -259,5 +262,34 @@ describe('YoutubePlayer', () => {
     act(() => { overlay.dispatchEvent(event) })
 
     expect(event.defaultPrevented).toBe(true)
+  })
+
+  it('renders a playback speed selector with all options', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const select = screen.getByLabelText('Speed')
+    expect(select).toBeTruthy()
+
+    const options = await screen.findAllByRole('option') as HTMLOptionElement[]
+    const optionValues = options.map((o) => o.value).sort((a, b) => Number(a) - Number(b))
+    expect(optionValues).toEqual(['0.25', '0.5', '0.75', '1', '1.25', '1.5', '2'])
+  })
+
+  it('calls setPlaybackRate when speed selector changes', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const select = screen.getByLabelText('Speed')
+    act(() => { fireEvent.change(select, { target: { value: '1.5' } }) })
+
+    expect(mockSetPlaybackRate).toHaveBeenCalledWith(1.5)
+  })
+
+  it('updates playback rate when changing from default to 0.75x', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    const select = screen.getByLabelText('Speed')
+    act(() => { fireEvent.change(select, { target: { value: '0.75' } }) })
+
+    expect(mockSetPlaybackRate).toHaveBeenCalledWith(0.75)
   })
 })
