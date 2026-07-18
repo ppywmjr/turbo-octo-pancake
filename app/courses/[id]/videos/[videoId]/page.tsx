@@ -21,10 +21,10 @@ function getYouTubeVideoId(url: string): string | null {
 function VideoNotFound({ backHref }: { backHref: string }) {
   return (
     <>
-      <p className="text-zinc-500 dark:text-zinc-400">Video not found.</p>
+      <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">Video not found.</p>
       <Link
         href={backHref}
-        className="mt-4 text-sm font-medium text-zinc-900 dark:text-zinc-100 underline underline-offset-4"
+        className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-100)] underline underline-offset-4"
       >
         ← Back to videos
       </Link>
@@ -35,10 +35,10 @@ function VideoNotFound({ backHref }: { backHref: string }) {
 function VideoErrorFallback({ backHref }: { backHref: string }) {
   return (
     <>
-      <p className="text-zinc-500 dark:text-zinc-400">Failed to load video. Please try again later.</p>
+      <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">Failed to load video. Please try again later.</p>
       <Link
         href={backHref}
-        className="mt-4 text-sm font-medium text-zinc-900 dark:text-zinc-100 underline underline-offset-4"
+        className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-100)] underline underline-offset-4"
       >
         ← Back to videos
       </Link>
@@ -68,20 +68,20 @@ async function VideoContent({ courseId, videoId }: { courseId: string; videoId: 
     <>
       <Link
         href={`/courses/${courseId}/videos`}
-        className="text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors self-start"
+        className="text-sm font-medium text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)] hover:text-[var(--color-zinc-900)] dark:hover:text-[var(--color-zinc-100)] transition-colors self-start"
       >
         ← Back to videos
       </Link>
 
-      <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+      <h1 className="text-2xl font-bold tracking-tight text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-50)]">
         {video.title}
       </h1>
 
       {ytVideoId ? (
         <YoutubePlayer videoId={videoId} ytVideoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} courseId={courseId} />
       ) : (
-        <div className="w-full aspect-video rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-          <p className="text-zinc-500 dark:text-zinc-400">Unable to embed this video.</p>
+        <div className="w-full aspect-video rounded-2xl bg-[var(--color-zinc-100)] dark:bg-[var(--color-zinc-800)] flex items-center justify-center">
+          <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">Unable to embed this video.</p>
         </div>
       )}
     </>
@@ -99,8 +99,8 @@ export default async function CourseVideoPage({
     <CenterLayout>
       <Suspense fallback={
         <div className="flex flex-col gap-6">
-          <div className="h-8 w-40 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
-          <div className="h-80 w-full bg-zinc-200 dark:bg-zinc-700 rounded-2xl animate-pulse" />
+          <div className="h-8 w-40 bg-[var(--color-zinc-200)] dark:bg-[var(--color-zinc-700)] rounded animate-pulse" />
+          <div className="h-80 w-full bg-[var(--color-zinc-200)] dark:bg-[var(--color-zinc-700)] rounded-2xl animate-pulse" />
         </div>
       }>
         <VideoContent courseId={courseId} videoId={videoId} />

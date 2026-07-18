@@ -24,16 +24,16 @@ export default function HomeSignedIn({
             <CenterLayout>
                 <ErrorNotification error={errorCode} />
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                    <h2 className="text-3xl font-bold tracking-tight text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-50)]">
                         Choose a course to get started
                     </h2>
-                    <p className="text-zinc-500 dark:text-zinc-400">
+                    <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">
                         Subscribe to a course below to unlock all of its content.
                     </p>
                 </div>
 
                 {availablePlans.length === 0 ? (
-                    <p className="text-zinc-500 dark:text-zinc-400">No courses are available right now.</p>
+                    <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">No courses are available right now.</p>
                 ) : (
                     <CardsGrid>
                         {availablePlans.map((plan) => (

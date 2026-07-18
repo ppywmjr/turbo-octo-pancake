@@ -10,7 +10,7 @@ export default function CardsSection({
 }) {
   return (
     <section className="flex flex-col gap-6">
-      <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-2xl font-bold tracking-tight text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-50)]">
         {title}
       </h2>
       <CardsGrid>{cards}</CardsGrid>

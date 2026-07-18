@@ -12,7 +12,7 @@ export default function CourseCard({ course }: { course: Course }) {
       unoptimized
     />
   ) : (
-    <span className="text-zinc-400 dark:text-zinc-600 text-4xl select-none">🎓</span>
+    <span className="text-[var(--color-zinc-400)] dark:text-[var(--color-zinc-600)] text-4xl select-none">🎓</span>
   )
 
   return (

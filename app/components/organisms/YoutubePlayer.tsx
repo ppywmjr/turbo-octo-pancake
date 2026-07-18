@@ -246,7 +246,7 @@ export default function YoutubePlayer({
   return (
     <div
       ref={wrapperRef}
-      className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg bg-black"
+      className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg bg-[var(--color-black)]"
     >
       {/* YouTube IFrame API mounts the iframe into this div */}
       <div ref={playerContainerRef} className="absolute inset-0 w-full h-full" />
@@ -257,7 +257,7 @@ export default function YoutubePlayer({
         className={`absolute bottom-0 left-0 right-0 z-15 pointer-events-none transition-opacity ${
           playing ? 'opacity-0 delay-4000 duration-1000' : 'opacity-100'
         }`}
-        style={{ height: '68px', background: 'linear-gradient(to top, black 83%, transparent 100%)' }}
+        style={{ height: '68px', background: `linear-gradient(to top, var(--color-black) 83%, transparent 100%)` }}
       />
 
       {/* Transparent overlay — intercepts clicks and right-clicks so the iframe URL stays hidden */}
@@ -272,14 +272,14 @@ export default function YoutubePlayer({
       />
 
       {/* Custom controls — rendered above the overlay */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col gap-1 px-4 pb-3 pt-6 bg-gradient-to-t from-black/80 to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col gap-1 px-4 pb-3 pt-6 bg-gradient-to-t from-[var(--color-overlay-dark)]/80 to-transparent">
         {/* Seek bar */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-300 tabular-nums w-10 shrink-0">{formatTime(currentTime)}</span>
+          <span className="text-xs text-[var(--color-zinc-300)] tabular-nums w-10 shrink-0">{formatTime(currentTime)}</span>
           <div className="relative flex-1 h-1 group">
-            <div className="absolute inset-0 rounded-full bg-white/20" />
+            <div className="absolute inset-0 rounded-full bg-[var(--color-white)]/20" />
             <div
-              className="absolute inset-y-0 left-0 rounded-full bg-green-500 pointer-events-none"
+              className="absolute inset-y-0 left-0 rounded-full bg-[var(--color-success)] pointer-events-none"
               style={{ width: `${progress}%` }}
             />
             <input
@@ -297,7 +297,7 @@ export default function YoutubePlayer({
               onTouchEnd={handleSeekCommit as unknown as React.TouchEventHandler<HTMLInputElement>}
             />
           </div>
-          <span className="text-xs text-zinc-300 tabular-nums w-10 shrink-0 text-right">{formatTime(duration)}</span>
+          <span className="text-xs text-[var(--color-zinc-300)] tabular-nums w-10 shrink-0 text-right">{formatTime(duration)}</span>
         </div>
 
          {/* Play / speed / fullscreen */}
@@ -305,19 +305,19 @@ export default function YoutubePlayer({
           <button
             onClick={togglePlay}
             aria-label={playing ? 'Pause' : 'Play'}
-            className="text-white hover:text-zinc-300 transition-colors"
+            className="text-[var(--color-white)] hover:text-[var(--color-zinc-300)] transition-colors"
           >
             {playing ? <PauseIcon /> : <PlayIcon />}
           </button>
 
           {/* Playback speed selector */}
           <div className="flex items-center gap-1">
-            <label htmlFor="playback-rate" className="text-xs text-zinc-300">Speed</label>
+            <label htmlFor="playback-rate" className="text-xs text-[var(--color-zinc-300)]">Speed</label>
             <select
               id="playback-rate"
               value={playbackRate}
               onChange={(e) => setPlaybackRate(Number(e.target.value))}
-              className="bg-black/50 text-zinc-200 text-xs rounded px-2 py-1 border border-white/20 focus:outline-none focus:ring-1 focus:ring-red-500 cursor-pointer"
+              className="bg-[var(--color-black)]/50 text-[var(--color-zinc-200)] text-xs rounded px-2 py-1 border border-[var(--color-white)]/20 focus:outline-none focus:ring-1 focus:ring-[var(--color-error-focus)] cursor-pointer"
             >
               <option value={0.25}>0.25x</option>
               <option value={0.5}>0.5x</option>
@@ -332,7 +332,7 @@ export default function YoutubePlayer({
           <button
             onClick={toggleFullscreen}
             aria-label="Toggle fullscreen"
-            className="text-white hover:text-zinc-300 transition-colors"
+            className="text-[var(--color-white)] hover:text-[var(--color-zinc-300)] transition-colors"
           >
             <FullscreenIcon />
           </button>

@@ -15,15 +15,15 @@ export default function MediaCard({
 }) {
     const cardContent = (
         <>
-            <div className="relative w-full flex-[3] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+            <div className="relative w-full flex-[3] overflow-hidden bg-[var(--color-zinc-100)] dark:bg-[var(--color-zinc-800)]">
                 {imageSection}
             </div>
             <div className="flex flex-col flex-[1] gap-2 p-4">
-                <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50 leading-snug line-clamp-2">
+                <h2 className="text-base font-semibold text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-50)] leading-snug line-clamp-2">
                     {title}
                 </h2>
                 {description && (
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-3">
+                    <p className="text-sm text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)] line-clamp-3">
                         {description}
                     </p>
                 )}
