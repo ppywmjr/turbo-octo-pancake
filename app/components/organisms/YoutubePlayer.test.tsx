@@ -35,7 +35,7 @@ const MockYTPlayer = vi.fn(function mockYTPlayer(
   return mockPlayerInstance
 })
 
-import YoutubePlayer from '@/app/components/YoutubePlayer'
+import YoutubePlayer from '@/app/components/organisms/YoutubePlayer'
 
 const PROPS = {
   videoId: 'vid-1',

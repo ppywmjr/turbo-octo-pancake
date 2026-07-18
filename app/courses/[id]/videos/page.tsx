@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
-import VideoCardSkeleton from '@/app/components/VideoCardSkeleton'
+import VideoCardSkeleton from '@/app/components/organisms/VideoCardSkeleton'
 import CourseVideoGrid from './CourseVideoGrid'
-import CenterLayout from '@/app/components/CenterLayout'
-import CardsSection, { CardsGrid } from '@/app/components/CardsSection'
+import CenterLayout from '@/app/components/templates/CenterLayout'
+import CardsGrid from '@/app/components/templates/CardsGrid'
 
 function VideoGridSkeleton() {
   return (

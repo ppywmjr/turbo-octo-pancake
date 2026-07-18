@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
-import VideoCard from '@/app/components/VideoCard'
-import CardsSection from '@/app/components/CardsSection'
+import VideoCard from '@/app/components/organisms/VideoCard'
+import CardsSection from '@/app/components/templates/CardsSection'
 
 export default async function CourseVideoGrid({ courseId }: { courseId: string }) {
   let videos

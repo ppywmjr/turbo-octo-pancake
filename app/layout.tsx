@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { ClerkProvider, Show, UserButton } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
-import AuthSync from '@/app/components/AuthSync'
+import AuthSync from '@/app/components/utilities/AuthSync'
 import './globals.css'
 
 const geistSans = Geist({

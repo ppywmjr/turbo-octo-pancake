@@ -9,7 +9,7 @@ vi.mock('@clerk/nextjs/server', () => ({
 vi.mock('@/app/lib/plans', () => ({
   fetchPlanById: vi.fn(),
 }))
-vi.mock('@/app/components/SubscribeButton', () => ({
+vi.mock('@/app/components/molecules/SubscribeButton', () => ({
   default: ({ planId }: { planId: string }) => (
     <button data-testid="subscribe-button" data-plan-id={planId}>
       Subscribe

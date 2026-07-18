@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { fetchCourses } from '@/app/lib/courses'
-import CourseCard from '@/app/components/CourseCard'
+import CourseCard from '@/app/components/organisms/CourseCard'
 
 export default async function CourseGrid({ offset }: { offset: number }) {
   let courses, hasMore, total, limit

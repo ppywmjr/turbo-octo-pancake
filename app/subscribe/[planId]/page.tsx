@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { fetchPlanById } from '@/app/lib/plans'
-import SubscribeButton from '@/app/components/SubscribeButton'
+import SubscribeButton from '@/app/components/molecules/SubscribeButton'
 import type { Plan, BillingInterval } from '@/app/types/plan'
 
 function formatPrice(plan: Plan): string {

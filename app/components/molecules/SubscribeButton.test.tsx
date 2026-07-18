@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, act, cleanup } from '@testing-library/react'
 
-import SubscribeButton from '@/app/components/SubscribeButton'
+import SubscribeButton from '@/app/components/molecules/SubscribeButton'
 
 const PLAN_ID = 'plan-123'
 const CHECKOUT_URL = 'https://checkout.stripe.com/pay/test-session'
