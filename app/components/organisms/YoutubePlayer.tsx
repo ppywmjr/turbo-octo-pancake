@@ -29,6 +29,8 @@ interface YTPlayerInstance {
   seekTo(seconds: number, allowSeekAhead: boolean): void
   getCurrentTime(): number
   getDuration(): number
+  setPlaybackRate(rate: number): void
+  getAvailablePlaybackRates(): number[]
   destroy(): void
 }
 
@@ -88,6 +90,7 @@ export default function YoutubePlayer({
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [playbackRate, setPlaybackRate] = useState(1)
 
   // Poll current time while playing
   useEffect(() => {
@@ -127,6 +130,17 @@ export default function YoutubePlayer({
       if (progressTickRef.current) clearInterval(progressTickRef.current)
     }
   }, [playing, courseId, videoId])
+
+  // Apply playback rate to the YouTube player
+  useEffect(() => {
+    if (playerRef.current) {
+      try {
+        playerRef.current.setPlaybackRate(playbackRate)
+      } catch {
+        // ignore errors if the rate is not supported
+      }
+    }
+  }, [playbackRate])
 
   useEffect(() => {
     let destroyed = false
@@ -260,7 +274,7 @@ export default function YoutubePlayer({
           <span className="text-xs text-zinc-300 tabular-nums w-10 shrink-0 text-right">{formatTime(duration)}</span>
         </div>
 
-        {/* Play / fullscreen */}
+         {/* Play / speed / fullscreen */}
         <div className="flex items-center justify-between">
           <button
             onClick={togglePlay}
@@ -269,6 +283,26 @@ export default function YoutubePlayer({
           >
             {playing ? <PauseIcon /> : <PlayIcon />}
           </button>
+
+          {/* Playback speed selector */}
+          <div className="flex items-center gap-1">
+            <label htmlFor="playback-rate" className="text-xs text-zinc-300">Speed</label>
+            <select
+              id="playback-rate"
+              value={playbackRate}
+              onChange={(e) => setPlaybackRate(Number(e.target.value))}
+              className="bg-black/50 text-zinc-200 text-xs rounded px-2 py-1 border border-white/20 focus:outline-none focus:ring-1 focus:ring-red-500 cursor-pointer"
+            >
+              <option value={0.25}>0.25x</option>
+              <option value={0.5}>0.5x</option>
+              <option value={0.75}>0.75x</option>
+              <option value={1}>1x</option>
+              <option value={1.25}>1.25x</option>
+              <option value={1.5}>1.5x</option>
+              <option value={2}>2x</option>
+            </select>
+          </div>
+
           <button
             onClick={toggleFullscreen}
             aria-label="Toggle fullscreen"
