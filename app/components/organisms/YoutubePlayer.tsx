@@ -251,12 +251,21 @@ export default function YoutubePlayer({
       {/* YouTube IFrame API mounts the iframe into this div */}
       <div ref={playerContainerRef} className="absolute inset-0 w-full h-full" />
 
+      {/* Gradient overlay to cover YouTube end screen / "More videos" branding at bottom.
+          Fades out over 2 seconds when video starts playing. */}
+      <div
+        className={`absolute bottom-0 left-0 right-0 z-15 pointer-events-none transition-opacity ${
+          playing ? 'opacity-0 delay-4000 duration-1000' : 'opacity-100'
+        }`}
+        style={{ height: '68px', background: 'linear-gradient(to top, black 83%, transparent 100%)' }}
+      />
+
       {/* Transparent overlay — intercepts clicks and right-clicks so the iframe URL stays hidden */}
       <div
         aria-label={playing ? `Pause ${title}` : `Play ${title}`}
         role="button"
         tabIndex={0}
-        className="absolute inset-0 z-10 cursor-pointer"
+        className="absolute inset-0 z-20 cursor-pointer"
         onClick={togglePlay}
         onKeyDown={(e) => e.key === 'Enter' || e.key === ' ' ? togglePlay() : undefined}
         onContextMenu={(e) => e.preventDefault()}
@@ -270,7 +279,7 @@ export default function YoutubePlayer({
           <div className="relative flex-1 h-1 group">
             <div className="absolute inset-0 rounded-full bg-white/20" />
             <div
-              className="absolute inset-y-0 left-0 rounded-full bg-red-500 pointer-events-none"
+              className="absolute inset-y-0 left-0 rounded-full bg-green-500 pointer-events-none"
               style={{ width: `${progress}%` }}
             />
             <input
