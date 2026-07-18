@@ -1,9 +1,8 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import type { Video } from '@/app/types/video'
 import MediaCard from '@/app/components/MediaCard'
 
-export default function VideoCard({ video, cardHref }: { video: Video; cardHref?: string }) {
+export default function VideoCard({ video, cardHref }: { video: Video; cardHref: string }) {
   const imageSection = (
     <>
       <Image
@@ -42,21 +41,12 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref?
     </>
   )
 
-  const link = cardHref ? (
+  return (
     <MediaCard
       imageSection={imageSection}
       title={video.title}
       href={cardHref}
     />
-  ) : (
-    <Link href={video.url} target="_blank" rel="noopener noreferrer" className="group">
-      <MediaCard
-        imageSection={imageSection}
-        title={video.title}
-      />
-    </Link>
   )
-
-  return link
 }
 
