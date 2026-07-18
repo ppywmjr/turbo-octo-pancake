@@ -10,8 +10,7 @@ import CardsGrid from '@/app/components/templates/CardsGrid'
 import { fetchCourses } from '@/app/lib/courses'
 import { fetchAllPlans } from '@/app/lib/plans'
 import type { Plan } from '@/app/types/plan'
-import PlanCardSkeleton from '@/app/components/organisms/PlanCardSkeleton'
-import CourseCardSkeleton from '@/app/components/organisms/CourseCardSkeleton'
+import MediaCardSkeleton from '@/app/components/molecules/MediaCardSkeleton'
 
 const FEATURED_COURSE_NAME = 'Flutters Online Training Programme'
 
@@ -84,7 +83,7 @@ function SignedInSkeleton() {
                     <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-40 animate-pulse" />
                     <CardsGrid>
                         {Array.from({ length: 3 }).map((_, i) => (
-                            <CourseCardSkeleton key={i} />
+                            <MediaCardSkeleton key={i} />
                         ))}
                     </CardsGrid>
                 </div>
@@ -94,7 +93,7 @@ function SignedInSkeleton() {
                     <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-40 animate-pulse" />
                     <CardsGrid>
                         {Array.from({ length: 3 }).map((_, i) => (
-                            <PlanCardSkeleton key={i} />
+                            <MediaCardSkeleton key={i} />
                         ))}
                     </CardsGrid>
                 </div>
