@@ -15,7 +15,7 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref:
 
       {/* Play button overlay */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="bg-black/60 rounded-full p-3 group-hover:bg-red-600 transition-colors">
+        <div className="bg-black/60 rounded-full p-3 group-hover:bg-green-600 transition-colors">
           <svg
             className="w-6 h-6 text-white"
             fill="currentColor"
