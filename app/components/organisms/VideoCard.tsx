@@ -45,6 +45,7 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref:
     <MediaCard
       imageSection={imageSection}
       title={video.title}
+      description={video.description}
       href={cardHref}
     />
   )

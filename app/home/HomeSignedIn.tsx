@@ -24,9 +24,9 @@ export default function HomeSignedIn({
             <CenterLayout>
                 <ErrorNotification error={errorCode} />
                 <div className="flex flex-col gap-2">
-                    <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                    <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                         Choose a course to get started
-                    </h1>
+                    </h2>
                     <p className="text-zinc-500 dark:text-zinc-400">
                         Subscribe to a course below to unlock all of its content.
                     </p>
