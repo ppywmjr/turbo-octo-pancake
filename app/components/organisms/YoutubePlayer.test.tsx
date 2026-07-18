@@ -105,10 +105,16 @@ describe('YoutubePlayer', () => {
 
   it('calls pauseVideo when overlay is clicked while playing', async () => {
     await act(async () => { render(<YoutubePlayer {...PROPS} />) })
-    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
 
-    const overlay = screen.getByRole('button', { name: /pause test video/i })
+    // Simulate user clicking play (which calls playVideo, then YouTube sends PLAYING state)
+    const overlay = screen.getByRole('button', { name: /play test video/i })
     act(() => { fireEvent.click(overlay) })
+    // Now YouTube reports playing state (after user-initiated playVideo call)
+    act(() => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
+
+    // Verify overlay now shows pause label
+    const overlayAfter = screen.getByRole('button', { name: /pause test video/i })
+    act(() => { fireEvent.click(overlayAfter) })
 
     expect(mockPauseVideo).toHaveBeenCalledOnce()
   })
@@ -119,7 +125,10 @@ describe('YoutubePlayer', () => {
     mockGetDuration.mockReturnValue(100)
 
     await act(async () => { render(<YoutubePlayer {...PROPS} />) })
-    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
+    // Simulate user clicking play, then YouTube reports playing state
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.click(overlay) })
+    act(() => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
     await vi.advanceTimersByTimeAsync(5000)
 
     expect(vi.mocked(fetch)).toHaveBeenCalledWith(
@@ -137,7 +146,10 @@ describe('YoutubePlayer', () => {
     mockGetDuration.mockReturnValue(100)
 
     await act(async () => { render(<YoutubePlayer {...PROPS} />) })
-    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
+    // Simulate user clicking play, then YouTube reports playing state
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.click(overlay) })
+    act(() => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
     await vi.advanceTimersByTimeAsync(5000)
 
     const body = JSON.parse(vi.mocked(fetch).mock.calls[0][1]!.body as string)
@@ -151,7 +163,10 @@ describe('YoutubePlayer', () => {
     mockGetDuration.mockReturnValue(100)
 
     await act(async () => { render(<YoutubePlayer {...PROPS} />) })
-    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
+    // Simulate user clicking play, then YouTube reports playing state
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.click(overlay) })
+    act(() => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
     await vi.advanceTimersByTimeAsync(5000)
 
     const body = JSON.parse(vi.mocked(fetch).mock.calls[0][1]!.body as string)
@@ -164,8 +179,13 @@ describe('YoutubePlayer', () => {
     mockGetDuration.mockReturnValue(100)
 
     await act(async () => { render(<YoutubePlayer {...PROPS} />) })
-    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
-    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PAUSED }) })
+    // Simulate user clicking play, then YouTube reports playing state
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.click(overlay) })
+    act(() => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
+    // Now pause via overlay, then YouTube reports paused state
+    act(() => { fireEvent.click(overlay) })
+    act(() => { capturedEvents.onStateChange?.({ data: YT_PAUSED }) })
     await vi.advanceTimersByTimeAsync(5000)
 
     expect(vi.mocked(fetch)).not.toHaveBeenCalled()
@@ -291,5 +311,34 @@ describe('YoutubePlayer', () => {
     act(() => { fireEvent.change(select, { target: { value: '0.75' } }) })
 
     expect(mockSetPlaybackRate).toHaveBeenCalledWith(0.75)
+  })
+
+  it('intercepts auto-play via onStateChange and pauses the video', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+    // Simulate YouTube auto-starting playback before user interaction
+    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
+
+    expect(mockPauseVideo).toHaveBeenCalledOnce()
+  })
+
+  it('does not pause when user clicks play and then state changes', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    // Simulate user clicking play
+    const overlay = screen.getByRole('button', { name: /play test video/i })
+    act(() => { fireEvent.click(overlay) })
+
+    // Now simulate YouTube state change to playing
+    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
+
+    // pauseVideo should NOT have been called (user initiated play)
+    expect(mockPauseVideo).not.toHaveBeenCalled()
+  })
+
+  it('seeks to initialProgressSecs on ready when progress exists', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} initialProgressSecs={120} />) })
+    await act(async () => { capturedEvents.onReady?.({ target: mockPlayerInstance }) })
+
+    expect(mockSeekTo).toHaveBeenCalledWith(120, true)
   })
 })
