@@ -13,7 +13,7 @@ export default function HeroCTA({ planId }: { planId: string | null }) {
         </button>
       </SignUpButton>
       <SignInButton forceRedirectUrl="/">
-        <button className="flex h-12 items-center justify-center rounded-full border border-[var(--color-zinc-300)] px-8 text-sm font-semibold text-[var(--color-zinc-900)] transition-colors hover:bg-[var(--color-zinc-100)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-zinc-600)]">
+        <button className="flex h-12 items-center justify-center rounded-full border border-[var(--color-surface)] px-8 text-sm font-semibold text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-surface)]/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-text-muted)]">
           Sign in
         </button>
       </SignInButton>

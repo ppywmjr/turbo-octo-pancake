@@ -35,10 +35,10 @@ export default async function CourseVideoPage({
     return (
       <CenterLayout>
         <>
-          <p className="text-[var(--color-zinc-500)]">Failed to load video. Please try again later.</p>
+          <p className="text-[var(--color-text-muted)]">Failed to load video. Please try again later.</p>
           <Link
             href={`/courses/${courseId}/videos`}
-            className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] underline underline-offset-4"
+            className="mt-4 text-sm font-medium text-[var(--color-text-primary)] underline underline-offset-4"
           >
             ← Back to videos
           </Link>
@@ -51,10 +51,10 @@ export default async function CourseVideoPage({
     return (
       <CenterLayout>
         <>
-          <p className="text-[var(--color-zinc-500)]">Video not found.</p>
+          <p className="text-[var(--color-text-muted)]">Video not found.</p>
           <Link
             href={`/courses/${courseId}/videos`}
-            className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] underline underline-offset-4"
+            className="mt-4 text-sm font-medium text-[var(--color-text-primary)] underline underline-offset-4"
           >
             ← Back to videos
           </Link>
@@ -70,20 +70,20 @@ export default async function CourseVideoPage({
       <>
         <Link
           href={`/courses/${courseId}/videos`}
-          className="text-sm font-medium text-[var(--color-zinc-500)] hover:text-[var(--color-zinc-900)] transition-colors self-start"
+          className="text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors self-start"
         >
           ← Back to videos
         </Link>
 
-        <h1 className="text-2xl font-bold tracking-tight text-[var(--color-zinc-900)]">
+        <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]">
           {video.title}
         </h1>
 
         {ytVideoId ? (
           <YoutubePlayer videoId={videoId} ytVideoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} courseId={courseId} />
         ) : (
-          <div className="w-full aspect-video rounded-2xl bg-[var(--color-zinc-100)] flex items-center justify-center">
-            <p className="text-[var(--color-zinc-500)]">Unable to embed this video.</p>
+          <div className="w-full aspect-video rounded-2xl bg-[var(--color-surface)] flex items-center justify-center">
+            <p className="text-[var(--color-text-muted)]">Unable to embed this video.</p>
           </div>
         )}
       </>

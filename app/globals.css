@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   /* --foreground: #171717; */
+  --color-surface: #c6c6e9;
 
   /* === Brand Colors === */
   --color-brand: #7c3aed;
@@ -18,21 +19,13 @@
   --color-error-bg-light: #fee2e2;
   --color-error-focus: #dc2626;
 
-  /* === Neutral Colors === */
-  --color-black: #000000;
-  --color-white: #ffffff;
+  /* === Semantic Zinc Tokens === */
+  /* Surface: backgrounds, card surfaces, borders, skeleton placeholders */
 
-  /* === Zinc Palette === */
-  --color-zinc-50: #fafafa;
-  --color-zinc-100: #f4f4f5;
-  --color-zinc-200: #e4e4e7;
-  --color-zinc-300: #d4d4d8;
-  --color-zinc-400: #a1a1aa;
-  --color-zinc-500: #71717a;
-  --color-zinc-600: #52525b;
-  --color-zinc-700: #3f3f46;
-  --color-zinc-800: #27272a;
-  --color-zinc-900: #18181b;
+
+  --color-text-primary: #18181b;
+
+  --color-text-muted: #71717a;
 
   /* === Overlay Colors === */
   --color-overlay-gradient: rgba(0, 0, 0, 0.8);
@@ -58,21 +51,10 @@
   --color-error-bg-light: var(--color-error-bg-light);
   --color-error-focus: var(--color-error-focus);
 
-  /* Neutrals */
-  --color-black: var(--color-black);
-  --color-white: var(--color-white);
-
-  /* Zinc scale */
-  --color-zinc-50: var(--color-zinc-50);
-  --color-zinc-100: var(--color-zinc-100);
-  --color-zinc-200: var(--color-zinc-200);
-  --color-zinc-300: var(--color-zinc-300);
-  --color-zinc-400: var(--color-zinc-400);
-  --color-zinc-500: var(--color-zinc-500);
-  --color-zinc-600: var(--color-zinc-600);
-  --color-zinc-700: var(--color-zinc-700);
-  --color-zinc-800: var(--color-zinc-800);
-  --color-zinc-900: var(--color-zinc-900);
+  /* Semantic Zinc */
+  --color-surface: var(--color-surface);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-muted: var(--color-text-muted);
 
   /* Overlay */
   --color-overlay-gradient: var(--color-overlay-gradient);

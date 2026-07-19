@@ -9,7 +9,7 @@ import CardsSection from '@/app/components/templates/CardsSection'
 function VideoGridSkeleton() {
   return (
     <section className="flex flex-col gap-6">
-      <div className="h-8 w-20 bg-[var(--color-zinc-200)] rounded animate-pulse" />
+      <div className="h-8 w-20 bg-[var(--color-surface)] rounded animate-pulse" />
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }).map((_, i) => (
           <MediaCardSkeleton key={i} />
@@ -32,7 +32,7 @@ async function VideoGrid({ courseId }: { courseId: string }) {
   }
 
   if (videos.length === 0) {
-    return <p className="text-[var(--color-zinc-500)] text-center">No videos found for this course.</p>
+    return <p className="text-[var(--color-text-muted)] text-center">No videos found for this course.</p>
   }
 
   return (

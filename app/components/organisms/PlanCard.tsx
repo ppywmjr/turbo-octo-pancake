@@ -27,15 +27,15 @@ export default function PlanCard({ plan }: { plan: Plan }) {
     return (
         <Card>
             <div className="flex flex-col flex-1 gap-3 p-4">
-                <h3 className="text-base font-semibold text-[var(--color-zinc-900)] leading-snug">
+                <h3 className="text-base font-semibold text-[var(--color-text-primary)] leading-snug">
                     {plan.name}
                 </h3>
                 {plan.description && (
-                    <p className="text-sm text-[var(--color-zinc-500)] flex-1 line-clamp-3">
+                    <p className="text-sm text-[var(--color-text-muted)] flex-1 line-clamp-3">
                         {plan.description}
                     </p>
                 )}
-                <p className="text-lg font-bold text-[var(--color-zinc-900)]">{formatPlanPrice(plan)}</p>
+                <p className="text-lg font-bold text-[var(--color-text-primary)]">{formatPlanPrice(plan)}</p>
             </div>
             <div className="px-4 pb-4">
                 <Link
