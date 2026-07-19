@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import CardsGrid from '@/app/components/templates/CardsGrid'
+import { SectionHeading } from '@/app/components/atoms/text'
 
 export default function CardsSection({
   title,
@@ -10,9 +11,7 @@ export default function CardsSection({
 }) {
   return (
     <section className="flex flex-col gap-6">
-      <h2 className="text-2xl font-bold tracking-tight text-[var(--color-zinc-900)]">
-        {title}
-      </h2>
+      <SectionHeading>{title}</SectionHeading>
       <CardsGrid>{cards}</CardsGrid>
     </section>
   )

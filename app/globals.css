@@ -1,13 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  /* --foreground: #171717; */
-  --color-surface: #c6c6e9;
+  --header-background: #ffffff;
 
   /* === Brand Colors === */
-  --color-brand: #7c3aed;
-  --color-brand-hover: #6d28d9;
+  --color-brand: #edb13a;
+  --color-brand-hover: #db9c1e;
 
   /* === Status Colors === */
   --color-success: #22c55e;
@@ -21,16 +19,27 @@
 
   /* === Semantic Zinc Tokens === */
   /* Surface: backgrounds, card surfaces, borders, skeleton placeholders */
+  --color-surface: #f4f4f5;
 
+  /* Text Primary: headings, prices, primary content text */
+  --color-text-primary: #1b1918;
 
-  --color-text-primary: #18181b;
-
+  /* Text Muted: secondary text, descriptions, empty states, subtle UI */
   --color-text-muted: #71717a;
+
+  /* === Card Surface Variants === */
+  /* Text area background within cards (lighter than surface for contrast) */
+  --color-surface-text: #b4dbb4;
+
+  /* === Essential Neutrals === */
+  --color-black: #000000;
+  --color-white: #ffffff;
 
   /* === Overlay Colors === */
   --color-overlay-gradient: rgba(0, 0, 0, 0.8);
   --color-overlay-surface: rgba(0, 0, 0, 0.6);
   --color-overlay-surface-hover: rgba(34, 197, 94, 1);
+  --color-overlay-dark: #000000;
 }
 
 @theme inline {
@@ -56,17 +65,25 @@
   --color-text-primary: var(--color-text-primary);
   --color-text-muted: var(--color-text-muted);
 
+  /* Card Surface Variants */
+  --color-surface-text: var(--color-surface-text);
+
+  /* Essential Neutrals */
+  --color-black: var(--color-black);
+  --color-white: var(--color-white);
+
   /* Overlay */
   --color-overlay-gradient: var(--color-overlay-gradient);
   --color-overlay-surface: var(--color-overlay-surface);
   --color-overlay-surface-hover: var(--color-overlay-surface-hover);
+  --color-overlay-dark: var(--color-overlay-dark);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
+  background: var(--header-background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }

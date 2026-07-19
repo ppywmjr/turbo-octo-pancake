@@ -6,6 +6,7 @@ import ErrorNotification from '@/app/components/molecules/ErrorNotification'
 import CenterLayout from '@/app/components/templates/CenterLayout'
 import CourseCard from '@/app/components/organisms/CourseCard'
 import PlanCard from '@/app/components/organisms/PlanCard'
+import { SectionHeading, BodyText } from '@/app/components/atoms/text'
 import type { Course } from '@/app/types/course'
 import type { Plan } from '@/app/types/plan'
 
@@ -24,16 +25,14 @@ export default function HomeSignedIn({
             <CenterLayout>
                 <ErrorNotification error={errorCode} />
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-3xl font-bold tracking-tight text-[var(--color-zinc-900)]">
-                        Choose a course to get started
-                    </h2>
-                    <p className="text-[var(--color-zinc-500)]">
+                    <SectionHeading>Choose a course to get started</SectionHeading>
+                    <BodyText muted>
                         Subscribe to a course below to unlock all of its content.
-                    </p>
+                    </BodyText>
                 </div>
 
                 {availablePlans.length === 0 ? (
-                    <p className="text-[var(--color-zinc-500)]">No courses are available right now.</p>
+                    <BodyText muted>No courses are available right now.</BodyText>
                 ) : (
                     <CardsGrid>
                         {availablePlans.map((plan) => (

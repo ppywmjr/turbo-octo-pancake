@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import Card from '@/app/components/atoms/Card'
+import { CardTitle, BodyText } from '@/app/components/atoms/text'
 
 export default function MediaCard({
     imageSection,
@@ -15,17 +16,15 @@ export default function MediaCard({
 }) {
     const cardContent = (
         <>
-            <div className="relative w-full flex-[3] overflow-hidden bg-[var(--color-zinc-100)]">
+            <div className="relative w-full flex-[3] overflow-hidden bg-[var(--color-surface)]">
                 {imageSection}
             </div>
-            <div className="flex flex-col flex-[1] gap-2 p-4">
-                <h2 className="text-base font-semibold text-[var(--color-zinc-900)] leading-snug line-clamp-2">
-                    {title}
-                </h2>
+            <div className="flex flex-col flex-[1] gap-2 p-4 bg-[var(--color-surface-text)]">
+                <CardTitle>{title}</CardTitle>
                 {description && (
-                    <p className="text-sm text-[var(--color-zinc-500)] line-clamp-3">
+                    <BodyText muted lineClamp={3}>
                         {description}
-                    </p>
+                    </BodyText>
                 )}
             </div>
         </>

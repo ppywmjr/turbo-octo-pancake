@@ -1,6 +1,7 @@
 import HeroCTA from '@/app/components/molecules/HeroCTA'
 import ErrorNotification from '@/app/components/molecules/ErrorNotification'
 import CenterLayout from '@/app/components/templates/CenterLayout'
+import { PageLabel, PageHeading, BodyText } from '@/app/components/atoms/text'
 
 const FEATURED_COURSE_NAME = 'Flutters Online Training Programme'
 
@@ -15,19 +16,15 @@ export default function HomeSignedOut({
         <CenterLayout>
             <ErrorNotification error={errorCode} />
             <div className="flex flex-col gap-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-brand)]">
-                    Online Training
-                </p>
-                <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight text-[var(--color-zinc-900)]">
-                    Learn Flutters with Catherine Taylor
-                </h1>
-                <p className="text-lg text-[var(--color-zinc-600)] max-w-lg mx-auto">
+                <PageLabel>Online Training</PageLabel>
+                <PageHeading>Learn Flutters with Catherine Taylor</PageHeading>
+                <BodyText className="max-w-lg mx-auto">
                     Join the{' '}
-                    <span className="font-semibold text-[var(--color-zinc-900)]">
+                    <span className="font-semibold text-[var(--color-text-primary)]">
                         {FEATURED_COURSE_NAME}
                     </span>{' '}
                     course today!
-                </p>
+                </BodyText>
             </div>
             <HeroCTA planId={featuredPlanId} />
         </CenterLayout>
