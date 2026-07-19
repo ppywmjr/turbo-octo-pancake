@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import type { Video } from '@/app/types/video'
 import MediaCard from '@/app/components/molecules/MediaCard'
+import { StatusBadge } from '@/app/components/atoms/text'
 
 export default function VideoCard({ video, cardHref }: { video: Video; cardHref: string }) {
   const imageSection = (
@@ -29,14 +30,10 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref:
 
       {/* Status badge */}
       {video.watched && (
-        <span className="absolute top-2 right-2 bg-[var(--color-success)] text-[var(--color-white)] text-xs font-medium px-2 py-0.5 rounded-full">
-          Watched
-        </span>
+        <StatusBadge variant="watched">Watched</StatusBadge>
       )}
       {!video.watched && video.progressSecs > 0 && (
-        <span className="absolute top-2 right-2 bg-[var(--color-warning)] text-[var(--color-white)] text-xs font-medium px-2 py-0.5 rounded-full">
-          In Progress
-        </span>
+        <StatusBadge variant="in-progress">In Progress</StatusBadge>
       )}
     </>
   )

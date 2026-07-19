@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Plan, BillingInterval } from '@/app/types/plan'
 import Card from '@/app/components/atoms/Card'
+import { CardTitle, BodyText, PriceText } from '@/app/components/atoms/text'
 
 function formatPlanPrice(plan: Plan): string {
     if (plan.isFree) return 'Free'
@@ -27,15 +28,13 @@ export default function PlanCard({ plan }: { plan: Plan }) {
     return (
         <Card>
             <div className="flex flex-col flex-1 gap-3 p-4">
-                <h3 className="text-base font-semibold text-[var(--color-text-primary)] leading-snug">
-                    {plan.name}
-                </h3>
+                <CardTitle as="h3">{plan.name}</CardTitle>
                 {plan.description && (
-                    <p className="text-sm text-[var(--color-text-muted)] flex-1 line-clamp-3">
+                    <BodyText muted lineClamp={3} className="flex-1">
                         {plan.description}
-                    </p>
+                    </BodyText>
                 )}
-                <p className="text-lg font-bold text-[var(--color-text-primary)]">{formatPlanPrice(plan)}</p>
+                <PriceText>{formatPlanPrice(plan)}</PriceText>
             </div>
             <div className="px-4 pb-4">
                 <Link

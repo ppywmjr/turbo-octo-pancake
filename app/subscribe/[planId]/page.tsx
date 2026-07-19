@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { fetchPlanById } from '@/app/lib/plans'
 import SubscribeButton from '@/app/components/molecules/SubscribeButton'
 import CenterLayout from '@/app/components/templates/CenterLayout'
+import { PageLabel, BodyText, PriceText, BillingInfo, SectionHeading } from '@/app/components/atoms/text'
 import type { Plan, BillingInterval } from '@/app/types/plan'
 
 function formatPrice(plan: Plan): string {
@@ -26,6 +27,10 @@ function formatPrice(plan: Plan): string {
   return `${formatted}${interval}`
 }
 
+function formatBillingInterval(interval: BillingInterval): string {
+  return interval === 'yearly' ? 'year' : interval
+}
+
 export default async function SubscribePage({
   params,
 }: {
@@ -47,19 +52,17 @@ export default async function SubscribePage({
     <CenterLayout>
       <div className="w-full max-w-md bg-[var(--color-white)] rounded-2xl border border-[var(--color-surface)] shadow-sm p-8 flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-brand)]">
-            Subscribe
-          </p>
-          <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">{plan.name}</h1>
+          <PageLabel>Subscribe</PageLabel>
+          <SectionHeading>{plan.name}</SectionHeading>
           {plan.description && (
-            <p className="text-sm text-[var(--color-text-muted)]">{plan.description}</p>
+            <BodyText muted>{plan.description}</BodyText>
           )}
         </div>
 
         <div className="rounded-xl bg-[var(--color-surface)] px-5 py-4">
-          <p className="text-3xl font-bold text-[var(--color-text-primary)]">{formatPrice(plan)}</p>
+          <PriceText size="large">{formatPrice(plan)}</PriceText>
           {plan.billingInterval && (
-            <p className="text-sm text-[var(--color-text-muted)] mt-1">Billed per {plan.billingInterval === 'yearly' ? 'year' : plan.billingInterval}</p>
+            <BillingInfo>Billed per {formatBillingInterval(plan.billingInterval)}</BillingInfo>
           )}
         </div>
 

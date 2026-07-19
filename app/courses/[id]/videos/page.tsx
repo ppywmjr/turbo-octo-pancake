@@ -5,6 +5,7 @@ import VideoCard from '@/app/components/organisms/VideoCard'
 import MediaCardSkeleton from '@/app/components/molecules/MediaCardSkeleton'
 import CenterLayout from '@/app/components/templates/CenterLayout'
 import CardsSection from '@/app/components/templates/CardsSection'
+import { BodyText } from '@/app/components/atoms/text'
 
 function VideoGridSkeleton() {
   return (
@@ -32,7 +33,7 @@ async function VideoGrid({ courseId }: { courseId: string }) {
   }
 
   if (videos.length === 0) {
-    return <p className="text-[var(--color-text-muted)] text-center">No videos found for this course.</p>
+    return <BodyText muted className="text-center">No videos found for this course.</BodyText>
   }
 
   return (
