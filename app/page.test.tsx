@@ -164,58 +164,26 @@ describe('Home page', () => {
       expect(await screen.findByRole('heading', { name: /choose a course to get started/i })).toBeTruthy()
     })
 
-    it('renders a card for each available plan', async () => {
+    it('renders an "Activate a Code" card', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(await screen.findByText('Flutters Online Training Programme')).toBeTruthy()
-      expect(await screen.findByText('Advanced React Course')).toBeTruthy()
+      expect(await screen.findByText('Activate a Code')).toBeTruthy()
     })
 
-    it('renders Subscribe links pointing to /subscribe/:planId', async () => {
+    it('renders a Subscribe link pointing to /subscribe/activate-code', async () => {
       render(await Home(makeSearchParams()))
 
       const links = await screen.findAllByRole('link', { name: /subscribe/i })
       const hrefs = links.map((l) => l.getAttribute('href'))
-      expect(hrefs).toContain('/subscribe/plan-flutter')
-      expect(hrefs).toContain('/subscribe/plan-extra')
+      expect(hrefs).toContain('/subscribe/activate-code')
     })
 
-    it('shows "No courses are available right now." when the plan list is empty', async () => {
+    it('renders "Activate a Code" even when the plan list is empty', async () => {
       vi.mocked(fetchAllPlans).mockResolvedValue([])
 
       render(await Home(makeSearchParams()))
 
-      expect(await screen.findByText(/no courses are available right now/i)).toBeTruthy()
-    })
-
-    it('renders "Free" for a free plan', async () => {
-      vi.mocked(fetchAllPlans).mockResolvedValue([
-        { ...MOCK_PLAN_FLUTTER, isFree: true, pricePence: null, billingInterval: null },
-      ])
-
-      render(await Home(makeSearchParams()))
-
-      expect(await screen.findByText('Free')).toBeTruthy()
-    })
-
-    it('renders "Contact us" for a plan with null pricePence and not free', async () => {
-      vi.mocked(fetchAllPlans).mockResolvedValue([
-        { ...MOCK_PLAN_FLUTTER, isFree: false, pricePence: null, billingInterval: null },
-      ])
-
-      render(await Home(makeSearchParams()))
-
-      expect(await screen.findByText('Contact us')).toBeTruthy()
-    })
-
-    it('renders price without an interval when billingInterval is null', async () => {
-      vi.mocked(fetchAllPlans).mockResolvedValue([
-        { ...MOCK_PLAN_FLUTTER, pricePence: 500, billingInterval: null },
-      ])
-
-      render(await Home(makeSearchParams()))
-
-      expect(await screen.findByText('£5.00')).toBeTruthy()
+      expect(await screen.findByText('Activate a Code')).toBeTruthy()
     })
 
     it('does not show a "My Courses" heading', async () => {
@@ -254,11 +222,11 @@ describe('Home page', () => {
       expect(await screen.findByText(MOCK_COURSE.title)).toBeTruthy()
     })
 
-    it('shows "More Courses" for plans the user is not subscribed to', async () => {
+    it('shows "More Courses" with "Coming soon..." for plans the user is not subscribed to', async () => {
       render(await Home(makeSearchParams()))
 
       expect(await screen.findByRole('heading', { name: /more courses/i })).toBeTruthy()
-      expect(await screen.findByText('Advanced React Course')).toBeTruthy()
+      expect(await screen.findByText('Coming soon...')).toBeTruthy()
     })
 
     it('does not show the already-subscribed plan in "More Courses"', async () => {

@@ -19,7 +19,7 @@ export default function HomeSignedIn({
     courses: Course[]
     availablePlans: Plan[]
 }) {
-    // State: Signed in, no active courses
+    // State: Signed in, no active courses - show "Activate a code" card
     if (courses.length === 0) {
         return (
             <CenterLayout>
@@ -31,20 +31,22 @@ export default function HomeSignedIn({
                     </BodyText>
                 </div>
 
-                {availablePlans.length === 0 ? (
-                    <BodyText muted>No courses are available right now.</BodyText>
-                ) : (
-                    <CardsGrid>
-                        {availablePlans.map((plan) => (
-                            <PlanCard key={plan.id} plan={plan} />
-                        ))}
-                    </CardsGrid>
-                )}
+                <CardsGrid>
+                    <PlanCard plan={{
+                        id: 'activate-code',
+                        name: 'Activate a Code',
+                        description: 'Enter your activation code to unlock course access',
+                        pricePence: null,
+                        billingInterval: 'monthly',
+                        isFree: true,
+                        isActive: true,
+                    }} />
+                </CardsGrid>
             </CenterLayout>
         )
     }
 
-    // State: Signed in with active courses
+    // State: Signed in with active courses - show "Coming soon..." for More Courses
     return (
         <CenterLayout>
             <ErrorNotification error={errorCode} />
@@ -57,14 +59,12 @@ export default function HomeSignedIn({
                 ))}
             />
 
-            {/* Other available courses */}
+            {/* Other available courses - Coming soon */}
             {availablePlans.length > 0 && (
-                <CardsSection
-                    title="More Courses"
-                    cards={availablePlans.map((plan) => (
-                        <PlanCard key={plan.id} plan={plan} />
-                    ))}
-                />
+                <div className="mt-8">
+                    <SectionHeading>More Courses</SectionHeading>
+                    <BodyText muted>Coming soon...</BodyText>
+                </div>
             )}
         </CenterLayout>
     )
