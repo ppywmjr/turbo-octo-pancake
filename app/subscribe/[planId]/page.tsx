@@ -45,21 +45,21 @@ export default async function SubscribePage({
 
   return (
     <CenterLayout>
-      <div className="w-full max-w-md bg-[var(--color-white)] rounded-2xl border border-[var(--color-zinc-200)] shadow-sm p-8 flex flex-col gap-6">
+      <div className="w-full max-w-md bg-[var(--color-white)] rounded-2xl border border-[var(--color-surface)] shadow-sm p-8 flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-brand)]">
             Subscribe
           </p>
-          <h1 className="text-2xl font-bold text-[var(--color-zinc-900)]">{plan.name}</h1>
+          <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">{plan.name}</h1>
           {plan.description && (
-            <p className="text-sm text-[var(--color-zinc-500)]">{plan.description}</p>
+            <p className="text-sm text-[var(--color-text-muted)]">{plan.description}</p>
           )}
         </div>
 
-        <div className="rounded-xl bg-[var(--color-zinc-50)] px-5 py-4">
-          <p className="text-3xl font-bold text-[var(--color-zinc-900)]">{formatPrice(plan)}</p>
+        <div className="rounded-xl bg-[var(--color-surface)] px-5 py-4">
+          <p className="text-3xl font-bold text-[var(--color-text-primary)]">{formatPrice(plan)}</p>
           {plan.billingInterval && (
-            <p className="text-sm text-[var(--color-zinc-500)] mt-1">Billed per {plan.billingInterval === 'yearly' ? 'year' : plan.billingInterval}</p>
+            <p className="text-sm text-[var(--color-text-muted)] mt-1">Billed per {plan.billingInterval === 'yearly' ? 'year' : plan.billingInterval}</p>
           )}
         </div>
 

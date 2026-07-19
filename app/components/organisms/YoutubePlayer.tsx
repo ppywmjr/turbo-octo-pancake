@@ -275,7 +275,7 @@ export default function YoutubePlayer({
       <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col gap-1 px-4 pb-3 pt-6 bg-gradient-to-t from-[var(--color-overlay-dark)]/80 to-transparent">
         {/* Seek bar */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-[var(--color-zinc-300)] tabular-nums w-10 shrink-0">{formatTime(currentTime)}</span>
+          <span className="text-xs text-[var(--color-text-muted)] tabular-nums w-10 shrink-0">{formatTime(currentTime)}</span>
           <div className="relative flex-1 h-1 group">
             <div className="absolute inset-0 rounded-full bg-[var(--color-white)]/20" />
             <div
@@ -297,7 +297,7 @@ export default function YoutubePlayer({
               onTouchEnd={handleSeekCommit as unknown as React.TouchEventHandler<HTMLInputElement>}
             />
           </div>
-          <span className="text-xs text-[var(--color-zinc-300)] tabular-nums w-10 shrink-0 text-right">{formatTime(duration)}</span>
+          <span className="text-xs text-[var(--color-text-muted)] tabular-nums w-10 shrink-0 text-right">{formatTime(duration)}</span>
         </div>
 
          {/* Play / speed / fullscreen */}
@@ -305,19 +305,19 @@ export default function YoutubePlayer({
           <button
             onClick={togglePlay}
             aria-label={playing ? 'Pause' : 'Play'}
-            className="text-[var(--color-white)] hover:text-[var(--color-zinc-300)] transition-colors"
+            className="text-[var(--color-white)] hover:text-[var(--color-text-muted)] transition-colors"
           >
             {playing ? <PauseIcon /> : <PlayIcon />}
           </button>
 
           {/* Playback speed selector */}
           <div className="flex items-center gap-1">
-            <label htmlFor="playback-rate" className="text-xs text-[var(--color-zinc-300)]">Speed</label>
+            <label htmlFor="playback-rate" className="text-xs text-[var(--color-text-muted)]">Speed</label>
             <select
               id="playback-rate"
               value={playbackRate}
               onChange={(e) => setPlaybackRate(Number(e.target.value))}
-              className="bg-[var(--color-black)]/50 text-[var(--color-zinc-200)] text-xs rounded px-2 py-1 border border-[var(--color-white)]/20 focus:outline-none focus:ring-1 focus:ring-[var(--color-error-focus)] cursor-pointer"
+              className="bg-[var(--color-black)]/50 text-[var(--color-text-muted)] text-xs rounded px-2 py-1 border border-[var(--color-white)]/20 focus:outline-none focus:ring-1 focus:ring-[var(--color-error-focus)] cursor-pointer"
             >
               <option value={0.25}>0.25x</option>
               <option value={0.5}>0.5x</option>
@@ -332,7 +332,7 @@ export default function YoutubePlayer({
           <button
             onClick={toggleFullscreen}
             aria-label="Toggle fullscreen"
-            className="text-[var(--color-white)] hover:text-[var(--color-zinc-300)] transition-colors"
+            className="text-[var(--color-white)] hover:text-[var(--color-text-muted)] transition-colors"
           >
             <FullscreenIcon />
           </button>
