@@ -145,7 +145,7 @@ describe('Home page', () => {
     it('displays the featured course name in the hero text', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByText('Flutters Online Training Programme')).toBeTruthy()
+      expect(screen.getByText('Catherine Idalia')).toBeTruthy()
     })
   })
 

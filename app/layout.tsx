@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { ClerkProvider, Show, UserButton } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
+import SiteHeader from '@/app/components/templates/SiteHeader'
 import { Geist, Geist_Mono } from 'next/font/google'
 import AuthSync from '@/app/components/utilities/AuthSync'
 import './globals.css'
@@ -29,11 +30,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClerkProvider>
           <AuthSync />
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <Show when="signed-in">
-              <UserButton />
-            </Show>
-          </header>
+          <SiteHeader />
           {children}
         </ClerkProvider>
       </body>

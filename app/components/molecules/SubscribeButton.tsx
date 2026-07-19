@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Button from '@/app/components/atoms/Button'
 
 export default function SubscribeButton({ planId }: { planId: string }) {
   const [loading, setLoading] = useState(false)
@@ -30,13 +31,14 @@ export default function SubscribeButton({ planId }: { planId: string }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <button
+      <Button
         onClick={handleSubscribe}
         disabled={loading}
-        className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--color-brand)] text-sm font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)] disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-brand)]"
+        variant="primary"
+        size="md"
       >
         {loading ? 'Redirecting to payment…' : 'Proceed to payment'}
-      </button>
+      </Button>
       {error && (
         <p role="alert" className="text-sm text-[var(--color-error-focus)] text-center">
           {error}

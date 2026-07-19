@@ -1,0 +1,3 @@
+When implementing React components use components from app/components
+Always use components from app/components/atoms/text for text
+Colors should always come from app/globals.css
