@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 const BASE_CLASS =
-    'group flex flex-col h-full rounded-2xl overflow-hidden bg-[var(--color-white)] dark:bg-[var(--color-zinc-900)] shadow-sm hover:shadow-lg transition-shadow'
+    'group flex flex-col h-full rounded-2xl overflow-hidden bg-[var(--color-white)] shadow-sm hover:shadow-lg transition-shadow'
 
 export default function Card({
     href,

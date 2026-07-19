@@ -2,28 +2,21 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  /* --foreground: #171717; */
 
   /* === Brand Colors === */
   --color-brand: #7c3aed;
   --color-brand-hover: #6d28d9;
-  --color-brand-focus: #7c3aed;
 
   /* === Status Colors === */
   --color-success: #22c55e;
-  --color-success-dark: #16a34a;
   --color-warning: #f59e0b;
 
   /* === Error Colors === */
-  --color-error-light: #fef2f2;
   --color-error-border-light: #fecaca;
   --color-error-text-light: #b91c1c;
   --color-error-bg-light: #fee2e2;
   --color-error-focus: #dc2626;
-
-  --color-error-dark: #991b1b;
-  --color-error-text-dark: #fca5a5;
-  --color-error-bg-dark: #450a0a;
 
   /* === Neutral Colors === */
   --color-black: #000000;
@@ -42,7 +35,6 @@
   --color-zinc-900: #18181b;
 
   /* === Overlay Colors === */
-  --color-overlay-dark: rgba(0, 0, 0, 0.5);
   --color-overlay-gradient: rgba(0, 0, 0, 0.8);
   --color-overlay-surface: rgba(0, 0, 0, 0.6);
   --color-overlay-surface-hover: rgba(34, 197, 94, 1);
@@ -55,23 +47,16 @@
   /* Brand */
   --color-brand: var(--color-brand);
   --color-brand-hover: var(--color-brand-hover);
-  --color-brand-focus: var(--color-brand-focus);
 
   /* Status */
   --color-success: var(--color-success);
-  --color-success-dark: var(--color-success-dark);
   --color-warning: var(--color-warning);
 
   /* Error */
-  --color-error-light: var(--color-error-light);
   --color-error-border-light: var(--color-error-border-light);
   --color-error-text-light: var(--color-error-text-light);
   --color-error-bg-light: var(--color-error-bg-light);
   --color-error-focus: var(--color-error-focus);
-
-  --color-error-dark: var(--color-error-dark);
-  --color-error-text-dark: var(--color-error-text-dark);
-  --color-error-bg-dark: var(--color-error-bg-dark);
 
   /* Neutrals */
   --color-black: var(--color-black);
@@ -90,20 +75,12 @@
   --color-zinc-900: var(--color-zinc-900);
 
   /* Overlay */
-  --color-overlay-dark: var(--color-overlay-dark);
   --color-overlay-gradient: var(--color-overlay-gradient);
   --color-overlay-surface: var(--color-overlay-surface);
   --color-overlay-surface-hover: var(--color-overlay-surface-hover);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

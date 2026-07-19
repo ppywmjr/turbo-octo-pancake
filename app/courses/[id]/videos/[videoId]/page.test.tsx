@@ -2,6 +2,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
 
+vi.mock('server-only', () => ({}))
+vi.mock('@clerk/nextjs/server', () => ({
+  auth: vi.fn(),
+}))
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn().mockImplementation((url: string) => {
+    throw Object.assign(new Error('NEXT_REDIRECT'), { digest: `NEXT_REDIRECT;${url}` })
+  }),
+}))
 vi.mock('@/app/lib/courseVideos', () => ({ fetchCourseVideos: vi.fn() }))
 vi.mock('@/app/components/organisms/YoutubePlayer', () => ({
   default: (props: {
@@ -26,6 +35,8 @@ vi.mock('next/link', () => ({
   ),
 }))
 
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
 import CourseVideoPage from '@/app/courses/[id]/videos/[videoId]/page'
 
@@ -41,7 +52,8 @@ const MOCK_VIDEO = {
 describe('CourseVideoPage', () => {
   beforeEach(() => {
     vi.mocked(fetchCourseVideos).mockReset()
-    vi.spyOn(console, 'log').mockImplementation(() => { })
+    vi.mocked(auth).mockResolvedValue({ userId: 'user-abc' } as never)
+    vi.spyOn(console, 'log').mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -143,5 +155,20 @@ describe('CourseVideoPage', () => {
 
     const player = screen.getByTestId('youtube-player')
     expect(player.getAttribute('data-yt-video-id')).toBe('short-id')
+  })
+
+  it('redirects to /?error=unauthorized when the user is not authenticated', async () => {
+    vi.mocked(fetchCourseVideos).mockRejectedValue(new Error('User is not authenticated'))
+
+    await expect(CourseVideoPage({ params: Promise.resolve({ id: 'course-1', videoId: 'vid-1' }) })).rejects.toThrow('NEXT_REDIRECT')
+    expect(redirect).toHaveBeenCalledWith('/?error=unauthorized')
+  })
+
+  it('shows error fallback when fetchCourseVideos throws an unexpected error', async () => {
+    vi.mocked(fetchCourseVideos).mockRejectedValue(new Error('Some unexpected error'))
+
+    render(await CourseVideoPage({ params: Promise.resolve({ id: 'course-1', videoId: 'vid-1' }) }))
+
+    expect(screen.getByText(/failed to load video/i)).toBeTruthy()
   })
 })

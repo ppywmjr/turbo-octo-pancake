@@ -25,23 +25,23 @@ export default function ErrorNotification({ error }: { error: string | undefined
     <div
       role="alert"
       aria-labelledby="error-notification-heading"
-      className="w-full max-w-3xl rounded-xl border border-[var(--color-error-border-light)] bg-[var(--color-error-bg-light)] px-4 py-3 dark:border-[var(--color-error-dark)] dark:bg-[var(--color-error-bg-dark)] mb-6"
+      className="w-full max-w-3xl rounded-xl border border-[var(--color-error-border-light)] bg-[var(--color-error-bg-light)] px-4 py-3 mb-6"
     >
       <div className="flex items-start gap-3">
         <div className="flex-1">
           <p
             id="error-notification-heading"
-            className="text-sm font-semibold text-[var(--color-error-text-light)] dark:text-[var(--color-error-text-dark)]"
+            className="text-sm font-semibold text-[var(--color-error-text-light)]"
           >
             Error
           </p>
-          <p className="mt-1 text-sm text-[var(--color-error-text-light)] dark:text-[var(--color-error-text-dark)]">{message}</p>
+          <p className="mt-1 text-sm text-[var(--color-error-text-light)]">{message}</p>
         </div>
         <button
           type="button"
           onClick={dismiss}
           aria-label="Dismiss error notification"
-          className="shrink-0 rounded p-0.5 text-[var(--color-error-focus)] hover:bg-[var(--color-error-bg-light)] hover:text-[var(--color-error-focus)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-error-focus)] dark:text-[var(--color-error-text-dark)] dark:hover:bg-[var(--color-error-bg-dark)] dark:hover:text-[var(--color-error-text-dark)] transition-colors"
+          className="shrink-0 rounded p-0.5 text-[var(--color-error-focus)] hover:bg-[var(--color-error-bg-light)] hover:text-[var(--color-error-focus)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-error-focus)] transition-colors"
         >
           <svg
             aria-hidden="true"

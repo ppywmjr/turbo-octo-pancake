@@ -33,12 +33,12 @@ export default function SubscribeButton({ planId }: { planId: string }) {
       <button
         onClick={handleSubscribe}
         disabled={loading}
-        className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--color-brand)] text-sm font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)] disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-brand-focus)]"
+        className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--color-brand)] text-sm font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)] disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-brand)]"
       >
         {loading ? 'Redirecting to payment…' : 'Proceed to payment'}
       </button>
       {error && (
-        <p role="alert" className="text-sm text-[var(--color-error-focus)] dark:text-[var(--color-error-text-dark)] text-center">
+        <p role="alert" className="text-sm text-[var(--color-error-focus)] text-center">
           {error}
         </p>
       )}

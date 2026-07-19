@@ -15,15 +15,15 @@ export default function HomeSignedOut({
         <CenterLayout>
             <ErrorNotification error={errorCode} />
             <div className="flex flex-col gap-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-brand)] dark:text-[var(--color-zinc-400)]">
+                <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-brand)]">
                     Online Training
                 </p>
-                <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-50)]">
+                <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight text-[var(--color-zinc-900)]">
                     Learn Flutters with Catherine Taylor
                 </h1>
-                <p className="text-lg text-[var(--color-zinc-600)] dark:text-[var(--color-zinc-400)] max-w-lg mx-auto">
+                <p className="text-lg text-[var(--color-zinc-600)] max-w-lg mx-auto">
                     Join the{' '}
-                    <span className="font-semibold text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-50)]">
+                    <span className="font-semibold text-[var(--color-zinc-900)]">
                         {FEATURED_COURSE_NAME}
                     </span>{' '}
                     course today!
