@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
@@ -18,35 +17,13 @@ function getYouTubeVideoId(url: string): string | null {
   }
 }
 
-function VideoNotFound({ backHref }: { backHref: string }) {
-  return (
-    <>
-      <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">Video not found.</p>
-      <Link
-        href={backHref}
-        className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-100)] underline underline-offset-4"
-      >
-        ← Back to videos
-      </Link>
-    </>
-  )
-}
+export default async function CourseVideoPage({
+  params,
+}: {
+  params: Promise<{ id: string; videoId: string }>
+}) {
+  const { id: courseId, videoId } = await params
 
-function VideoErrorFallback({ backHref }: { backHref: string }) {
-  return (
-    <>
-      <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">Failed to load video. Please try again later.</p>
-      <Link
-        href={backHref}
-        className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-100)] underline underline-offset-4"
-      >
-        ← Back to videos
-      </Link>
-    </>
-  )
-}
-
-async function VideoContent({ courseId, videoId }: { courseId: string; videoId: string }) {
   let video
   try {
     video = await fetchCourseVideos(courseId, videoId)
@@ -55,56 +32,61 @@ async function VideoContent({ courseId, videoId }: { courseId: string; videoId: 
     if (msg === 'User is not authenticated' || msg.includes('responded with 401')) {
       redirect('/?error=unauthorized')
     }
-    return <VideoErrorFallback backHref={`/courses/${courseId}/videos`} />
+    return (
+      <CenterLayout>
+        <>
+          <p className="text-[var(--color-zinc-500)]">Failed to load video. Please try again later.</p>
+          <Link
+            href={`/courses/${courseId}/videos`}
+            className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] underline underline-offset-4"
+          >
+            ← Back to videos
+          </Link>
+        </>
+      </CenterLayout>
+    )
   }
 
   if (!video) {
-    return <VideoNotFound backHref={`/courses/${courseId}/videos`} />
+    return (
+      <CenterLayout>
+        <>
+          <p className="text-[var(--color-zinc-500)]">Video not found.</p>
+          <Link
+            href={`/courses/${courseId}/videos`}
+            className="mt-4 text-sm font-medium text-[var(--color-zinc-900)] underline underline-offset-4"
+          >
+            ← Back to videos
+          </Link>
+        </>
+      </CenterLayout>
+    )
   }
 
   const ytVideoId = getYouTubeVideoId(video.url)
 
   return (
-    <>
-      <Link
-        href={`/courses/${courseId}/videos`}
-        className="text-sm font-medium text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)] hover:text-[var(--color-zinc-900)] dark:hover:text-[var(--color-zinc-100)] transition-colors self-start"
-      >
-        ← Back to videos
-      </Link>
-
-      <h1 className="text-2xl font-bold tracking-tight text-[var(--color-zinc-900)] dark:text-[var(--color-zinc-50)]">
-        {video.title}
-      </h1>
-
-      {ytVideoId ? (
-        <YoutubePlayer videoId={videoId} ytVideoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} courseId={courseId} />
-      ) : (
-        <div className="w-full aspect-video rounded-2xl bg-[var(--color-zinc-100)] dark:bg-[var(--color-zinc-800)] flex items-center justify-center">
-          <p className="text-[var(--color-zinc-500)] dark:text-[var(--color-zinc-400)]">Unable to embed this video.</p>
-        </div>
-      )}
-    </>
-  )
-}
-
-export default async function CourseVideoPage({
-  params,
-}: {
-  params: Promise<{ id: string; videoId: string }>
-}) {
-  const { id: courseId, videoId } = await params
-
-  return (
     <CenterLayout>
-      <Suspense fallback={
-        <div className="flex flex-col gap-6">
-          <div className="h-8 w-40 bg-[var(--color-zinc-200)] dark:bg-[var(--color-zinc-700)] rounded animate-pulse" />
-          <div className="h-80 w-full bg-[var(--color-zinc-200)] dark:bg-[var(--color-zinc-700)] rounded-2xl animate-pulse" />
-        </div>
-      }>
-        <VideoContent courseId={courseId} videoId={videoId} />
-      </Suspense>
+      <>
+        <Link
+          href={`/courses/${courseId}/videos`}
+          className="text-sm font-medium text-[var(--color-zinc-500)] hover:text-[var(--color-zinc-900)] transition-colors self-start"
+        >
+          ← Back to videos
+        </Link>
+
+        <h1 className="text-2xl font-bold tracking-tight text-[var(--color-zinc-900)]">
+          {video.title}
+        </h1>
+
+        {ytVideoId ? (
+          <YoutubePlayer videoId={videoId} ytVideoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} courseId={courseId} />
+        ) : (
+          <div className="w-full aspect-video rounded-2xl bg-[var(--color-zinc-100)] flex items-center justify-center">
+            <p className="text-[var(--color-zinc-500)]">Unable to embed this video.</p>
+          </div>
+        )}
+      </>
     </CenterLayout>
   )
 }
