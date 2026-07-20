@@ -8,6 +8,7 @@ export interface Plan {
   billingInterval: BillingInterval | null
   pricePence: number | null
   isActive: boolean
+  thumbnail: string | null
 }
 
 export interface PlansResponse {

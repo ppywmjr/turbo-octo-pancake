@@ -42,8 +42,25 @@ export async function POST(req: NextRequest) {
     return new NextResponse(null, { status: 204 })
   }
 
+  // Log subscription creation errors for debugging
+  console.error('[Subscription] POST /api/me/subscriptions failed:', {
+    status: res.status,
+    url,
+    activationCode: parsed.data.activationCode,
+  })
+
   // Parse backend response to detect known error cases
   const text = await res.text().catch(() => '')
+
+  // Log the full backend response for 400 errors
+  if (res.status === 400) {
+    console.error('[Subscription] Backend 400 Bad Request response:', {
+      url,
+      status: res.status,
+      body: text,
+      activationCode: parsed.data.activationCode,
+    })
+  }
   let backendError: string | null = null
 
   try {

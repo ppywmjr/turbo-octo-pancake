@@ -13,6 +13,7 @@ const MOCK_PLAN_ACTIVE: Plan = {
   billingInterval: 'monthly',
   pricePence: 1999,
   isActive: true,
+  thumbnail: null,
 }
 
 const MOCK_PLAN_INACTIVE: Plan = {
@@ -23,6 +24,7 @@ const MOCK_PLAN_INACTIVE: Plan = {
   billingInterval: null,
   pricePence: null,
   isActive: false,
+  thumbnail: null,
 }
 
 describe('fetchAllPlans', () => {
