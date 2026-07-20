@@ -17,4 +17,18 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+  plugins: [{
+    name: 'server-only-mock',
+    enforce: 'pre',
+    resolveId(id) {
+      if (id === 'server-only') {
+        return '\0virtual:server-only'
+      }
+    },
+    load(id) {
+      if (id === '\0virtual:server-only') {
+        return 'export default {}'
+      }
+    },
+  }],
 })

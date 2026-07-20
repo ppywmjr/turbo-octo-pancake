@@ -46,6 +46,7 @@ const MOCK_PLAN_FLUTTER: Plan = {
   billingInterval: 'monthly',
   pricePence: 1999,
   isActive: true,
+  thumbnail: null,
 }
 
 const MOCK_PLAN_EXTRA: Plan = {
@@ -56,6 +57,7 @@ const MOCK_PLAN_EXTRA: Plan = {
   billingInterval: 'yearly',
   pricePence: 9900,
   isActive: true,
+  thumbnail: null,
 }
 
 const MOCK_COURSE: Course = {

@@ -36,6 +36,7 @@ const MOCK_PLAN: Plan = {
   billingInterval: 'monthly',
   pricePence: 1999,
   isActive: true,
+  thumbnail: null,
 }
 
 function makeParams(planId: string) {

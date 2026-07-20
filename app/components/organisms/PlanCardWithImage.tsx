@@ -5,7 +5,7 @@ import ActivationCodeModal from '@/app/components/molecules/ActivationCodeModal'
 import Button from '@/app/components/atoms/Button'
 import { useState } from 'react'
 
-const EXAMPLE_IMAGE_URL = 'https://i.ytimg.com/vi/BMkwmQmUa_g/hqdefault.jpg';
+const EXAMPLE_IMAGE_URL = 'https://i.ytimg.com/vi/bjgqwBQ8-7g/hqdefault.jpg';
 
 export default function PlanCardWithImage({ plan, onActivate }: { plan: Plan; onActivate: (code: string) => Promise<void> }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -28,10 +28,15 @@ export default function PlanCardWithImage({ plan, onActivate }: { plan: Plan; on
                 imageSection={
                     <>
                         <Image
-                            src={EXAMPLE_IMAGE_URL}
+                            src={plan.thumbnail ?? EXAMPLE_IMAGE_URL}
                             alt={plan.name}
                             fill
                             className="object-cover"
+                            onError={(e) => {
+                                if (plan.thumbnail) {
+                                    (e.target as HTMLImageElement).src = EXAMPLE_IMAGE_URL
+                                }
+                            }}
                         />
 
                         {/* Activate code button overlay */}
