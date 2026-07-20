@@ -5,7 +5,7 @@ import CardsGrid from '@/app/components/templates/CardsGrid'
 import ErrorNotification from '@/app/components/molecules/ErrorNotification'
 import CenterLayout from '@/app/components/templates/CenterLayout'
 import CourseCard from '@/app/components/organisms/CourseCard'
-import PlanCard from '@/app/components/organisms/PlanCard'
+import PlanCardWithImage from '@/app/components/organisms/PlanCardWithImage'
 import { SectionHeading, BodyText } from '@/app/components/atoms/text'
 import type { Course } from '@/app/types/course'
 import type { Plan } from '@/app/types/plan'
@@ -19,28 +19,26 @@ export default function HomeSignedIn({
     courses: Course[]
     availablePlans: Plan[]
 }) {
-    // State: Signed in, no active courses - show "Activate a code" card
+    // State: Signed in, no active courses - show "Sign up" with plan cards
     if (courses.length === 0) {
         return (
             <CenterLayout>
                 <ErrorNotification error={errorCode} />
-                <div className="flex flex-col gap-2">
-                    <SectionHeading>Choose a course to get started</SectionHeading>
-                    <BodyText muted>
-                        Subscribe to a course below to unlock all of its content.
-                    </BodyText>
-                </div>
+                <SectionHeading>Sign up</SectionHeading>
+                <BodyText muted>
+                    Choose a plan below to get started.
+                </BodyText>
 
                 <CardsGrid>
-                    <PlanCard plan={{
-                        id: 'activate-code',
-                        name: 'Activate a Code',
-                        description: 'Enter your activation code to unlock course access',
-                        pricePence: null,
-                        billingInterval: 'monthly',
-                        isFree: true,
-                        isActive: true,
-                    }} />
+                    {availablePlans.map((plan) => (
+                        <PlanCardWithImage
+                            key={plan.id}
+                            plan={plan}
+                            onActivate={() => {
+                                // TODO: Open modal for code activation
+                            }}
+                        />
+                    ))}
                 </CardsGrid>
             </CenterLayout>
         )
