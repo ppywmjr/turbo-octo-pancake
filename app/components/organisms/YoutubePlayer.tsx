@@ -181,8 +181,6 @@ export default function YoutubePlayer({
         events: {
           onReady: (e) => {
             // Set initial duration and restore progress position if applicable.
-            // Note: We do NOT call playVideo() or pauseVideo() here — YouTube may auto-start
-            // before this fires during client-side navigation, so we intercept that in onStateChange.
             const dur = e.target.getDuration()
             durationRef.current = dur
             setDuration(dur)
@@ -194,13 +192,6 @@ export default function YoutubePlayer({
           },
           onStateChange: (e) => {
             const isPlaying = e.data === window.YT.PlayerState.PLAYING
-            // Intercept auto-play: if YouTube starts playing but the user hasn't initiated it,
-            // immediately pause. We use playingRef (not React state) because the closure may
-            // have a stale value when auto-play happens during mount.
-            if (isPlaying && !playingRef.current) {
-              playerRef.current?.pauseVideo()
-              return
-            }
             setPlaying(isPlaying)
             if (playerRef.current) {
               const dur = playerRef.current.getDuration()
