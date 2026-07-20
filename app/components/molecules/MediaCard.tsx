@@ -8,11 +8,13 @@ export default function MediaCard({
     title,
     description,
     href,
+    ariaLabel,
 }: {
     imageSection: ReactNode
     title: string
     description?: string | null
     href?: string
+    ariaLabel?: string
 }) {
     const cardContent = (
         <>
@@ -31,7 +33,7 @@ export default function MediaCard({
     )
 
     return (
-        <Card href={href} aspectRatio="aspect-[4/3]">
+        <Card href={href} aspectRatio="aspect-[4/3]" ariaLabel={ariaLabel}>
             {cardContent}
         </Card>
     )

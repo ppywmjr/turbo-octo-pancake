@@ -4,6 +4,16 @@ import MediaCard from '@/app/components/molecules/MediaCard'
 import { StatusBadge } from '@/app/components/atoms/text'
 
 export default function VideoCard({ video, cardHref }: { video: Video; cardHref: string }) {
+  const statusLabel = video.watched
+    ? 'Watched'
+    : video.progressSecs > 0
+      ? `In Progress, ${video.progressSecs} seconds watched`
+      : null
+
+  const ariaLabel = statusLabel
+    ? `${video.title}, ${statusLabel}`
+    : video.title
+
   const imageSection = (
     <>
       <Image
@@ -30,10 +40,10 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref:
 
       {/* Status badge */}
       {video.watched && (
-        <StatusBadge variant="watched">Watched</StatusBadge>
+        <StatusBadge textContent="Watched" variant="watched" />
       )}
       {!video.watched && video.progressSecs > 0 && (
-        <StatusBadge variant="in-progress">In Progress</StatusBadge>
+        <StatusBadge textContent="In Progress" variant="in-progress" />
       )}
     </>
   )
@@ -44,6 +54,7 @@ export default function VideoCard({ video, cardHref }: { video: Video; cardHref:
       title={video.title}
       description={video.description}
       href={cardHref}
+      ariaLabel={ariaLabel}
     />
   )
 }
