@@ -333,4 +333,12 @@ describe('YoutubePlayer', () => {
 
     expect(mockSeekTo).toHaveBeenCalledWith(120, true)
   })
+
+  it('calls pauseVideo after seekTo when initialProgressSecs > 0 to prevent auto-play', async () => {
+    await act(async () => { render(<YoutubePlayer {...PROPS} initialProgressSecs={120} />) })
+    await act(async () => { capturedEvents.onReady?.({ target: mockPlayerInstance }) })
+
+    expect(mockSeekTo).toHaveBeenCalledWith(120, true)
+    expect(mockPauseVideo).toHaveBeenCalledOnce()
+  })
 })
