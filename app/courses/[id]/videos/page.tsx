@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
+import { fetchCourse } from '@/app/lib/courses'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
 import VideoCard from '@/app/components/organisms/VideoCard'
 import MediaCardSkeleton from '@/app/components/molecules/MediaCardSkeleton'
@@ -20,7 +21,7 @@ function VideoGridSkeleton() {
   )
 }
 
-async function VideoGrid({ courseId }: { courseId: string }) {
+async function VideoGrid({ courseId, courseTitle }: { courseId: string; courseTitle: string }) {
   let videos
   try {
     videos = await fetchCourseVideos(courseId)
@@ -38,7 +39,7 @@ async function VideoGrid({ courseId }: { courseId: string }) {
 
   return (
     <CardsSection
-      title="Videos"
+      title={courseTitle}
       cards={videos.map((video) => (
         <VideoCard key={video.id} video={video} cardHref={`/courses/${courseId}/videos/${video.id}`} />
       ))}
@@ -48,10 +49,20 @@ async function VideoGrid({ courseId }: { courseId: string }) {
 
 export default async function CourseVideosPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: courseId } = await params
+  let courseTitle = 'Course videos'
+  try {
+    const course = await fetchCourse(courseId)
+    if (course) {
+      courseTitle = course.title
+    }
+  } catch {
+    // If we can't fetch the course, fall back to a default title
+  }
+
   return (
     <CenterLayout>
       <Suspense fallback={<VideoGridSkeleton />}>
-        <VideoGrid courseId={courseId} />
+        <VideoGrid courseId={courseId} courseTitle={courseTitle} />
       </Suspense>
     </CenterLayout>
   )
