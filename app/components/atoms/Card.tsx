@@ -8,10 +8,12 @@ export default function Card({
     href,
     children,
     aspectRatio,
+    ariaLabel,
 }: {
     href?: string
     children: ReactNode
     aspectRatio?: string
+    ariaLabel?: string
 }) {
     const classes = [BASE_CLASS]
     if (aspectRatio) {
@@ -21,13 +23,15 @@ export default function Card({
 
     if (href) {
         return (
-            <Link href={href} className={className}>
+            <Link href={href} className={className} aria-label={ariaLabel}>
                 {children}
             </Link>
         )
     }
 
     return (
-        <div className={className}>{children}</div>
+        <div className={className} aria-label={ariaLabel}>
+            {children}
+        </div>
     )
 }
