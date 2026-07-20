@@ -186,6 +186,7 @@ export default function YoutubePlayer({
             setDuration(dur)
             if (initialProgressSecs > 0) {
               e.target.seekTo(initialProgressSecs, true)
+              e.target.pauseVideo() // Prevent auto-play side effect from seekTo
               currentTimeRef.current = initialProgressSecs
               setCurrentTime(initialProgressSecs)
             }
