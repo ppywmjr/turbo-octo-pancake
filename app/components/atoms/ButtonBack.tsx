@@ -11,7 +11,7 @@ export default function ButtonBack({ href, children }: ButtonBackProps) {
   return (
     <Link
       href={href}
-      className="group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-all duration-150"
+      className="group inline-flex items-center gap-1.5 self-start text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-all duration-150"
     >
       <svg
         className="h-4 w-4 transition-transform duration-150 group-hover:-translate-x-1"
@@ -25,7 +25,7 @@ export default function ButtonBack({ href, children }: ButtonBackProps) {
           clipRule="evenodd"
         />
       </svg>
-      <span>{children || 'Back'}</span>
+      <span className="p-[10px] pl-[1]">{children || 'Back'}</span>
     </Link>
   )
 }
