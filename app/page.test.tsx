@@ -25,6 +25,11 @@ vi.mock('next/link', () => ({
     <a href={href}>{children}</a>
   ),
 }))
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    refresh: vi.fn(),
+  }),
+}))
 
 import { auth } from '@clerk/nextjs/server'
 import { fetchCourses } from '@/app/lib/courses'
