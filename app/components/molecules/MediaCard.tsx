@@ -9,12 +9,14 @@ export default function MediaCard({
     description,
     href,
     ariaLabel,
+    actionContent,
 }: {
     imageSection: ReactNode
     title: string
     description?: string | null
     href?: string
     ariaLabel?: string
+    actionContent?: ReactNode
 }) {
     const cardContent = (
         <>
@@ -32,9 +34,22 @@ export default function MediaCard({
         </>
     )
 
+    if (href && !actionContent) {
+        return (
+            <Card href={href} aspectRatio="aspect-[4/3]" ariaLabel={ariaLabel}>
+                {cardContent}
+            </Card>
+        )
+    }
+
     return (
-        <Card href={href} aspectRatio="aspect-[4/3]" ariaLabel={ariaLabel}>
+        <Card aspectRatio="aspect-[4/3]" ariaLabel={ariaLabel}>
             {cardContent}
+            {actionContent && (
+                <div className="px-4 pb-4">
+                    {actionContent}
+                </div>
+            )}
         </Card>
     )
 }

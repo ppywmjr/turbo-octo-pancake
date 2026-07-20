@@ -158,32 +158,32 @@ describe('Home page', () => {
       vi.mocked(fetchAllPlans).mockResolvedValue([MOCK_PLAN_FLUTTER, MOCK_PLAN_EXTRA])
     })
 
-    it('shows the "Choose a course to get started" heading', async () => {
+    it('shows the "Sign up" heading', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(await screen.findByRole('heading', { name: /choose a course to get started/i })).toBeTruthy()
+      expect(await screen.findByRole('heading', { name: /sign up/i })).toBeTruthy()
     })
 
-    it('renders an "Activate a Code" card', async () => {
+    it('renders plan cards for each available plan', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(await screen.findByText('Activate a Code')).toBeTruthy()
+      expect(await screen.findByText(MOCK_PLAN_FLUTTER.name)).toBeTruthy()
     })
 
-    it('renders a Subscribe link pointing to /subscribe/activate-code', async () => {
+    it('renders an "Activate code" button for each plan', async () => {
       render(await Home(makeSearchParams()))
 
-      const links = await screen.findAllByRole('link', { name: /subscribe/i })
-      const hrefs = links.map((l) => l.getAttribute('href'))
-      expect(hrefs).toContain('/subscribe/activate-code')
+      const buttons = await screen.findAllByText('Activate code')
+      expect(buttons.length).toBe(2)
     })
 
-    it('renders "Activate a Code" even when the plan list is empty', async () => {
+    it('renders only the heading when the plan list is empty', async () => {
       vi.mocked(fetchAllPlans).mockResolvedValue([])
 
       render(await Home(makeSearchParams()))
 
-      expect(await screen.findByText('Activate a Code')).toBeTruthy()
+      expect(await screen.findByRole('heading', { name: /sign up/i })).toBeTruthy()
+      expect(screen.queryByText('Activate code')).toBeNull()
     })
 
     it('does not show a "My Courses" heading', async () => {
@@ -266,7 +266,7 @@ describe('Home page', () => {
     it('falls back to the "no active courses" state and shows available plans', async () => {
       render(await Home(makeSearchParams()))
 
-      expect(screen.getByRole('heading', { name: /choose a course to get started/i })).toBeTruthy()
+      expect(screen.getByRole('heading', { name: /sign up/i })).toBeTruthy()
     })
   })
 })
