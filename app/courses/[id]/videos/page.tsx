@@ -6,6 +6,7 @@ import VideoCard from '@/app/components/organisms/VideoCard'
 import MediaCardSkeleton from '@/app/components/molecules/MediaCardSkeleton'
 import CenterLayout from '@/app/components/templates/CenterLayout'
 import CardsSection from '@/app/components/templates/CardsSection'
+import ButtonBack from '@/app/components/atoms/ButtonBack'
 import { BodyText } from '@/app/components/atoms/text'
 
 function VideoGridSkeleton() {
@@ -38,12 +39,15 @@ async function VideoGrid({ courseId, courseTitle }: { courseId: string; courseTi
   }
 
   return (
-    <CardsSection
-      title={courseTitle}
-      cards={videos.map((video) => (
-        <VideoCard key={video.id} video={video} cardHref={`/courses/${courseId}/videos/${video.id}`} />
-      ))}
-    />
+    <>
+      <ButtonBack href="/">Back to home</ButtonBack>
+      <CardsSection
+        title={courseTitle}
+        cards={videos.map((video) => (
+          <VideoCard key={video.id} video={video} cardHref={`/courses/${courseId}/videos/${video.id}`} />
+        ))}
+      />
+    </>
   )
 }
 

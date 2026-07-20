@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
+import { fetchCourse } from '@/app/lib/courses'
 import { fetchCourseVideos } from '@/app/lib/courseVideos'
 import YoutubePlayer from '@/app/components/organisms/YoutubePlayer'
 import CenterLayout from '@/app/components/templates/CenterLayout'
-import { PageHeading, BodyText, LinkText } from '@/app/components/atoms/text'
+import ButtonBack from '@/app/components/atoms/ButtonBack'
+import { SectionHeading, BodyText } from '@/app/components/atoms/text'
 
 function getYouTubeVideoId(url: string): string | null {
   try {
@@ -25,6 +26,16 @@ export default async function CourseVideoPage({
 }) {
   const { id: courseId, videoId } = await params
 
+  let courseTitle = 'Course videos'
+  try {
+    const course = await fetchCourse(courseId)
+    if (course) {
+      courseTitle = course.title
+    }
+  } catch {
+    // If we can't fetch the course, fall back to a default title
+  }
+
   let video
   try {
     video = await fetchCourseVideos(courseId, videoId)
@@ -36,8 +47,8 @@ export default async function CourseVideoPage({
     return (
       <CenterLayout>
         <>
+          <ButtonBack href={`/courses/${courseId}/videos`}>Back to videos</ButtonBack>
           <BodyText muted>Failed to load video. Please try again later.</BodyText>
-          <LinkText href={`/courses/${courseId}/videos`}>← Back to videos</LinkText>
         </>
       </CenterLayout>
     )
@@ -47,8 +58,8 @@ export default async function CourseVideoPage({
     return (
       <CenterLayout>
         <>
+          <ButtonBack href={`/courses/${courseId}/videos`}>Back to videos</ButtonBack>
           <BodyText muted>Video not found.</BodyText>
-          <LinkText href={`/courses/${courseId}/videos`}>← Back to videos</LinkText>
         </>
       </CenterLayout>
     )
@@ -59,9 +70,9 @@ export default async function CourseVideoPage({
   return (
     <CenterLayout>
       <>
-        <LinkText href={`/courses/${courseId}/videos`}>← Back to videos</LinkText>
+        <ButtonBack href={`/courses/${courseId}/videos`}>Back to videos</ButtonBack>
 
-        <PageHeading className="text-2xl tracking-tight text-[var(--color-text-primary)]">{video.title}</PageHeading>
+        <SectionHeading>{courseTitle} - {video.title}</SectionHeading>
 
         {ytVideoId ? (
           <YoutubePlayer videoId={videoId} ytVideoId={ytVideoId} title={video.title} initialProgressSecs={video.progressSecs} courseId={courseId} />
