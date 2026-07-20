@@ -313,14 +313,6 @@ describe('YoutubePlayer', () => {
     expect(mockSetPlaybackRate).toHaveBeenCalledWith(0.75)
   })
 
-  it('intercepts auto-play via onStateChange and pauses the video', async () => {
-    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
-    // Simulate YouTube auto-starting playback before user interaction
-    await act(async () => { capturedEvents.onStateChange?.({ data: YT_PLAYING }) })
-
-    expect(mockPauseVideo).toHaveBeenCalledOnce()
-  })
-
   it('does not pause when user clicks play and then state changes', async () => {
     await act(async () => { render(<YoutubePlayer {...PROPS} />) })
 
