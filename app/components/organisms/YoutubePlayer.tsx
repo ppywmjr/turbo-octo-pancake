@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 declare global {
   interface Window {
@@ -116,18 +116,34 @@ export default function YoutubePlayer({
     }
   }, [playing])
 
+  // Save progress to server - uses actual player time for accuracy
+  const saveProgress = useCallback((overrideTime?: number) => {
+    // If an override time is provided (e.g., from a seek), use that; otherwise read from player
+    let secs: number
+    if (overrideTime !== undefined) {
+      secs = overrideTime
+    } else if (playerRef.current) {
+      secs = playerRef.current.getCurrentTime()
+    } else {
+      secs = currentTimeRef.current
+    }
+    secs = Math.floor(secs)
+    if (secs <= 0) return // Nothing to save
+    const dur = durationRef.current
+    currentTimeRef.current = secs
+    const watched = dur > 0 && secs / dur >= 0.95
+    fetch(`/api/courses/${courseId}/videos/${videoId}/progress`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ progressSecs: secs, ...(watched && { watched: true }) }),
+    }).catch(() => { /* best-effort, ignore failures */ })
+  }, [courseId, videoId])
+
   // Report progress to server every 5 seconds while playing
   useEffect(() => {
     if (playing) {
       progressTickRef.current = setInterval(() => {
-        const secs = Math.floor(currentTimeRef.current)
-        const dur = durationRef.current
-        const watched = dur > 0 && currentTimeRef.current / dur >= 0.95
-        fetch(`/api/courses/${courseId}/videos/${videoId}/progress`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ progressSecs: secs, ...(watched && { watched: true }) }),
-        }).catch(() => { /* best-effort, ignore failures */ })
+        saveProgress()
       }, 5000)
     } else {
       if (progressTickRef.current) clearInterval(progressTickRef.current)
@@ -135,7 +151,7 @@ export default function YoutubePlayer({
     return () => {
       if (progressTickRef.current) clearInterval(progressTickRef.current)
     }
-  }, [playing, courseId, videoId])
+  }, [playing, saveProgress])
 
   // Apply playback rate to the YouTube player
   useEffect(() => {
@@ -239,6 +255,8 @@ export default function YoutubePlayer({
     scrubbingRef.current = false
     playerRef.current?.seekTo(value, true)
     setCurrentTime(value)
+    // Save progress when user manually seeks to a new position - pass the seek target directly
+    saveProgress(value)
   }
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
