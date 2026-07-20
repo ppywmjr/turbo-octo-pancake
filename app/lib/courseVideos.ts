@@ -47,5 +47,12 @@ export async function fetchCourseVideos(
     } satisfies Video
   }
 
-  return json.data as Video[]
+  return json.data.map((item: Record<string, unknown>) => ({
+    id: item.id as string,
+    title: item.title as string,
+    url: item.url as string,
+    thumbnail: item.thumbnail as string,
+    watched: item.watched as boolean,
+    progressSecs: (item.progressSecs as number) ?? 0,
+  })) satisfies Video[]
 }

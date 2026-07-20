@@ -22,7 +22,7 @@ export default function StatusBadge({
 }) {
     const colors = VARIANT_CLASSES[variant]
     return (
-        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${colors.bg} ${colors.text} ${className ?? ''}`.trim()}>
+        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${colors.bg} ${colors.text} absolute top-5 right-5 z-10 w-[100px] text-center ${className || ''}`.trim()}>
             {children}
         </span>
     )
