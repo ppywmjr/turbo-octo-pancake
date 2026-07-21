@@ -80,11 +80,11 @@ describe('YoutubePlayer', () => {
     expect(MockYTPlayer.mock.calls[0][1]).toMatchObject({ videoId: 'yt-abc' })
   })
 
-  it('does not seek when initialProgressSecs is 0', async () => {
+  it('seeks to 1 second when initialProgressSecs is 0', async () => {
     await act(async () => { render(<YoutubePlayer {...PROPS} initialProgressSecs={0} />) })
     await act(async () => { capturedEvents.onReady?.({ target: mockPlayerInstance }) })
 
-    expect(mockSeekTo).not.toHaveBeenCalled()
+    expect(mockSeekTo).toHaveBeenCalledWith(1, true)
   })
 
   it('seeks to initialProgressSecs on player ready', async () => {
