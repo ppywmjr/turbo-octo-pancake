@@ -10,8 +10,8 @@ const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ''}  ${CLERK_FAPI} https://challenges.cloudflare.com;
   connect-src 'self' ${CLERK_FAPI};
-  img-src 'self' https://img.clerk.com https://i.ytimg.com data:;
-  worker-src 'self';
+  img-src 'self' https://img.clerk.com https://i.ytimg.com https://www.youtube.com/iframe_api' data:;
+  worker-src 'self' blob:;
   style-src 'self' 'unsafe-inline';
   frame-src 'self' https://challenges.cloudflare.com;
 `.replace(/\s{2,}/g, ' ').trim();
