@@ -8,12 +8,12 @@ const CLERK_FAPI = isDev
 
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ''}  ${CLERK_FAPI} https://challenges.cloudflare.com;
+  script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ''} ${CLERK_FAPI} https://challenges.cloudflare.com https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com;
   connect-src 'self' ${CLERK_FAPI};
-  img-src 'self' https://img.clerk.com https://i.ytimg.com https://www.youtube.com/iframe_api' data:;
+  img-src 'self' https://img.clerk.com https://i.ytimg.com data:;
   worker-src 'self' blob:;
   style-src 'self' 'unsafe-inline';
-  frame-src 'self' https://challenges.cloudflare.com;
+  frame-src 'self' https://challenges.cloudflare.com https://www.youtube.com https://www.youtube-nocookie.com;
 `.replace(/\s{2,}/g, ' ').trim();
 
 const nextConfig: NextConfig = {
