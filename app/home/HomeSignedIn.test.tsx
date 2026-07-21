@@ -102,7 +102,7 @@ const MOCK_COURSE: Course = {
 const EMPTY_COURSES: Course[] = []
 
 describe('HomeSignedIn', () => {
-  let unhandledRejectionHandler: (arg: any) => void
+  let unhandledRejectionHandler: (arg: unknown) => void
 
   beforeEach(() => {
     // Suppress unhandled rejections from tests that intentionally trigger errors
@@ -113,7 +113,7 @@ describe('HomeSignedIn', () => {
   afterEach(() => {
     cleanup()
     vi.clearAllMocks()
-    delete (global as any).fetch
+    delete (globalThis as { fetch: typeof window.fetch | undefined }).fetch
     process.off('unhandledRejection', unhandledRejectionHandler)
   })
 

@@ -129,16 +129,16 @@ describe('fetchAllPlans', () => {
 
   it('filters out plans where isActive is falsy including null', async () => {
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
-    const mockPlanNullActive: Plan = {
+    const mockPlanNullActive = {
       id: 'plan-null',
       name: 'Null Active Plan',
       description: null,
       isFree: false,
-      isActive: null as any,
+      isActive: null as boolean | null,
       billingInterval: null,
       pricePence: null,
       thumbnail: null,
-    }
+    } as Plan
     vi.mocked(fetch).mockResolvedValueOnce(
       new Response(JSON.stringify([MOCK_PLAN_ACTIVE, mockPlanNullActive]), { status: 200 }),
     )
