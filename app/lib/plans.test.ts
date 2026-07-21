@@ -115,6 +115,40 @@ describe('fetchAllPlans', () => {
     expect(result).toEqual([])
   })
 
+  it('returns empty array when json.data is null', async () => {
+    process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify({ data: null }), { status: 200 }),
+    )
+
+    const result = await fetchAllPlans()
+
+    expect(result).toEqual([])
+    expect(Array.isArray(result)).toBe(true)
+  })
+
+  it('filters out plans where isActive is falsy including null', async () => {
+    process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
+    const mockPlanNullActive: Plan = {
+      id: 'plan-null',
+      name: 'Null Active Plan',
+      description: null,
+      isFree: false,
+      isActive: null as any,
+      billingInterval: null,
+      pricePence: null,
+      thumbnail: null,
+    }
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify([MOCK_PLAN_ACTIVE, mockPlanNullActive]), { status: 200 }),
+    )
+
+    const result = await fetchAllPlans()
+
+    expect(result).toHaveLength(1)
+    expect(result[0].id).toBe('plan-1')
+  })
+
   it('filters out inactive plans', async () => {
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
     vi.mocked(fetch).mockResolvedValueOnce(
@@ -137,7 +171,9 @@ describe('fetchAllPlans', () => {
     const result = await fetchAllPlans()
 
     expect(result).toEqual([])
-    expect(console.error).toHaveBeenCalled()
+    expect(console.error).toHaveBeenCalledWith(
+      '[fetchAllPlans] Plans API responded with 500',
+    )
   })
 })
 

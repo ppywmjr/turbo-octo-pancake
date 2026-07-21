@@ -323,6 +323,30 @@ describe('serverFetch', () => {
     })
   })
 
+  describe('mock mode behavior verification', () => {
+    beforeEach(() => {
+      process.env.NEXT_PUBLIC_USE_MOCKS = 'true'
+      process.env.NEXT_PUBLIC_APP_URL = 'http://localhost:3010'
+    })
+
+    it('reads mock files when mock mode is enabled', async () => {
+      mockReadFile.mockResolvedValueOnce(JSON.stringify({
+        success: true,
+        data: [{ id: 'c1', title: 'Course 1' }],
+        pagination: { total: 1, limit: 20, offset: 0, hasMore: false },
+      }))
+
+      const response = await serverFetchModule.serverFetch('/api/courses')
+
+      expect(response.status).toBe(200)
+      // Verify fs.readFile was actually called (mock branch is taken)
+      expect(mockReadFile).toHaveBeenCalledWith(
+        expect.stringContaining('courses.json'),
+        'utf-8',
+      )
+    })
+  })
+
   describe('mock mode disabled', () => {
     beforeEach(() => {
       process.env.NEXT_PUBLIC_USE_MOCKS = 'false'
@@ -350,6 +374,21 @@ describe('serverFetch', () => {
 
       const data: any = await response.json()
       expect(data).toEqual({ success: true })
+    })
+
+    it('does not read mock files when mock mode is disabled', async () => {
+      const mockFetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ result: 'ok' }), {
+        status: 200,
+      }))
+      global.fetch = mockFetch
+
+      process.env.INTERNAL_API_SECRET = 'test-secret'
+
+      const response = await serverFetchModule.serverFetch('https://api.example.com/data')
+
+      expect(mockFetch).toHaveBeenCalled()
+      // Verify fs.readFile was NOT called (mock branch is skipped)
+      expect(mockReadFile).not.toHaveBeenCalled()
     })
 
     it('merges provided headers with internal API key header', async () => {

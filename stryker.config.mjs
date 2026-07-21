@@ -15,6 +15,9 @@ const config = {
     'app/**/*.ts',
     '!app/**/*.test.ts',
     '!app/**/*.spec.ts',
+    // Exclude serverFetch.ts - it's a utility with mock handling that uses 'server-only'
+    // and has coverage analysis issues with Stryker's per-test mutation approach
+    '!app/lib/serverFetch.ts',
   ],
   coverageAnalysis: 'perTest',
   reporters: ['html', 'clear-text', 'progress', 'json'],

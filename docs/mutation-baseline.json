@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-06-21T16:45:00.235Z",
-  "mutationScore": 94.74,
-  "totalMutants": 190,
-  "killedMutants": 180,
-  "survivedMutants": 10
+  "timestamp": "2026-07-21T13:18:39.841Z",
+  "mutationScore": 89.55,
+  "totalMutants": 287,
+  "killedMutants": 257,
+  "survivedMutants": 30
 }
