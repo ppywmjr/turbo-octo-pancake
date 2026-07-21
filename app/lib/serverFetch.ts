@@ -64,18 +64,8 @@ export async function serverFetch(url: string, init?: RequestInit): Promise<Resp
 
               if (idSegment) {
                 const found = dataArray.find((item: any) => item.id === idSegment)
-                if (found) {
-                  responseData = found
-                  console.log('DEBUG serverFetch: Found specific item', { idSegment })
-                } else if (json.pagination) {
-                  // If no specific ID matched but pagination exists, return full response
-                  console.log('DEBUG serverFetch: No ID match, returning full response with pagination')
-                  responseData = json
-                } else {
-                  // If no specific ID matched, return the whole array wrapped in data
-                  console.log('DEBUG serverFetch: No ID match, returning array')
-                  responseData = { data: dataArray }
-                }
+                responseData = found
+                console.log('DEBUG serverFetch: Found specific item', { idSegment })
               } else if (json.pagination) {
                 // If no specific ID matched but pagination exists, return full response
                 console.log('DEBUG serverFetch: No ID match, returning full response with pagination')
