@@ -32,6 +32,7 @@
   ],
   "exclude": [
     "node_modules",
-    "scripts/compare-mutation-score.ts"
+    "scripts/compare-mutation-score.ts",
+    "scripts/update-mutation-baseline.ts"
   ]
 }
