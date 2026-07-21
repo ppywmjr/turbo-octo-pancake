@@ -7,20 +7,45 @@ import { useState } from 'react'
 
 const EXAMPLE_IMAGE_URL = 'https://i.ytimg.com/vi/bjgqwBQ8-7g/hqdefault.jpg';
 
-export default function PlanCardWithImage({ plan, onActivate }: { plan: Plan; onActivate: (code: string) => Promise<void> }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+export default function PlanCardWithImage({ plan, onActivate, error: propError, isOpen: propIsOpen, onModalClose, onOpen }: { plan: Plan; onActivate: (code: string) => Promise<void>; error?: string | null; isOpen?: boolean; onModalClose?: () => void; onOpen?: () => void }) {
+    const [localIsOpen, setLocalIsOpen] = useState(false)
+    const [localError, setLocalError] = useState<string | null>(null)
 
-  async function handleActivate(code: string) {
-    try {
-      setError(null)
-      await onActivate(code)
-      setIsModalOpen(false)
-    } catch (err: unknown) {
-      const message = err instanceof Error && err.message ? err.message : 'Failed to activate code. Please try again.'
-      setError(message)
+    // Prefer prop values over local state
+    const isModalOpen = propIsOpen ?? localIsOpen
+    // Prefer prop error over local error
+    const error = propError ?? localError
+
+  function openModal() {
+    if (propIsOpen !== undefined) {
+      // Notify parent to open the modal
+      onOpen?.()
+      return
     }
+    setLocalIsOpen(true)
   }
+
+    function closeModal() {
+        if (propIsOpen !== undefined) {
+            // Notify parent to close the modal
+            onModalClose?.()
+            return
+        }
+        setLocalIsOpen(false)
+    }
+
+    async function handleActivate(code: string) {
+        try {
+            setLocalError(null)
+            await onActivate(code)
+            if (propIsOpen === undefined) {
+                setLocalIsOpen(false)
+            }
+        } catch (err: unknown) {
+            const message = err instanceof Error && err.message ? err.message : 'Failed to activate code. Please try again.'
+            setLocalError(message)
+        }
+    }
 
     return (
         <>
@@ -41,7 +66,7 @@ export default function PlanCardWithImage({ plan, onActivate }: { plan: Plan; on
 
                         {/* Activate code button overlay */}
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <Button variant="primary" size="md" onClick={() => setIsModalOpen(true)}>
+                            <Button variant="primary" size="md" onClick={openModal}>
                                 Activate code
                             </Button>
                         </div>
@@ -53,10 +78,7 @@ export default function PlanCardWithImage({ plan, onActivate }: { plan: Plan; on
 
             <ActivationCodeModal
                 isOpen={isModalOpen}
-                onClose={() => {
-                    setIsModalOpen(false)
-                    setError(null)
-                }}
+                onClose={closeModal}
                 onSubmit={handleActivate}
                 error={error}
             />
