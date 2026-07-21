@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import SiteHeader from '@/app/components/templates/SiteHeader'
+import Footer from '@/app/components/templates/Footer'
 import { Geist, Geist_Mono } from 'next/font/google'
 import AuthSync from '@/app/components/utilities/AuthSync'
 import './globals.css'
@@ -27,11 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <ClerkProvider>
           <AuthSync />
           <SiteHeader />
-          {children}
+          <main className="flex flex-1 flex-col">
+            {children}
+          </main>
+          <Footer />
         </ClerkProvider>
       </body>
     </html>
