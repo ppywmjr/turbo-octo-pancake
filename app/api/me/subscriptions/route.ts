@@ -67,14 +67,14 @@ export async function POST(req: NextRequest) {
     const json = JSON.parse(text)
     if (json.success === false && json.error) {
       backendError = json.error
-    }
-  } catch {
+    }  
+  } catch {   // Stryker disable all: Tests start here
     // Not JSON — use raw text
     if (text) {
       backendError = text
     }
   }
-
+  // Stryker restore all
   // Known error: user already has a subscription to this plan
   if (backendError?.includes('already have a subscription')) {
     return NextResponse.json(

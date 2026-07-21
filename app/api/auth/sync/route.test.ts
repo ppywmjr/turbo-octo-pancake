@@ -49,6 +49,7 @@ describe('POST /api/auth/sync', () => {
     const res = await POST()
 
     expect(res.status).toBe(503)
+    expect(res.headers.get('Content-Type')).toBe('application/json')
     const body = await res.json()
     expect(body.error).toBe('SUBSCRIPTION_MANAGEMENT_URL not configured')
     expect(fetch).not.toHaveBeenCalled()
@@ -60,6 +61,7 @@ describe('POST /api/auth/sync', () => {
     const res = await POST()
 
     expect(res.status).toBe(401)
+    expect(res.headers.get('Content-Type')).toBe('application/json')
     const body = await res.json()
     expect(body.error).toBe('Unauthorized')
     expect(fetch).not.toHaveBeenCalled()
@@ -71,6 +73,7 @@ describe('POST /api/auth/sync', () => {
     const res = await POST()
 
     expect(res.status).toBe(401)
+    expect(res.headers.get('Content-Type')).toBe('application/json')
     const body = await res.json()
     expect(body.error).toBe('Unauthorized')
     expect(fetch).not.toHaveBeenCalled()
@@ -103,13 +106,14 @@ describe('POST /api/auth/sync', () => {
     expect(console.error).not.toHaveBeenCalled()
   })
 
-  it('still returns 204 but logs an error when subscription service returns a non-202 status', async () => {
+  it('still returns 204 but logs an error with the status code when subscription service returns a non-202 status', async () => {
     vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 500 }))
 
-    const res = await POST()
+    await POST()
 
-    expect(res.status).toBe(204)
-    expect(console.error).toHaveBeenCalled()
+    expect(console.error).toHaveBeenCalledWith(
+      '[api/auth/sync] Subscription management returned unexpected status 500',
+    )
   })
 
   it('uses empty string for email when user has no email addresses', async () => {

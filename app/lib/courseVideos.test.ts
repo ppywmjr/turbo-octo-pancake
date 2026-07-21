@@ -63,6 +63,33 @@ describe('fetchCourseVideos', () => {
     expect(result).toEqual([])
   })
 
+  it('defaults progressSecs to 0 when items in the array omit progressSecs', async () => {
+    process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
+    const mockVideosWithoutProgress = [
+      {
+        id: 'vid-1',
+        title: 'Flutter Basics',
+        url: 'https://www.youtube.com/watch?v=vid-1',
+        thumbnail: 'https://i.ytimg.com/vi/vid-1/hqdefault.jpg',
+        watched: false,
+      },
+    ]
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify({ data: mockVideosWithoutProgress }), { status: 200 }),
+    )
+
+    const result = await fetchCourseVideos(COURSE_ID)
+
+    expect(result).toEqual([{
+      id: 'vid-1',
+      title: 'Flutter Basics',
+      url: 'https://www.youtube.com/watch?v=vid-1',
+      thumbnail: 'https://i.ytimg.com/vi/vid-1/hqdefault.jpg',
+      watched: false,
+      progressSecs: 0,
+    }])
+  })
+
   it('fetches from /me/courses/:id/videos with correct URL and Bearer token', async () => {
     process.env.SUBSCRIPTION_MANAGEMENT_URL = 'http://localhost:3011'
     vi.mocked(fetch).mockResolvedValueOnce(
