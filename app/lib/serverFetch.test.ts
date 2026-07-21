@@ -21,6 +21,7 @@ describe('serverFetch', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.unstubAllEnvs()
+    vi.clearAllMocks()
     global.fetch = originalFetch
   })
 
