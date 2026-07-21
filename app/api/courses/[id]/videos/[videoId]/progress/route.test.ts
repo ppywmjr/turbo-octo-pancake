@@ -20,7 +20,12 @@ function makeParams(params: { id: string; videoId: string }) {
     return { params: Promise.resolve(params) }
 }
 
-function makeRequest(body: any = {}) {
+interface RequestBody {
+    progressSecs?: number;
+    watched?: boolean;
+}
+
+function makeRequest(body: RequestBody = {}) {
     return new Request('http://localhost/api/courses/course-1/videos/vid-1/progress', {
         method: 'POST',
         body: JSON.stringify(body),

@@ -44,7 +44,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(response.headers.get('Content-Type')).toContain('application/json')
@@ -62,7 +62,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/c1')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data).toEqual({ id: 'c1', title: 'Course 1' })
@@ -79,7 +79,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/videos')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data.data).toEqual([
@@ -99,7 +99,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/videos/v1')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data).toEqual({ id: 'v1', title: 'Video 1' })
@@ -116,7 +116,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/c1/videos')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data.data).toEqual([
@@ -136,7 +136,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/plans')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data.data).toEqual([
@@ -156,7 +156,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/plans/p1')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data).toEqual({ id: 'p1', name: 'Plan 1' })
@@ -170,7 +170,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/unknown-id')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data).toEqual({
@@ -187,7 +187,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/unknown-id')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data).toEqual({ data: [{ id: 'c1', title: 'Course 1' }] })
@@ -235,7 +235,7 @@ describe('serverFetch', () => {
       const response = await serverFetchModule.serverFetch('/api/courses')
 
       expect(response.status).toBe(200)
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
       expect(data).toEqual({ result: 'ok' })
     })
 
@@ -247,7 +247,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       // Empty array with pagination: dataArray is [], isArray is true, but no items match
@@ -267,7 +267,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/c1')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data).toEqual({ id: 'c1', title: 'Course 1' })
@@ -280,7 +280,7 @@ describe('serverFetch', () => {
       ]))
 
       const response = await serverFetchModule.serverFetch('/api/courses')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       // When json is an array directly, dataArray = json (the array), and it's an array
@@ -299,7 +299,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/c1/videos/v2')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       // The code looks for videos resource, finds v2 matching ID
@@ -316,7 +316,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/abc123/videos')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       // Should target videos resource, not courses
@@ -373,7 +373,7 @@ describe('serverFetch', () => {
         },
       })
 
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
       expect(data).toEqual({ success: true })
     })
 
@@ -468,7 +468,7 @@ describe('serverFetch', () => {
       process.env.INTERNAL_API_SECRET = 'real-secret'
 
       const response = await serverFetchModule.serverFetch('https://real-api.com/endpoint')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(mockFetch).toHaveBeenCalledWith('https://real-api.com/endpoint', {
         headers: {
@@ -489,7 +489,7 @@ describe('serverFetch', () => {
       process.env.INTERNAL_API_SECRET = 'key'
 
       const response = await serverFetchModule.serverFetch('https://api.test.com/resource')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data).toEqual({ data: 'test' })
@@ -522,7 +522,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses?limit=10')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       expect(data.data).toEqual([{ id: 'c1', title: 'Course 1' }])
@@ -544,7 +544,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/videos')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       // Should target videos resource due to the nested pattern
@@ -564,7 +564,7 @@ describe('serverFetch', () => {
 
       // Use an ID that appears in segments but doesn't match any item
       const response = await serverFetchModule.serverFetch('/api/courses/nonexistent')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       // idSegment is 'nonexistent', but no item has that ID, so it falls to pagination branch
@@ -586,7 +586,7 @@ describe('serverFetch', () => {
       }))
 
       const response = await serverFetchModule.serverFetch('/api/courses/c1')
-      const data: any = await response.json()
+      const data = await response.json() as Record<string, unknown>
 
       expect(response.status).toBe(200)
       // dataArray = { id: 'c1', title: 'Single Course' }, not an array
