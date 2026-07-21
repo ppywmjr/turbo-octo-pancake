@@ -2,7 +2,9 @@ import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV !== 'production';
 
-const CLERK_FAPI = 'https://brave-panda-48.clerk.accounts.dev'; // TODO: replace with your real Clerk FAPI hostname (Clerk Dashboard → Configure → Domains)
+const CLERK_FAPI = isDev
+  ? 'https://brave-panda-48.clerk.accounts.dev'
+  : 'https://clerk.mikejamesrust.com';
 
 const cspHeader = `
   default-src 'self';
