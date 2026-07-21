@@ -189,6 +189,12 @@ export default function YoutubePlayer({
               e.target.pauseVideo() // Prevent auto-play side effect from seekTo
               currentTimeRef.current = initialProgressSecs
               setCurrentTime(initialProgressSecs)
+            } else {
+              // First load: seek to 1s to avoid the YouTube thumbnail still image
+              e.target.seekTo(1, true)
+              e.target.pauseVideo() // Prevent auto-play side effect from seekTo
+              currentTimeRef.current = 1
+              setCurrentTime(1)
             }
           },
           onStateChange: (e) => {
