@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '@/app/components/atoms/Button'
 import BodyText from '@/app/components/atoms/text/BodyText'
-import LinkText from '@/app/components/atoms/text/LinkText'
 
 const COOKIE_CONSENT_KEY = 'cookie_consent_given'
 const COOKIE_CONSENT_REJECTED_KEY = 'cookie_consent_rejected'
@@ -99,7 +98,7 @@ export default function CookieModal() {
   const rejectButtonText = isRePrompt ? 'Reject All & leave' : 'Reject All'
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center">
+    <div className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center">
       {/* Overlay */}
       <div
         className="absolute inset-0 bg-[var(--color-overlay-gradient)]"
@@ -107,7 +106,7 @@ export default function CookieModal() {
       />
 
       {/* Modal */}
-      <div className="relative bg-[var(--color-white)] rounded-t-2xl sm:rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-xl">
+      <div className="relative bg-[var(--color-white)] rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-xl mt-24 sm:my-8 overflow-y-auto max-h-[90vh] sm:max-h-none">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mb-3">
             {title}
@@ -120,9 +119,9 @@ export default function CookieModal() {
           </BodyText>
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+        <div className="mt-6 flex items-center justify-end gap-3">
           <Button
-            variant="primary"
+            variant="secondary"
             size="md"
             onClick={handleAccept}
             className="flex-1"
