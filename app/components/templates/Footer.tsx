@@ -4,7 +4,10 @@ export default function Footer() {
   return (
     <footer className="w-full border-t border-[var(--color-surface)] py-4">
       <div className="flex items-center justify-center">
-        <LinkText href="/cookie-policy">Cookie Policy</LinkText>
+        <div className="flex items-center gap-4">
+          <LinkText href="/policies/cookie-policy">Cookie Policy</LinkText>
+          <LinkText href="/policies/terms-of-use">Terms of Use</LinkText>
+        </div>
       </div>
     </footer>
   )

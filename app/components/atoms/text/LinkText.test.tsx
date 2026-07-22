@@ -18,20 +18,20 @@ describe('LinkText', () => {
   })
 
   it('renders the LinkText component with children', () => {
-    render(<LinkText href="/cookie-policy">Cookie Policy</LinkText>)
+    render(<LinkText href="/policies/cookie-policy">Cookie Policy</LinkText>)
 
     expect(screen.getByText('Cookie Policy')).toBeTruthy()
   })
 
   it('links to the provided href', () => {
-    render(<LinkText href="/cookie-policy">Cookie Policy</LinkText>)
+    render(<LinkText href="/policies/cookie-policy">Cookie Policy</LinkText>)
 
     const link = screen.getAllByTestId('link-text')[0] as HTMLElement
-    expect(link.getAttribute('href')).toBe('/cookie-policy')
+    expect(link.getAttribute('href')).toBe('/policies/cookie-policy')
   })
 
   it('applies default CSS classes', () => {
-    render(<LinkText href="/cookie-policy">Cookie Policy</LinkText>)
+    render(<LinkText href="/policies/cookie-policy">Cookie Policy</LinkText>)
 
     const link = screen.getAllByTestId('link-text')[0] as HTMLElement
     const className = link.getAttribute('class') ?? ''
@@ -43,7 +43,7 @@ describe('LinkText', () => {
   })
 
   it('merges custom className with default classes', () => {
-    render(<LinkText href="/cookie-policy" className="custom-class">Cookie Policy</LinkText>)
+    render(<LinkText href="/policies/cookie-policy" className="custom-class">Cookie Policy</LinkText>)
 
     const link = screen.getAllByTestId('link-text')[0] as HTMLElement
     const className = link.getAttribute('class') ?? ''
@@ -52,7 +52,7 @@ describe('LinkText', () => {
   })
 
   it('handles null/undefined className gracefully', () => {
-    render(<LinkText href="/cookie-policy">Cookie Policy</LinkText>)
+    render(<LinkText href="/policies/cookie-policy">Cookie Policy</LinkText>)
 
     const link = screen.getAllByTestId('link-text')[0] as HTMLElement
     expect(link).toBeTruthy()
