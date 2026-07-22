@@ -26,13 +26,15 @@ describe('Footer', () => {
   it('renders a link to the cookie policy page', () => {
     render(<Footer />)
 
-    const link = screen.getByTestId('footer-link')
+    const link = screen.getByRole('link' , { name: 'Cookie policy'})
     expect(link.getAttribute('href')).toBe('/policies/cookie-policy')
   })
 
-  it('renders the "Cookie Policy" text', () => {
+  it('renders a link to the terms of use page', () => {
     render(<Footer />)
 
-    expect(screen.getByText('Cookie Policy')).toBeTruthy()
+    const link = screen.getByRole('link' , { name: 'Terms of use'})
+    expect(link.getAttribute('href')).toBe('/policies/terms-of-use')
   })
+
 })
