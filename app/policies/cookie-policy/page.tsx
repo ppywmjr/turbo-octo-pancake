@@ -7,6 +7,7 @@ import {
     clerkCookies,
     clerkSessionStorageItems,
     clerkLocalStorageNecessaryItems,
+    siteLocalStorageNecessaryItems,
     googleNecessaryCookies,
     googleFunctionalCookies,
     googleLocalStorageFunctionalItems,
@@ -60,6 +61,12 @@ export default function CookiePolicyPage() {
                 <SectionHeading as='h3' >Local Storage</SectionHeading>
 
                 <Table columns={['Origin', 'Key', 'Purpose', 'Category']} data={clerkLocalStorageNecessaryItems} />
+
+                <SectionHeading as='h3' >Site Local Storage</SectionHeading>
+
+<BodyText>The following local storage items are necessary for the site's cookie consent functionality</BodyText>
+
+                <Table columns={['Origin', 'Key', 'Purpose', 'Category']} data={siteLocalStorageNecessaryItems} />
 
 
                 <SectionHeading as='h3' >YouTube necessary cookies</SectionHeading>
