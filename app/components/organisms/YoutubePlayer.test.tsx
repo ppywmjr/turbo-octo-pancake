@@ -56,6 +56,8 @@ describe('YoutubePlayer', () => {
     vi.stubGlobal('YT', { Player: MockYTPlayer, PlayerState: { PLAYING: YT_PLAYING } })
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(null, { status: 204 })))
     vi.spyOn(console, 'log').mockImplementation(() => { })
+    // Set cookie consent so YoutubePlayer renders the player instead of placeholder
+    localStorage.setItem('cookie_consent_given', 'true')
     MockYTPlayer.mockClear()
     mockSeekTo.mockClear()
     mockPlayVideo.mockClear()
@@ -68,6 +70,7 @@ describe('YoutubePlayer', () => {
 
   afterEach(() => {
     cleanup()
+    localStorage.removeItem('cookie_consent_given')
     vi.unstubAllGlobals()
     vi.restoreAllMocks()
     vi.useRealTimers()
@@ -340,5 +343,19 @@ describe('YoutubePlayer', () => {
 
     expect(mockSeekTo).toHaveBeenCalledWith(120, true)
     expect(mockPauseVideo).toHaveBeenCalledOnce()
+  })
+
+  it('does not load YouTube player when cookie consent has not been given', async () => {
+    // Remove consent set in beforeEach
+    localStorage.removeItem('cookie_consent_given')
+
+    await act(async () => { render(<YoutubePlayer {...PROPS} />) })
+
+    // Should show placeholder instead of player
+    expect(screen.getByText('Cookie consent was rejected')).toBeTruthy()
+    expect(screen.getByText(/This video requires YouTube cookies which you have declined/)).toBeTruthy()
+
+    // YT.Player should never have been called
+    expect(MockYTPlayer).not.toHaveBeenCalled()
   })
 })

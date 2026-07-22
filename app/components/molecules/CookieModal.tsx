@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '@/app/components/atoms/Button'
 import BodyText from '@/app/components/atoms/text/BodyText'
+import { deleteNonEssentialStorage } from '@/app/lib/cookies/utils'
 
 const COOKIE_CONSENT_KEY = 'cookie_consent_given'
 const COOKIE_CONSENT_REJECTED_KEY = 'cookie_consent_rejected'
@@ -64,8 +65,9 @@ export default function CookieModal() {
     setIsVisible(false)
   }
 
-  const handleReject = () => {
+  const handleReject = async () => {
     setCookieConsentRejected(true)
+    await deleteNonEssentialStorage()
     setIsVisible(false)
     router.push('/')
   }
@@ -94,8 +96,8 @@ export default function CookieModal() {
     </>
   )
 
-  const acceptButtonText = isRePrompt ? 'Accept All' : 'Accept All'
-  const rejectButtonText = isRePrompt ? 'Reject All & leave' : 'Reject All'
+  const acceptButtonText = isRePrompt ? 'Accept all' : 'Accept all'
+  const rejectButtonText = isRePrompt ? 'Reject all & leave' : 'Reject all'
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center">

@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import BodyText from '@/app/components/atoms/text/BodyText'
 
 declare global {
   interface Window {
@@ -65,6 +66,13 @@ function formatTime(secs: number): string {
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`
 }
 
+// Helper to check cookie consent synchronously (no SSR issues)
+// Returns true only if user has explicitly accepted cookies
+function hasCookieConsentGiven(): boolean {
+  if (typeof window === 'undefined') return false
+  return localStorage.getItem('cookie_consent_given') === 'true'
+}
+
 export default function YoutubePlayer({
   videoId,
   title,
@@ -78,6 +86,26 @@ export default function YoutubePlayer({
   courseId: string
   ytVideoId: string
 }) {
+  // Check synchronously on mount — only show player if user has explicitly consented to cookies
+  const showPlayer = hasCookieConsentGiven()
+
+  if (!showPlayer) {
+    return (
+      <div className="w-full aspect-video rounded-2xl bg-[var(--color-surface)] flex items-center justify-center">
+        <div className="text-center px-4">
+          <BodyText muted className="mb-2">Cookie consent was rejected</BodyText>
+          <BodyText muted>This video requires YouTube cookies which you have declined. </BodyText>
+          <BodyText muted>
+            You can change your preference in our{' '}
+            <a href="/policies/cookie-policy" className="text-[var(--color-text-primary)] underline hover:text-[var(--color-text-muted)]">
+              Cookie Policy
+            </a>.
+          </BodyText>
+        </div>
+      </div>
+    )
+  }
+
   const wrapperRef = useRef<HTMLDivElement>(null)
   const playerContainerRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayerInstance | null>(null)
