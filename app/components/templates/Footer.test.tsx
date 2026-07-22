@@ -27,7 +27,7 @@ describe('Footer', () => {
     render(<Footer />)
 
     const link = screen.getByTestId('footer-link')
-    expect(link.getAttribute('href')).toBe('/cookie-policy')
+    expect(link.getAttribute('href')).toBe('/policies/cookie-policy')
   })
 
   it('renders the "Cookie Policy" text', () => {
