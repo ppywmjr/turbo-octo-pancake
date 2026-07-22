@@ -109,6 +109,21 @@ export const clerkLocalStorageNecessaryItems: StorageData[] = [
     },
 ]
 
+export const siteLocalStorageNecessaryItems: StorageData[] = [
+    {
+        origin: 'www.mikejamesrust.com',
+        key: 'cookie_consent_given',
+        purpose: 'Records whether the user has explicitly accepted cookies',
+        category: 'Necessary',
+    },
+    {
+        origin: 'www.mikejamesrust.com',
+        key: 'cookie_consent_rejected',
+        purpose: 'Records whether the user has explicitly rejected cookies',
+        category: 'Necessary',
+    },
+]
+
 export const googleNecessaryCookies: CookieData[] = [
     {
         name: 'SIDCC, __Secure-1PSIDCC, __Secure-3PSIDCC',
@@ -228,6 +243,7 @@ export const allNecessaryCookies: CookieData[] = [
 
 export const allNecessaryLocalStorage: StorageData[] = [
     ...clerkLocalStorageNecessaryItems,
+    ...siteLocalStorageNecessaryItems,
 ]
 
 export const allNecessarySessionStorage: StorageData[] = [
