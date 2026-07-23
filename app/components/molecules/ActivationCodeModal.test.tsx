@@ -550,10 +550,10 @@ describe('ActivationCodeModal', () => {
       expect(submitButton.className).toContain('bg-[var(--color-brand)]')
     })
 
-    it('buttons have sm size classes', () => {
+    it('buttons have md size classes', () => {
       renderComponent()
       const submitButton = screen.getByText('Activate') as HTMLElement
-      expect(submitButton.className).toContain('h-10')
+      expect(submitButton.className).toContain('h-12')
     })
   })
 })

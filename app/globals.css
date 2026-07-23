@@ -9,7 +9,7 @@
 
   /* === Status Colors === */
   --color-success: #15803d;
-  --color-warning: #b47509;
+  --color-warning: #edb13a;
 
   /* === Error Colors === */
   --color-error-border-light: #fecaca;
@@ -25,14 +25,14 @@
   --color-surface-row-even: #fafafa;
 
   /* Text Primary: headings, prices, primary content text */
-  --color-text-primary: #1b1918;
+  --color-text-primary: #123524;
 
   /* Text Muted: secondary text, descriptions, empty states, subtle UI */
   --color-text-muted: #71717a;
 
   /* === Card Surface Variants === */
   /* Text area background within cards (lighter than surface for contrast) */
-  --color-surface-text: #b4dbb4;
+  --color-surface-text: #ffffff;
 
   /* === Essential Neutrals === */
   --color-black: #000000;
@@ -41,7 +41,7 @@
   /* === Overlay Colors === */
   --color-overlay-gradient: rgba(0, 0, 0, 0.8);
   --color-overlay-surface: rgba(0, 0, 0, 0.6);
-  --color-overlay-surface-hover: rgba(34, 197, 94, 1);
+  --color-overlay-surface-hover: #edb13a;
   --color-overlay-dark: #000000;
 }
 

@@ -12,9 +12,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    'rounded-full bg-[var(--color-brand)] text-sm font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-text-primary)] focus-visible:outline-offset-2 cursor-pointer',
+    'rounded-full bg-[var(--color-brand)] text-m font-bold text-black transition-colors hover:bg-[var(--color-brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-text-primary)] focus-visible:outline-offset-2 cursor-pointer',
   secondary:
-    'rounded-full bg-[var(--color-white)] border-2 border-[var(--color-brand)] text-sm font-semibold text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-brand)]/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-brand)] focus-visible:outline-offset-2 cursor-pointer',
+    'rounded-full bg-[var(--color-white)] border-2 border-[var(--color-brand)] text-m font-bold text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-brand)]/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-brand)] focus-visible:outline-offset-2 cursor-pointer',
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
