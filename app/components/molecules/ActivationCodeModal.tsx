@@ -113,7 +113,7 @@ function ActivationCodeModalContent({ isOpen, onClose, onSubmit, error: propErro
             <Button
               type="button"
               variant="secondary"
-              size="sm"
+              size="md"
               onClick={onClose}
               disabled={isSubmitting}
             >
@@ -122,7 +122,7 @@ function ActivationCodeModalContent({ isOpen, onClose, onSubmit, error: propErro
             <Button
               type="submit"
               variant="primary"
-              size="sm"
+              size="md"
               disabled={isSubmitting || !code.trim()}
             >
               {isSubmitting ? 'Activating...' : 'Activate'}

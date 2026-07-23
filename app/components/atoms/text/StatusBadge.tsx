@@ -7,7 +7,7 @@ const VARIANT_CLASSES: Record<StatusBadgeVariant, { bg: string; text: string }> 
     },
     'in-progress': {
         bg: 'bg-[var(--color-warning)]',
-        text: 'text-[var(--color-white)]',
+        text: 'text-[var(--color-black)]',
     },
 }
 
