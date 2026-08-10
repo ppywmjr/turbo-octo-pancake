@@ -50,14 +50,14 @@ describe('HeroCTA', () => {
     render(<HeroCTA planId="plan-abc" />)
 
     const wrapper = screen.getByTestId('sign-up-button')
-    expect(wrapper.getAttribute('data-redirect-url')).toBe('/subscribe/plan-abc')
+    expect(wrapper.getAttribute('data-redirect-url')).toBe('/')
   })
 
   it('sets the SignUpButton redirect URL to /courses when planId is null', () => {
     render(<HeroCTA planId={null} />)
 
     const wrapper = screen.getByTestId('sign-up-button')
-    expect(wrapper.getAttribute('data-redirect-url')).toBe('/courses')
+    expect(wrapper.getAttribute('data-redirect-url')).toBe('/')
   })
 
   it('always sets the SignInButton redirect URL to /', () => {

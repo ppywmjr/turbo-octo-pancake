@@ -4,11 +4,10 @@ import { SignUpButton, SignInButton } from '@clerk/nextjs'
 import Button from '@/app/components/atoms/Button'
 
 export default function HeroCTA({ planId }: { planId: string | null }) {
-  const subscribeUrl = planId ? `/subscribe/${planId}` : '/courses'
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
-      <SignUpButton forceRedirectUrl={subscribeUrl}>
+      <SignUpButton forceRedirectUrl="/">
         <Button variant="primary" size="md">
           Sign up now
         </Button>
