@@ -3,7 +3,7 @@
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 
 type ButtonVariant = 'primary' | 'secondary'
-type ButtonSize = 'sm' | 'md'
+type ButtonSize = 'sm' | 'md' | 'lg'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant
@@ -20,6 +20,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 const SIZE_CLASSES: Record<ButtonSize, string> = {
   sm: 'h-10 px-6',
   md: 'h-12 px-8',
+  lg: 'h-24 px-8',
 }
 
 const FOCUS_RING_COLORS: Record<ButtonVariant, string> = {

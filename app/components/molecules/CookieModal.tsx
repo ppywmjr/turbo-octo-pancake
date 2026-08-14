@@ -77,8 +77,8 @@ export default function CookieModal() {
   const title = isRePrompt ? 'Cookie Consent Required' : 'Cookie Consent'
 
   const initialBodyText = isRePrompt
-    ? 'You previously rejected cookies. To continue using this website, you must accept cookies.'
-    : 'We use cookies to provide a better browsing experience, content personalization, and site analytics.'
+    ? 'To continue using this website, you must accept YouTube\'s functional and marketing cookies. These cookies are required for us to use YouTube\'s video services.'
+    : 'We depend on third party cookies to provide a better browsing experience, content personalization, and site analytics.'
 
   const termsBodyText = (
     <>
@@ -96,7 +96,7 @@ export default function CookieModal() {
     </>
   )
 
-  const acceptButtonText = isRePrompt ? 'Accept all' : 'Accept all'
+  const acceptButtonText = isRePrompt ? 'Accept YouTube cookies' : 'Accept cookies'
   const rejectButtonText = isRePrompt ? 'Reject all & leave' : 'Reject all'
 
   return (
@@ -124,7 +124,7 @@ export default function CookieModal() {
         <div className="mt-6 flex items-center justify-end gap-3">
           <Button
             variant="secondary"
-            size="md"
+            size={isRePrompt ? 'lg' : 'md'}
             onClick={handleAccept}
             className="flex-1"
           >
@@ -132,7 +132,7 @@ export default function CookieModal() {
           </Button>
           <Button
             variant="secondary"
-            size="md"
+            size={isRePrompt ? 'lg' : 'md'}
             onClick={handleReject}
             className="flex-1"
           >
