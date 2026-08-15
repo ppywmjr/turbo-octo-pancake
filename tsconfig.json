@@ -33,6 +33,7 @@
   "exclude": [
     "node_modules",
     "scripts/compare-mutation-score.ts",
-    "scripts/update-mutation-baseline.ts"
+    "scripts/update-mutation-baseline.ts",
+    "mock-server"
   ]
 }
