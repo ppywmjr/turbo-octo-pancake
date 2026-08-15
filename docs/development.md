@@ -19,7 +19,51 @@ To start the local development server, run:
 ```bash
 pnpm dev
 ```
-The application will be available at `http://localhost:3000` (or the port specified in your terminal).
+The application will be available at `http://localhost:3010` (or the port specified in your terminal).
+
+### Running Locally Without the Subscription-Management Service
+
+The app communicates with an external subscription-management service at `SUBSCRIPTION_MANAGEMENT_URL`.
+To develop and test locally without that backend, a built-in mock server is provided.
+
+#### Start the Mock Server
+```bash
+pnpm mock
+```
+This starts a stub service on `http://localhost:3011` that returns pre-seeded responses for every
+endpoint the app calls (plans, courses, videos, subscriptions, checkout, auth sync). State is
+in-memory — activations and progress updates mutate the local store, and a fresh `pnpm mock`
+resets everything.
+
+#### Run Both Together
+```bash
+# Terminal 1
+pnpm mock
+
+# Terminal 2
+pnpm dev
+```
+
+The app reads `SUBSCRIPTION_MANAGEMENT_URL=http://localhost:3011` from `.env`, so no
+configuration changes are needed.
+
+#### What the Mock Supports
+| Upstream endpoint | Behavior |
+|---|---|
+| `GET /plans` | Returns 2 seeded plans (one free, one paid) |
+| `GET /me/courses` | Starts empty; populated when you activate a subscription |
+| `POST /me/subscriptions` | Any activation code subscribes to the "Flutters Online Training Programme" plan; returns 409 on duplicate |
+| `GET /courses/:id` | Returns the course if it exists in `/me/courses`, otherwise 404 |
+| `GET /me/courses/:id/videos` | Returns the seeded video list for that course id |
+| `GET /me/courses/:id/videos/:videoId` | Returns a single video by id |
+| `POST /me/courses/:id/videos/:videoId/progress` | Updates `watched` and/or `progressSecs` in memory; returns 204 |
+| `POST /plans/:planId/subscribe` | Returns a fake `checkoutUrl` (e.g. `https://checkout.example.com/mock/:planId`) |
+| `POST /signup` | Returns 202 (the app only checks for a 2xx response) |
+
+#### Notes
+* The mock does **not** validate Clerk Bearer tokens or the internal API key — it accepts any request.
+* The mock server is implemented in `mock-server/index.ts` using only Node's built-in `http` module.
+* You can change the port via the `MOCK_PORT` environment variable: `MOCK_PORT=9999 pnpm mock`.
 
 ## Development Workflow
 

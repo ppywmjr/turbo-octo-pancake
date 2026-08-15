@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "next dev -p 3010",
+    "mock": "node --experimental-strip-types mock-server/index.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
