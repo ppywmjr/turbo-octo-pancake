@@ -48,7 +48,7 @@ export default function CookiePolicyPage() {
                 </BodyText>
 
 <SectionHeading>Necessary items</SectionHeading>
-                <SectionHeading as='h3' >1. Clerk & first-party cookies (mikejamesrust.com / clerk.com / clerk.mikejamesrust.com)</SectionHeading>
+                <SectionHeading as='h3' >1. Clerk & first-party cookies (catherineidalia.co.uk / clerk.com / clerk.courses.catherineidalia.co.uk)</SectionHeading>
 
 <BodyText>The following cookies and storage items are neccessary</BodyText>
 
