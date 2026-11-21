@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const CLERK_FAPI = isDev
   ? 'https://brave-panda-48.clerk.accounts.dev'
-  : 'https://clerk.mikejamesrust.com';
+  : 'https://clerk.courses.catherineidalia.co.uk';
 
 const cspHeader = `
   default-src 'self';

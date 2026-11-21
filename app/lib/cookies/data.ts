@@ -25,7 +25,7 @@ export interface IndexedDBData {
 export const clerkCookies: CookieData[] = [
     {
         name: '__client_uat',
-        domain: '.mikejamesrust.com',
+        domain: '.catherineidalia.co.uk',
         description: 'Timestamp flag indicating whether a Clerk logged in session exists; used to sync signed-in state across tabs/domains without exposing the token itself',
         category: 'Necessary',
     },
@@ -43,49 +43,49 @@ export const clerkCookies: CookieData[] = [
     },
     {
         name: '__client_uat_li9CUjqJ',
-        domain: '.mikejamesrust.com',
+        domain: '.catherineidalia.co.uk',
         description: 'Instance-specific variant of __client_uat',
         category: 'Necessary',
     },
     {
         name: '__refresh_li9CUjqJ',
-        domain: 'www.mikejamesrust.com',
+        domain: 'courses.catherineidalia.co.uk',
         description: 'Refresh token used to silently renew the session token',
         category: 'Necessary',
     },
     {
         name: 'clerk_active_context',
-        domain: 'www.mikejamesrust.com',
+        domain: 'courses.catherineidalia.co.uk',
         description: 'Tracks which session/organisation context is currently active',
         category: 'Necessary',
     },
     {
         name: '__client',
-        domain: '.clerk.mikejamesrust.com',
+        domain: '.clerk.courses.catherineidalia.co.uk',
         description: 'Main authentication cookie (long-lived, HttpOnly) — the core "is this user logged in" credential',
         category: 'Necessary',
     },
     {
         name: '__session',
-        domain: 'www.mikejamesrust.com',
+        domain: 'courses.catherineidalia.co.uk',
         description: 'Short-lived session token (JWT), used to authenticate requests',
         category: 'Necessary',
     },
     {
         name: '__session_li9CUjqJ',
-        domain: 'www.mikejamesrust.com',
+        domain: 'courses.catherineidalia.co.uk',
         description: 'Instance-specific variant of __session',
         category: 'Necessary',
     },
     {
         name: '_cfuvid',
-        domain: '.clerk.mikejamesrust.com',
+        domain: '.clerk.courses.catherineidalia.co.uk',
         description: 'Cloudflare cookie used alongside rate-limiting/Bot Management to distinguish sessions; not itself a tracking cookie but worth flagging as Cloudflare infrastructure rather than Clerk',
         category: 'Necessary',
     },
     {
         name: '__cf_bm',
-        domain: '.clerk.mikejamesrust.com',
+        domain: '.clerk.courses.catherineidalia.co.uk',
         description: 'Cloudflare Bot Management — distinguishes human traffic from bots, ~30 min lifetime',
         category: 'Necessary',
     },
@@ -93,7 +93,7 @@ export const clerkCookies: CookieData[] = [
 
 export const clerkSessionStorageItems: StorageData[] = [
     {
-        origin: 'www.mikejamesrust.com',
+        origin: 'courses.catherineidalia.co.uk',
         key: 'auth-synced-user_[id]',
         purpose: 'Flag Clerk uses to confirm auth state has been synced for this tab/session',
         category: 'Necessary',
@@ -102,7 +102,7 @@ export const clerkSessionStorageItems: StorageData[] = [
 
 export const clerkLocalStorageNecessaryItems: StorageData[] = [
     {
-        origin: 'www.mikejamesrust.com',
+        origin: 'courses.catherineidalia.co.uk',
         key: '__clerk_environment',
         purpose: "Caches Clerk's environment/config (auth settings, instance config) so the SDK doesn't refetch it every load",
         category: 'Necessary',
@@ -111,13 +111,13 @@ export const clerkLocalStorageNecessaryItems: StorageData[] = [
 
 export const siteLocalStorageNecessaryItems: StorageData[] = [
     {
-        origin: 'www.mikejamesrust.com',
+        origin: 'courses.catherineidalia.co.uk',
         key: 'cookie_consent_given',
         purpose: 'Records whether the user has explicitly accepted cookies',
         category: 'Necessary',
     },
     {
-        origin: 'www.mikejamesrust.com',
+        origin: 'courses.catherineidalia.co.uk',
         key: 'cookie_consent_rejected',
         purpose: 'Records whether the user has explicitly rejected cookies',
         category: 'Necessary',

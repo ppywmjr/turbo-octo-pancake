@@ -12,11 +12,11 @@ export default function TermsOfUse() {
 
                 <PageHeading>Terms of use</PageHeading>
 
-                <BodyText muted>Last updated: 22nd July 2026</BodyText>
+                <BodyText muted>Last updated: 21st November 2026</BodyText>
 
                 <SectionHeading>1. Who we are</SectionHeading>
                 <BodyText>
-                    Michael Rust ("we," "us," "our") operates mikejamesrust.com (the "Site") to provide video content.
+                    Catherine Idalia ("we," "us," "our") operates courses.catherineidalia.co.uk (the "Site") to provide video content.
                 </BodyText>
 
                 <SectionHeading>2. Acceptance of these terms</SectionHeading>
@@ -122,7 +122,7 @@ export default function TermsOfUse() {
 
                 <SectionHeading>11. Contact</SectionHeading>
                 <BodyText>
-                    Questions about these Terms, email: mike.james.rust@gmail.com
+                    Questions about these Terms, email: catherineidalia@gmail.com
                 </BodyText>
 
                 <BodyText muted>
