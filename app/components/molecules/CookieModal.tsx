@@ -4,19 +4,12 @@ import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '@/app/components/atoms/Button'
 import BodyText from '@/app/components/atoms/text/BodyText'
-import { deleteNonEssentialStorage } from '@/app/lib/cookies/utils'
 
 const COOKIE_CONSENT_KEY = 'cookie_consent_given'
-const COOKIE_CONSENT_REJECTED_KEY = 'cookie_consent_rejected'
 
 function getCookieConsentGiven(): boolean {
   if (typeof window === 'undefined') return false
   return localStorage.getItem(COOKIE_CONSENT_KEY) === 'true'
-}
-
-function getCookieConsentRejected(): boolean {
-  if (typeof window === 'undefined') return false
-  return localStorage.getItem(COOKIE_CONSENT_REJECTED_KEY) === 'true'
 }
 
 function setCookieConsentGiven(value: boolean): void {
@@ -24,18 +17,10 @@ function setCookieConsentGiven(value: boolean): void {
   localStorage.setItem(COOKIE_CONSENT_KEY, String(value))
 }
 
-function setCookieConsentRejected(value: boolean): void {
-  if (typeof window === 'undefined') return
-  localStorage.setItem(COOKIE_CONSENT_REJECTED_KEY, String(value))
-}
-
-const isHomeRoute = (path: string): boolean => path === '/' || path === ''
-
 export default function CookieModal() {
   const pathname = usePathname()
   const router = useRouter()
   const [isVisible, setIsVisible] = useState(false)
-  const [isRePrompt, setIsRePrompt] = useState(false)
 
   useEffect(() => {
     // Never show the modal on any policies page
@@ -43,46 +28,33 @@ export default function CookieModal() {
       return
     }
 
-    const hasConsent = getCookieConsentGiven()
-    const hasRejected = getCookieConsentRejected()
-
-    if (!hasConsent && !hasRejected) {
-      // First time visitor — show initial modal
+    // The site requires all cookies to function, so the modal is shown until consent is given
+    if (!getCookieConsentGiven()) {
       setIsVisible(true)
-      setIsRePrompt(false)
-    } else if (hasRejected && !isHomeRoute(pathname)) {
-      // Cookies were rejected and user navigated to a non-home page — reopen modal
-      setIsVisible(true)
-      setIsRePrompt(true)
     }
   }, [pathname])
 
-  const handleAccept = () => {
+  const handleContinue = () => {
     setCookieConsentGiven(true)
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(COOKIE_CONSENT_REJECTED_KEY)
-    }
     setIsVisible(false)
-  }
-
-  const handleReject = async () => {
-    setCookieConsentRejected(true)
-    await deleteNonEssentialStorage()
-    setIsVisible(false)
-    router.push('/')
   }
 
   if (!isVisible) return null
 
-  const title = isRePrompt ? 'Cookie Consent Required' : 'Cookie Consent'
-
-  const initialBodyText = isRePrompt
-    ? 'To continue using this website, you must accept YouTube\'s functional and marketing cookies. These cookies are required for us to use YouTube\'s video services.'
-    : 'We depend on third party cookies to provide a better browsing experience, content personalization, and site analytics.'
-
-  const termsBodyText = (
+  const bodyText = (
     <>
-      All cookies must be accepted as per the terms of use of this website. Read more in our{' '}
+      This website uses cookies, including third-party YouTube cookies, which are required for the site to function. By clicking "Continue" you accept all cookies as per our{' '}
+      <span
+        onClick={(e) => {
+          e.preventDefault()
+          setIsVisible(false)
+          router.push('/policies/terms-of-use')
+        }}
+        className="text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors cursor-pointer"
+      >
+        Terms of Use
+      </span>.
+      Read more in our{' '}
       <span
         onClick={(e) => {
           e.preventDefault()
@@ -96,9 +68,6 @@ export default function CookieModal() {
     </>
   )
 
-  const acceptButtonText = isRePrompt ? 'Accept YouTube cookies' : 'Accept cookies'
-  const rejectButtonText = isRePrompt ? 'Reject all & leave' : 'Reject all'
-
   return (
     <div className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center">
       {/* Overlay */}
@@ -111,32 +80,14 @@ export default function CookieModal() {
       <div className="relative bg-[var(--color-white)] rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-xl mt-24 sm:my-8 overflow-y-auto max-h-[90vh] sm:max-h-none">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mb-3">
-            {title}
+            Cookie Consent
           </h2>
-          <BodyText muted>
-            {initialBodyText}
-          </BodyText>
-          <BodyText muted className="mt-3">
-            {termsBodyText}
-          </BodyText>
+          <BodyText muted>{bodyText}</BodyText>
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-3">
-          <Button
-            variant="secondary"
-            size={isRePrompt ? 'lg' : 'md'}
-            onClick={handleAccept}
-            className="flex-1"
-          >
-            {acceptButtonText}
-          </Button>
-          <Button
-            variant="secondary"
-            size={isRePrompt ? 'lg' : 'md'}
-            onClick={handleReject}
-            className="flex-1"
-          >
-            {rejectButtonText}
+          <Button variant="primary" size="md" onClick={handleContinue} className="flex-1">
+            Continue
           </Button>
         </div>
       </div>

@@ -116,12 +116,6 @@ export const siteLocalStorageNecessaryItems: StorageData[] = [
         purpose: 'Records whether the user has explicitly accepted cookies',
         category: 'Necessary',
     },
-    {
-        origin: 'courses.catherineidalia.co.uk',
-        key: 'cookie_consent_rejected',
-        purpose: 'Records whether the user has explicitly rejected cookies',
-        category: 'Necessary',
-    },
 ]
 
 export const googleNecessaryCookies: CookieData[] = [
