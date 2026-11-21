@@ -6,7 +6,8 @@
             "title": "flutters-demo-course",
             "description": null,
             "thumbnail": null,
-            "sortOrder": 0
+            "sortOrder": 0,
+            "isPublished": false
         }
     ],
     "pagination": {

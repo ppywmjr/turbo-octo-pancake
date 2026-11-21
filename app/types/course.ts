@@ -4,6 +4,23 @@ export interface Course {
   description: string | null
   thumbnail: string | null
   sortOrder: number
+  isPublished?: boolean
+}
+
+export interface CreateCourseInput {
+  title: string
+  description?: string | null
+  thumbnail?: string | null
+  sortOrder?: number
+  isPublished?: boolean
+}
+
+export interface PatchCourseInput {
+  title?: string
+  description?: string | null
+  thumbnail?: string | null
+  sortOrder?: number
+  isPublished?: boolean
 }
 
 export interface CoursesResponse {
