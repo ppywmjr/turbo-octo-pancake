@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { POST } from '@/app/api/courses/[id]/videos/[videoId]/progress/route'
 import { auth } from '@clerk/nextjs/server'
+import { NextRequest } from 'next/server'
 
 vi.mock('@clerk/nextjs/server', () => ({
     auth: vi.fn(),
@@ -25,8 +26,8 @@ interface RequestBody {
     watched?: boolean;
 }
 
-function makeRequest(body: RequestBody = {}) {
-    return new Request('http://localhost/api/courses/course-1/videos/vid-1/progress', {
+function makeRequest(body: RequestBody = {}): NextRequest {
+    return new NextRequest('http://localhost/api/courses/course-1/videos/vid-1/progress', {
         method: 'POST',
         body: JSON.stringify(body),
     })
